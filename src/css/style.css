@@ -1,0 +1,279 @@
+a {
+  color: #000;
+}
+
+a,
+a:focus,
+a:hover {
+  text-decoration: none;
+  outline: 0;
+  color: #000;
+}
+
+a:hover {
+  color: #ffc007;
+}
+
+.top-header .navbar-right .nav-link {
+  font-size: 1.1em;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.top-header .navbar-right .nav-link:hover {
+  color: #ffc007;
+}
+
+.top-header {
+  font-size: 1.1em;
+}
+
+.nav-2 .nav-link {
+  color: #333;
+  font-size: 1.1em;
+  padding: 20px 15px;
+  text-transform: uppercase;
+  transition: 0.2s ease-in-out 0s;
+  border: 1px solid transparent;
+}
+
+.nav-2 .nav-link:hover {
+  color: #ffc007;
+}
+
+.page-header {
+  background: #f5f5f5;
+  /*  margin-top: 20px;*/
+  border-bottom: none;
+  padding: 30px 0;
+  margin: 20px 0 20px;
+}
+
+.page-header .breadcrumb {
+  padding: 0;
+}
+
+.breadcrumb {
+  background-color: transparent;
+}
+
+.breadcrumb-item:last-child {
+  color: #6c757d;
+}
+
+.page-name {
+  font-weight: 200;
+}
+
+.product-item {
+  margin-bottom: 30px;
+}
+
+.product-item .product-thumb {
+  position: relative;
+}
+
+.product-item .product-thumb .bage {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #000;
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 12px;
+  font-weight: 300;
+  display: inline-block;
+}
+
+.product-item .product-thumb .preview-meta {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  -ms-flex-pack: center;
+  justify-content: center;
+  opacity: 0;
+  transition: 0.2s;
+  transform: translateY(10px);
+}
+
+.product-item:hover .preview-meta {
+  opacity: 1;
+  transform: translateY(-20px);
+}
+
+.product-item .product-thumb .preview-meta li {
+  display: inline-block;
+}
+
+.preview-meta ul {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.product-item .product-thumb .preview-meta li a,
+.product-item .product-thumb .preview-meta li span {
+  background: #fff;
+  padding: 10px 0px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 20px;
+  transition: 0.2s all;
+  width: 50px;
+}
+
+.product-item .product-thumb img {
+  width: 100%;
+  height: auto;
+}
+
+.product-item .product-thumb .preview-meta li a:hover,
+.product-item .product-thumb .preview-meta li span:hover {
+  background: #ffc007;
+  color: white;
+}
+
+.product-item .product-content {
+  text-align: center;
+}
+
+p {
+  font-family: "Poppins", sans-serif;
+  color: #757575;
+  font-size: 15px;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: black;
+  background-color: #f5f5f5;
+}
+
+.btn-outline-warning:hover {
+  color: white;
+}
+
+.btn.btn-warning {
+  color: white;
+}
+
+.footer {
+  margin-top: 50px;
+  background: #f7f7f7;
+  padding: 50px 0;
+}
+
+.footer a {
+  margin: 10px;
+}
+
+.shopping.cart .product-list .product-info a {
+  margin-left: 10px;
+  color: #000;
+  font-weight: 600;
+}
+
+.shopping.cart .product-list .table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.shopping.cart .product-list .product-remove {
+  color: #c7254e;
+}
+.cart th {
+  border-top: none;
+}
+
+.checkout .block {
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.shopping .widget-title {
+  font-weight: 400;
+  border-bottom: 1px solid #dedede;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 16px;
+}
+
+.media-body,
+.media-left,
+.media-right {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.product-checkout-details .product-card > a {
+  padding-right: 20px;
+}
+
+.product-checkout-details .product-card h4 {
+  font-weight: 400;
+  font-size: 14px;
+  color: #555;
+}
+
+.product-checkout-details .summary-prices {
+  border-style: solid;
+  border-color: #dedede;
+  border-width: 0px 0 1px 0;
+  padding-bottom: 10px;
+}
+
+.product-checkout-details .summary-prices li {
+  padding: 5px 0;
+}
+
+.product-checkout-details .summary-prices li span + span {
+  float: right;
+}
+
+.product-checkout-details .summary-total {
+  margin-top: 5px;
+}
+
+.product-checkout-details .summary-total > span {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.product-checkout-details .summary-total span + span {
+  float: right;
+}
+
+.cover {
+  object-fit: cover;
+}
+
+.category-box {
+  margin: 25px;
+  position: relative;
+}
+.category-box img {
+  width: 100%;
+  height: 350px;
+  transition: all 0.3s ease-in-out;
+}
+
+.category-box a:hover {
+  color: inherit;
+}
+
+.category-box .content {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  padding: 25px;
+}
+
+.title {
+  padding: 20px;
+}
+
+.category-box:hover img {
+  transform: scale(1.01);
+}
