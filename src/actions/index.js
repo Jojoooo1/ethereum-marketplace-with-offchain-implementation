@@ -4,7 +4,6 @@ import { AT_PRODUCTS } from "./action-types";
 const END_POINT = "http://localhost:3001";
 
 export function getProductsByOwner(owner) {
-  console.log(owner);
   return function(dispatch) {
     axios
       .get(`${END_POINT}/products`)

@@ -25,6 +25,9 @@ import store from "./store";
 
 const history = syncHistoryWithStore(browserHistory, store);
 
+import { web3, account } from "./utils/web3utils";
+import { updateWeb3Status } from "./actions/web3/actions";
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
@@ -45,3 +48,7 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
+
+window.addEventListener("load", () => {
+  store.dispatch(updateWeb3Status(web3));
+});
