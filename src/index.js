@@ -25,7 +25,8 @@ import store from "./store";
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-import { web3, account } from "./utils/web3utils";
+import { web3 } from "./utils/web3utils";
+import { connected as isConnected } from "./utils/web3utils";
 import { updateWeb3Status } from "./actions/web3/actions";
 
 ReactDOM.render(

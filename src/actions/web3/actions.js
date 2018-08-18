@@ -11,6 +11,14 @@ export function updateWeb3Status(payload) {
   };
 }
 
+export function web3Connected(payload) {
+  return {
+    type: types.CONNECTED,
+    payload
+  };
+}
+
 export default {
-  updateWeb3Status
+  updateWeb3Status,
+  web3Connected
 };

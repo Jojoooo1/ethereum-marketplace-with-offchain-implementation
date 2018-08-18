@@ -1,39 +1,39 @@
 import React from "react";
 import { Link } from "react-router";
-
+import store from "../../../store";
 import Product1 from "../../../img/product-1.jpg";
 
 const ProductCard = props => {
   const { product } = props;
+  let web3 = store.getState().web3.web3;
   return (
     <div className="col-md-4">
-      <Link to={`products/${product.id}`}>
-        <div className="product-item">
-          <div className="product-thumb">
-            <img className="img-responsive" src={Product1} alt="product-img" />
-            <div className="preview-meta">
-              <ul>
-                <li>
-                  <Link to={`products/${product.id}`} style={{ margin: "2px" }}>
-                    <i className="fa fa-eye" />
-                  </Link>
-                </li>
-                <li>
-                  <a href="" style={{ margin: "2px" }}>
-                    <i className="fa fa-shopping-cart" />
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="product-content">
-            <h4>
-              <a href="product-single.html">{product.title}</a>
-            </h4>
-            <p className="price">${product.price}</p>
+      <div className="product-item">
+        <div className="product-thumb">
+          <img className="img-responsive" src={Product1} alt="product-img" />
+          <div className="preview-meta">
+            <ul>
+              <li>
+                <Link to={`products/${product[0]}`}>
+                  <i className="fa fa-eye" />
+                </Link>
+              </li>
+              <li>
+                {/*<a href="" style={{ margin: "2px" }}>*/}
+                <a href="#">
+                  <i className="fa fa-shopping-cart" />
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
-      </Link>
+        <div className="product-content">
+          <h4>
+            <a href="product-single.html">{product[1]}</a>
+          </h4>
+          <p className="price">{web3.utils.fromWei(product[7].toString(), "ether")} eth</p>
+        </div>
+      </div>
     </div>
   );
 };

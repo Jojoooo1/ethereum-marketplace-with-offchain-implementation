@@ -23,17 +23,17 @@ contract Escrow {
 		owner = msg.sender;
 		productId = _productId;
 	}
-	
-	function escrowInfo() 
-	view 
-	public 
-	returns (address, address, address, bool, uint, uint) 
+
+	function escrowInfo()
+	view
+	public
+	returns (address, address, address, bool, uint, uint)
 	{
 		return (buyer, seller, arbiter, fundsDisbursed, releaseCount, refundCount);
 	}
 
-	function releaseAmountToSeller(address caller) 
-	public 
+	function releaseAmountToSeller(address caller)
+	public
 	{
 		require(owner == msg.sender);
 		require(fundsDisbursed == false);
@@ -47,8 +47,8 @@ contract Escrow {
 		}
 	}
 
-	function releaseAmountToBuyer(address caller) 
-	public 
+	function releaseAmountToBuyer(address caller)
+	public
 	{
 		require(owner == msg.sender);
 		require(fundsDisbursed == false);

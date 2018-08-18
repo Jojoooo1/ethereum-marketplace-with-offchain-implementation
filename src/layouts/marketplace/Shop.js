@@ -3,26 +3,35 @@ import React, { Component } from "react";
 import NavBar3 from "../partials/NavBar3";
 import ProductCard from "../components/product/ProductCard";
 
-
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getProductsByOwner } from "../../actions/index";
+import { getProductByOwner } from "../../actions/index";
+import contract from "truffle-contract";
+import ecommerce_store_artifacts from "../../../build/contracts/EcommerceStore.json";
 
 class Shop extends Component {
-  componentWillMount() {
-    this.props.getProductsByOwner({ owner: "owner" });
+  constructor(props) {
+    super(props);
+  }
+  initSmartContract() {
+    this.props.getProductsByOwner();
   }
   renderProducts() {
+    // console.log(this.props.products);
     if (this.props.products) {
-      return this.props.products.map(product => {
-        return <ProductCard key={product.id} product={product} />;
+      return this.props.products.map(function(product, i) {
+        return <ProductCard key={i} product={product} />;
       });
     }
   }
   render() {
+    if (this.props.web3 && this.props.products.length == 0) {
+      this.initSmartContract();
+    }
     return (
       <div>
-        <NavBar3 title={"Shop"} breadcrumbs={["Shop"]}/>
+        <NavBar3 title={"Shop"} breadcrumbs={["Shop"]} />
         <section className="products section" style={{ padding: "40px 0" }}>
           <div className="container">
             <div className="row">{this.renderProducts()}</div>
@@ -33,16 +42,16 @@ class Shop extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    products: state.products,
+    web3: state.web3.web3
+  };
+}
+
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({ getProductsByOwner }, dispatch)
 });
-
-const mapStateToProps = state => {
-  return {
-    products: state.products
-  };
-};
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps

@@ -1,7 +1,8 @@
 import types from "./types";
 
 const initialState = {
-  web3: null
+  web3: null,
+  connected: false
 };
 
 export function web3Reducer(state = initialState, action) {
@@ -10,6 +11,11 @@ export function web3Reducer(state = initialState, action) {
       return {
         ...state,
         web3: action.payload
+      };
+    case types.CONNECTED:
+      return {
+        ...state,
+        connected: action.payload
       };
     default:
       return state;

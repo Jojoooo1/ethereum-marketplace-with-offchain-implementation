@@ -1,21 +1,22 @@
 import React from "react";
 
-import Slide1 from "../../../img/empty.svg";
+import Product1 from "../../../img/product-1.jpg";
 import Slide2 from "../../../img/empty.svg";
 import Slide3 from "../../../img/empty.svg";
 
-const CarrouselProduct = () => {
+const CarrouselProduct = images => {
+  console.log(images);
   return (
     <div id="carousel-product" className="carousel slide" data-ride="carousel">
       <div className="carousel-inner">
         <div className="carousel-item active">
-          <img className="d-block w-100" src={Slide1} alt="First slide" style={{ objectFit: "cover" }} role="presentation"/>
+          <img className="d-block w-100" src={Product1} alt="First slide" style={{ objectFit: "cover" }} role="presentation" />
         </div>
         <div className="carousel-item">
-          <img className="d-block w-100" src={Slide2} alt="Second slide" style={{ objectFit: "cover" }} role="presentation"/>
+          <img className="d-block w-100" src={Slide2} alt="Second slide" style={{ objectFit: "cover" }} role="presentation" />
         </div>
         <div className="carousel-item">
-          <img className="d-block w-100" src={Slide3} alt="Third slide" style={{ objectFit: "cover" }} role="presentation"/>
+          <img className="d-block w-100" src={Slide3} alt="Third slide" style={{ objectFit: "cover" }} role="presentation" />
         </div>
       </div>
       <a className="carousel-control-prev" href="#carousel-product" role="button" data-slide="prev">

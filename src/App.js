@@ -18,39 +18,11 @@ import "./css/pure-min.css";
 import "./App.css";
 import "./css/style.css";
 
-// import getWeb3 from "./utils/getWeb3";
-import contract from "truffle-contract";
-import ecommerce_store_artifacts from "../build/contracts/EcommerceStore.json";
-import getWeb3 from "./utils/getWeb3";
-
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { setInstance } from "./actions/index";
-
 class App extends Component {
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     storageValue: 0,
-  //     web3: null
-  //   };
-  // }
-  instantiateContract() {
-    const EcommerceStore = contract(ecommerce_store_artifacts);
-    EcommerceStore.setProvider(this.props.web3.currentProvider);
-    EcommerceStore.deployed().then(function(f) {
-      f.getProduct.call(1).then(function(p) {
-        console.log(p);
-      });
-    });
-    // Declaring this for later so we can chain functions on SimpleStorage.
-    // var simpleStorageInstance;
-  }
   render() {
-    if (this.props.web3) {
-      instantiateContract();
-    }
+    // if (this.props.web3) {
+    //   this.instantiateContract();
+    // }
     // this.instantiateContract();
     // console.log(this.props.web3);
     // const OnlyAuthLinks = VisibleOnlyAuth(() => (
@@ -95,19 +67,6 @@ class App extends Component {
   }
 }
 
-function mapState(state) {
-  return {
-    web3: state.web3.web3
-  };
-}
-
-function mapDispatch(/* dispatch */) {
-  return {};
-}
-
-export default connect(
-  mapState,
-  mapDispatch
-)(App);
+export default App;
 
 // export default App;

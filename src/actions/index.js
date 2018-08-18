@@ -3,29 +3,55 @@ import { AT_PRODUCTS } from "./action-types";
 
 const END_POINT = "http://localhost:3001";
 
-export function getProductsByOwner(owner) {
+// import getWeb3 from "./utils/getWeb3";
+import contract from "truffle-contract";
+import ecommerce_store_artifacts from "../../build/contracts/EcommerceStore.json";
+
+import store from "../store";
+const EcommerceStore = contract(ecommerce_store_artifacts);
+
+export function getProductsByOwner() {
+  var instance;
+  let web3 = store.getState().web3.web3;
+  EcommerceStore.setProvider(web3.currentProvider);
+
   return function(dispatch) {
-    axios
-      .get(`${END_POINT}/products`)
-      .then(function(response) {
-        dispatch({ type: AT_PRODUCTS.READ_ALL, payload: response.data });
+    EcommerceStore.deployed()
+      .then(function(f) {
+        instance = f;
+        return instance.productIndex.call();
       })
-      .catch(function(error) {
-        console.log(error);
+      .then(function(productCount) {
+        for (var i = 0; i < productCount; i++) {
+          instance.getProduct
+            .call(i)
+            .then(function(product) {
+              return product;
+            })
+            .then(function(product) {
+              dispatch({ type: AT_PRODUCTS.READ_ALL, payload: product });
+            });
+        }
       });
   };
 }
 
-export function getProductByOwner(product) {
+export function getProductById(id) {
+  let web3 = store.getState().web3.web3;
+  EcommerceStore.setProvider(web3.currentProvider);
+
   return function(dispatch) {
-    axios
-      .get(`${END_POINT}/products/${product.id}`)
-      .then(function(response) {
-        dispatch({ type: AT_PRODUCTS.READ, payload: response.data });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    EcommerceStore.deployed().then(function(f) {
+      f.getProduct
+        .call(id)
+        .then(function(product) {
+          return product;
+        })
+        .then(function(product) {
+          console.log(product);
+          dispatch({ type: AT_PRODUCTS.READ, payload: product });
+        });
+    });
   };
 }
 

@@ -7,15 +7,15 @@ import ProductReview from "../components/product/ProductReview";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getProductByOwner } from "../../actions/index";
+import { getProductById } from "../../actions/index";
 
 class Product extends Component {
   constructor(props) {
     super(props);
-    this.state = { product: { owner: 1, id: props.params.id } };
+    this.state = { product: { id: props.params.id } };
   }
-  componentWillMount() {
-    this.props.getProductByOwner(this.state.product);
+  initSmartContract() {
+    this.props.getProductById(this.state.product.id);
   }
   renderProductDescription() {
     if (this.props.product) {
@@ -27,10 +27,18 @@ class Product extends Component {
       return <ProductReview product={this.props.product} />;
     }
   }
+  renderCarrouselProduct() {
+    if (this.props.product) {
+      return <CarrouselProduct images={this.props.product[4]} />;
+    }
+  }
   render() {
+    if (this.props.web3 && !this.props.product) {
+      this.initSmartContract();
+    }
     return (
       <div>
-        <section className="single-product" style={{ marginTop: "20px" }}>
+        <section className="single-product">
           <div className="container">
             <div className="row">
               <div className="col-md-12">
@@ -48,9 +56,7 @@ class Product extends Component {
               </div>
             </div>
             <div className="row mt-20">
-              <div className="col-md-5">
-                <CarrouselProduct />
-              </div>
+              <div className="col-md-5">{this.renderCarrouselProduct()}</div>
               <div className="col-md-7">{this.renderProductDescription()}</div>
             </div>
             <br />
@@ -67,12 +73,13 @@ class Product extends Component {
 
 function mapStateToProps(state) {
   return {
-    product: state.product
+    product: state.product,
+    web3: state.web3.web3
   };
 }
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ getProductByOwner }, dispatch)
+  ...bindActionCreators({ getProductById }, dispatch)
 });
 
 export default connect(

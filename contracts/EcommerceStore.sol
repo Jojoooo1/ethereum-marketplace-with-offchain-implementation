@@ -56,14 +56,14 @@ contract EcommerceStore {
     // function removeStore()
     // function updateStore()
 
-    function addProductToStore(string _name, string _category, string _imageLink, string _descriptionLink, uint _startTime, uint256 _price, uint _productCondition)
+    function addProductToStore(string _name, string _category, uint _quantity, string _imageLink, string _descriptionLink, uint _startTime, uint256 _price, uint _productCondition)
     public
     {
-        productIndex += 1;
         Product memory product = Product(productIndex, _name, _category, 1, _imageLink, _descriptionLink, _startTime, _price, ProductCondition(_productCondition), 0);
         stores[msg.sender][productIndex] = product;
         productIdInStore[productIndex] = msg.sender;
         emit NewProduct(productIndex, _name, _category, 1, _imageLink, _descriptionLink, _startTime, _price, _productCondition);
+        productIndex += 1;
     }
 
     // function updateProduct()

@@ -125,7 +125,8 @@ a:hover {
 
 .product-item .product-thumb img {
   width: 100%;
-  height: auto;
+  max-height: 320px;
+  object-fit: cover;
 }
 
 .product-item .product-thumb .preview-meta li a:hover,

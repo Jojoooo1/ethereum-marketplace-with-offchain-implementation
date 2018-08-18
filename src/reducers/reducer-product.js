@@ -3,9 +3,7 @@ import { AT_PRODUCTS } from "../actions/action-types";
 export default function(state = [], action) {
   switch (action.type) {
     case AT_PRODUCTS.READ_ALL:
-      return action.payload;
-    case AT_PRODUCTS.READ:
-      return action.payload;
+      return [...state, action.payload];
     case AT_PRODUCTS.DELETE:
       return state.filter(post => {
         if (post === action.payload) {
