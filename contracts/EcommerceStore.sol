@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-import "contracts/Escrow.sol";
+import "./Escrow.sol";
 
 contract EcommerceStore {
 
@@ -9,8 +9,10 @@ contract EcommerceStore {
     uint public productIndex;
     address public arbiter;
 
-    // Admin able to add store or add another admin
-    // mapping(address => bool) admins;
+    // Check if address is admin
+    mapping(address => bool) public admins;
+    // Allow to see all admins
+    address[] adminsArray ;
 
     // used for finding easily a store based on a productId
     mapping(address => mapping(uint => Product)) stores;
@@ -44,13 +46,44 @@ contract EcommerceStore {
 
     event NewProduct(uint _productId, string _name, string _category,  uint _quantity, string _imageLink, string _descriptionLink, uint _startTime, uint256 _price, uint _productCondition);
 
-    constructor(address _arbiter) public {
+    constructor() public {
+        admins[msg.sender] = true;
+        adminsArray.push(msg.sender);
         productIndex = 0;
-        arbiter = _arbiter;
+        arbiter = msg.sender;
     }
 
-    // function addAdmin()
-    // function removeAdmin()
+    function addAdmin(address _address)
+    public
+    returns(address, bool)
+    {
+      require(admins[msg.sender] == true);
+      admins[_address] = true;
+      adminsArray.push(_address);
+      return (_address, admins[_address]);
+    }
+
+    function removeAdmin(address _address,uint  _index)
+    public
+    returns(address, bool)
+    {
+      require(admins[msg.sender] == true);
+      require(adminsArray.length > 1);
+      admins[_address] = false;
+      delete adminsArray[_index];
+      resizeArrayAfterRemove(_index);
+      // removeAdmin(_index);
+      return(_address, admins[_address]);
+    }
+
+    function getAdmins()
+    view
+    public
+    returns(address[])
+    {
+        return adminsArray;
+    }
+
 
     // function addStore()
     // function removeStore()
@@ -112,5 +145,19 @@ public {
 
     return Escrow(productEscrow[_productId]).releaseAmountToBuyer(msg.sender);
 }
+
+    function resizeArrayAfterRemove(uint index)
+    returns(address[])
+    {
+        if (index >= adminsArray.length) return;
+
+        for (uint i = index; i<adminsArray.length-1; i++){
+            adminsArray[i] = adminsArray[i+1];
+        }
+        delete adminsArray[adminsArray.length-1];
+        adminsArray.length--;
+        return adminsArray;
+    }
+
 }
 

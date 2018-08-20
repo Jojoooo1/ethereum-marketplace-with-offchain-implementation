@@ -1,10 +1,10 @@
-import { AT_PRODUCTS } from "../actions/types/types-product";
+import { AT_ADMINS } from "../actions/types/types-admin";
 
 export default function(state = [], action) {
   switch (action.type) {
-    case AT_PRODUCTS.READ_ALL:
-      return [...state, action.payload];
-    case AT_PRODUCTS.DELETE:
+    case AT_ADMINS.GET_ALL:
+      return action.payload;
+    case AT_ADMINS.DELETE:
       return state.filter(post => {
         if (post === action.payload) {
           return false;
@@ -12,7 +12,7 @@ export default function(state = [], action) {
           return true;
         }
       });
-    case AT_PRODUCTS.CREATE:
+    case AT_ADMINS.CREATE:
       return [...state, action.payload];
     default:
       return state;

@@ -1,0 +1,6 @@
+export const AT_ADMINS = {
+  GET_ALL: "READ_ALL_ADMIN",
+  GET: "READ_ADMIN",
+  CREATE: "CREATE_ADMIN",
+  DELETE: "DELETE_ADMIN"
+};

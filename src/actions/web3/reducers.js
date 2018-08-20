@@ -1,8 +1,8 @@
 import types from "./types";
 
 const initialState = {
-  web3: null,
-  connected: false
+  web3: null
+  // connected: false
 };
 
 export function web3Reducer(state = initialState, action) {
@@ -12,14 +12,29 @@ export function web3Reducer(state = initialState, action) {
         ...state,
         web3: action.payload
       };
-    case types.CONNECTED:
-      return {
-        ...state,
-        connected: action.payload
-      };
     default:
       return state;
   }
 }
 
-export default web3Reducer;
+const initialAccountState = {
+  walletAddress: null,
+  walletBalance: null
+};
+
+export function AccountReducer(state = initialAccountState, action) {
+  switch (action.type) {
+    case types.GET_WALLET_ADDRESS:
+      return {
+        ...state,
+        walletAddress: action.payload
+      };
+    case types.GET_WALLET_BALANCE:
+      return {
+        ...state,
+        walletBalance: action.payload
+      };
+    default:
+      return state;
+  }
+}

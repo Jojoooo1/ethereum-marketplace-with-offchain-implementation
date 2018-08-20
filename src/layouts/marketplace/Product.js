@@ -14,6 +14,7 @@ class Product extends Component {
     super(props);
     this.state = { product: { id: props.params.id } };
   }
+
   initSmartContract() {
     this.props.getProductById(this.state.product.id);
   }

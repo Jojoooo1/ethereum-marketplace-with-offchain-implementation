@@ -14,6 +14,11 @@ class Shop extends Component {
   constructor(props) {
     super(props);
   }
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   if (prevProps.web3 == null ) {
+  //     this.initSmartContract();
+  //   }
+  // }
   initSmartContract() {
     this.props.getProductsByOwner();
   }
@@ -26,7 +31,7 @@ class Shop extends Component {
     }
   }
   render() {
-    if (this.props.web3 && this.props.products.length == 0) {
+    if (this.props.web3 && this.props.products.length === 0) {
       this.initSmartContract();
     }
     return (

@@ -19,6 +19,7 @@ import Checkout from "./layouts/marketplace/Checkout";
 import AboutUs from "./layouts/pages/AboutUs";
 import ContactUs from "./layouts/pages/ContactUs";
 import Sellers from "./layouts/marketplace/Sellers";
+import Admin from "./layouts/admin/Admin";
 
 // Redux Store
 import store from "./store";
@@ -26,8 +27,7 @@ import store from "./store";
 const history = syncHistoryWithStore(browserHistory, store);
 
 import { web3 } from "./utils/web3utils";
-import { connected as isConnected } from "./utils/web3utils";
-import { updateWeb3Status } from "./actions/web3/actions";
+import { updateWeb3Status, updateAccountAddress, updateAccountBalance } from "./actions/web3/actions";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -44,6 +44,7 @@ ReactDOM.render(
         <Route path="about-us" component={AboutUs} />
         <Route path="contact-us" component={ContactUs} />
         <Route path="sellers" component={Sellers} />
+        <Route path="admin" component={Admin} />
       </Route>
     </Router>
   </Provider>,
@@ -51,5 +52,21 @@ ReactDOM.render(
 );
 
 window.addEventListener("load", () => {
-  store.dispatch(updateWeb3Status(web3));
+  store.dispatch(updateWeb3Status(web3)).then(web3 => {
+    store.dispatch(updateAccountAddress(web3)).then(account => {
+      // console.log(account);
+      store.dispatch(updateAccountBalance(web3, account)).then(balance => {
+        // console.log(balance);
+        // UPDATE THE VALUE ON METAMASK ACCOUNT CHANGE
+        web3.currentProvider.publicConfigStore.on("update", function(f) {
+          store.dispatch(updateAccountAddress(web3)).then(account => {
+            // console.log(account);
+            store.dispatch(updateAccountBalance(web3, account)).then(balance => {
+              // console.log(balance);
+            });
+          });
+        });
+      });
+    });
+  });
 });

@@ -271,10 +271,20 @@ p {
   padding: 25px;
 }
 
+.category-box:hover img {
+  transform: scale(1.01);
+}
+
 .title {
   padding: 20px;
 }
 
-.category-box:hover img {
-  transform: scale(1.01);
+/* center th in table for admins*/
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.btn-circle {
+  border-radius: 50%;
 }
