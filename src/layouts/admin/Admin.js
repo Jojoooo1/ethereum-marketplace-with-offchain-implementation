@@ -26,11 +26,8 @@ class Admin extends Component {
     return <StoreTable />;
   }
   addAdminHandler(event) {
+    this.props.addAdmin(this.state.address);
     event.preventDefault();
-    console.log(this.state.address);
-    this.props.addAdmin(this.state.address).then(tx => {
-      console.log(tx);
-    });
   }
   removeAdmin(event) {
     // console.log(this.state.address);
@@ -124,7 +121,8 @@ class Admin extends Component {
 function mapStateToProps(state) {
   return {
     web3: state.web3.web3,
-    admins: state.admins
+    admins: state.admins,
+    tx: state.tx
   };
 }
 

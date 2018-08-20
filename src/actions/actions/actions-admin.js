@@ -1,5 +1,5 @@
 import axios from "axios";
-const END_POINT = "http://localhost:4000/api";
+const END_POINT = "http://localhost:4005/api";
 
 import { AT_ADMINS } from "../types/types-admin";
 import store from "../../store";
@@ -29,13 +29,19 @@ export function addAdmin(address) {
 
   return function(dispatch) {
     return EcommerceStore.deployed().then(function(f) {
-      f.NewAdmin().watch(function(error, result) {
-        console.log(result);
+      let txObject
+      let instance = f;
+      f.addAdmin(address, { from: walletAddress, gas: 200000 }).then(function(tx) {
+        txObject = tx
+        instance.NewAdmin().watch(function(error, result) {
+          if (result.event === "NewAdmin") {
+            let newAddress = { address: result.args._address };
+            dispatch({ type: AT_ADMINS.CREATE, payload: newAddress });
+          }
+          // dispatch({ type: "TX_RESPONSE", payload: tx });
+        });
       });
-      f.addAdmin(address, { from: walletAddress, gas: 4400000 }).then(function(tx) {
-        dispatch({ type: "TX_RESPONSE", payload: tx });
-        return tx;
-      });
+      return txObject
     });
   };
 }

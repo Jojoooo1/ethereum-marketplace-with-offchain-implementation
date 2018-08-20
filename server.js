@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const PORT = 4000;
+const PORT = 4005;
 // setup express app
 const app = express();
 
@@ -45,4 +45,10 @@ process.on("unhandledRejection", (reason, promise) => {
   console.log("Unhandled Rejection at:", reason.stack || reason);
   // Recommended: send the information to sentry.io
   // or whatever crash reporting service you use
+});
+
+app.on("uncaughtException", function(req, res, route, err) {
+  if (!res.headersSent) {
+    return res.send(500, { ok: false });
+  }
 });
