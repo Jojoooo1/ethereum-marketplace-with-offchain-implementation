@@ -34,7 +34,7 @@ class Product extends Component {
     }
   }
   render() {
-    if (this.props.web3 && !this.props.product) {
+    if (this.props.web3 && this.props.product == null) {
       this.initSmartContract();
     }
     return (

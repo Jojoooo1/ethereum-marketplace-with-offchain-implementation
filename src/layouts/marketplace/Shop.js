@@ -25,6 +25,7 @@ class Shop extends Component {
   renderProducts() {
     // console.log(this.props.products);
     if (this.props.products) {
+      console.log(this.props.products);
       return this.props.products.map(function(product, i) {
         return <ProductCard key={i} product={product} />;
       });

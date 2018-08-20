@@ -73,3 +73,7 @@ module.exports = function(callback) {
     });
   });
 };
+
+
+
+  // EcommerceStore.deployed().then(function(i) { i.addProductToStore("Antique Carpet", "Art", 1, "QmZ8aZRoDdYcypXpo13y5uvyHXa5cqDHxtaFuYCStMWPzM", "QmRf22bZar3WKmojipms22PkXH1MZGmvsqzQtuSvQE3uhm", 2342326, 40000, 0).then(function(f) {console.log(f);})});

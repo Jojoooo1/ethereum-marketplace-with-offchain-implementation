@@ -2,12 +2,18 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { getAdmins, removeAdmin } from "../../actions/index";
+import { getAdmins, removeAdmin, addAdmin } from "../../actions/index";
 
 import AdminTable from "../components/admin/AdminTable";
 import StoreTable from "../components/admin/StoreTable";
 
 class Admin extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      address: ""
+    };
+  }
   initSmartContract() {
     this.props.getAdmins();
   }
@@ -19,13 +25,19 @@ class Admin extends Component {
   renderStoreTable() {
     return <StoreTable />;
   }
-    addAdmin(adminId, adminIndex) {
-    console.log(adminId);
-    console.log(adminIndex);
+  addAdminHandler(event) {
+    event.preventDefault();
+    console.log(this.state.address);
+    this.props.addAdmin(this.state.address).then(tx => {
+      console.log(tx);
+    });
   }
-  removeAdmin(adminId, adminIndex) {
-    console.log(adminId);
-    console.log(adminIndex);
+  removeAdmin(event) {
+    // console.log(this.state.address);
+  }
+
+  handleChange(event) {
+    this.setState({ address: event.target.value });
   }
 
   render() {
@@ -86,10 +98,10 @@ class Admin extends Component {
                 </button>
               </div>
               <div className="modal-body">
-                <form onSubmit={this.addAdmin}>
+                <form onSubmit={this.addAdminHandler.bind(this)} id="addAddmin">
                   <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Wallet address</label>
-                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="0x2966e3fc36c203efc6b04d......" />
+                    <label htmlFor="address">Wallet address</label>
+                    <input value={this.state.value} onChange={this.handleChange.bind(this)} type="text" className="form-control" id="address" placeholder="0x2966e3fc36c203efc6b04d......" />
                   </div>
                 </form>
               </div>
@@ -97,7 +109,7 @@ class Admin extends Component {
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">
                   Close
                 </button>
-                <button type="button" className="btn btn-primary">
+                <button type="submit" form="addAddmin" className="btn btn-primary">
                   Add
                 </button>
               </div>
@@ -117,7 +129,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ getAdmins, removeAdmin }, dispatch)
+  ...bindActionCreators({ getAdmins, addAdmin, removeAdmin }, dispatch)
 });
 
 export default connect(

@@ -14,7 +14,7 @@ const ProductCard = props => {
           <div className="preview-meta">
             <ul>
               <li>
-                <Link to={`products/${product[0]}`}>
+                <Link to={`products/${product.productId}`}>
                   <i className="fa fa-eye" />
                 </Link>
               </li>
@@ -29,9 +29,9 @@ const ProductCard = props => {
         </div>
         <div className="product-content">
           <h4>
-            <a href="product-single.html">{product[1]}</a>
+            <a href="product-single.html">{product.name}</a>
           </h4>
-          <p className="price">{web3.utils.fromWei(product[7].toString(), "ether")} eth</p>
+          <p className="price">{web3.utils.fromWei(product.price.toString(), "ether")} eth</p>
         </div>
       </div>
     </div>

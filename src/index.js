@@ -51,6 +51,9 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
+
+// IMPLEMENT TIMEOUT LOOKOUT ACCOUNT
+
 window.addEventListener("load", () => {
   store.dispatch(updateWeb3Status(web3)).then(web3 => {
     store.dispatch(updateAccountAddress(web3)).then(account => {

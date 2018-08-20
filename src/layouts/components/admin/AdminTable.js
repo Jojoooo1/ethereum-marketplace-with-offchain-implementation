@@ -16,7 +16,7 @@ const AdminTable = props => {
           return (
             <tr key={i}>
               <th scope="row">{i}</th>
-              <td className="font-weight-bold">{admin}</td>
+              <td className="font-weight-bold">{admin.address}</td>
               <td>
                 <button className="btn btn-danger" onClick={() => handleOnClick(admin, i)}>
                   Remove

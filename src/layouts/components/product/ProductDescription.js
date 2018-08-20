@@ -5,7 +5,7 @@ const ipfs = ipfsAPI({ host: "localhost", port: "5001", protocol: "http" });
 
 class ProductDescription extends Component {
   componentWillMount() {
-    ipfs.cat(this.props.product[5]).then(file => {
+    ipfs.cat(this.props.product.ipfsDescriptionHash).then(file => {
       this.renderDescription(file.toString());
       return;
     });
@@ -22,8 +22,8 @@ class ProductDescription extends Component {
         <p className="product-price">
           Price:
           <span className="badge badge-warning" style={{ margin: "10px", color: "white", padding: "5px" }}>
-            {web3.utils.fromWei(product[7].toString(), "ether")} eth
-          </span>{" "}
+            {web3.utils.fromWei(product.price.toString(), "ether")} eth
+          </span>
         </p>
 
         {this.renderDescription()}
@@ -50,7 +50,7 @@ class ProductDescription extends Component {
               <span className="font-weight-bold mr-2">Categories:</span>
             </li>
             <li className="list-inline-item">
-              <span className="badge badge-secondary mr-2">{product[2]}</span>
+              <span className="badge badge-secondary mr-2">{product.category}</span>
             </li>
           </ul>
         </div>

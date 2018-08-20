@@ -7,6 +7,7 @@ import activeProductReducer from "./reducer-active-product";
 import { web3Reducer } from "../actions/web3/reducers";
 import { AccountReducer } from "../actions/web3/reducers";
 import adminReducer from "./reducer-admin";
+import txReducer from "./reducer-tx";
 
 const reducer = combineReducers({
   routing: routerReducer,
@@ -15,7 +16,8 @@ const reducer = combineReducers({
   product: activeProductReducer,
   web3: web3Reducer,
   account: AccountReducer,
-  admins: adminReducer
+  admins: adminReducer,
+  tx: txReducer
 });
 
 export default reducer;

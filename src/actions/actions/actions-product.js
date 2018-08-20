@@ -1,5 +1,5 @@
-// import axios from "axios";
-// const END_POINT = "http://localhost:3001";
+import axios from "axios";
+const END_POINT = "http://localhost:4000/api";
 
 import { AT_PRODUCTS } from "../types/types-product";
 import store from "../../store";
@@ -9,77 +9,75 @@ import ecommerce_store_artifacts from "../../../build/contracts/EcommerceStore.j
 const EcommerceStore = contract(ecommerce_store_artifacts);
 
 export function getProductsByOwner() {
-  var instance;
-  let web3 = store.getState().web3.web3;
-  EcommerceStore.setProvider(web3.currentProvider);
-
   return function(dispatch) {
-    EcommerceStore.deployed()
-      .then(function(f) {
-        instance = f;
-        return instance.productIndex.call();
+    axios
+      .get(`${END_POINT}/products`)
+      .then(function(response) {
+        dispatch({ type: AT_PRODUCTS.GET_ALL, payload: response.data });
       })
-      .then(function(productCount) {
-        for (var i = 0; i < productCount; i++) {
-          instance.getProduct
-            .call(i)
-            .then(function(product) {
-              return product;
-            })
-            .then(function(product) {
-              dispatch({ type: AT_PRODUCTS.READ_ALL, payload: product });
-            });
-        }
+      .catch(function(error) {
+        console.log(error);
       });
   };
 }
 
-export function getProductById(id) {
-  let web3 = store.getState().web3.web3;
-  EcommerceStore.setProvider(web3.currentProvider);
 
+export function getProductById(id) {
+  console.log("enter")
   return function(dispatch) {
-    EcommerceStore.deployed().then(function(f) {
-      f.getProduct
-        .call(id)
-        .then(function(product) {
-          return product;
-        })
-        .then(function(product) {
-          console.log(product);
-          dispatch({ type: AT_PRODUCTS.READ, payload: product });
-        });
-    });
+    axios
+      .get(`${END_POINT}/products/${id}`)
+      .then(function(response) {
+        console.log(response.data)
+        dispatch({ type: AT_PRODUCTS.GET, payload: response.data });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   };
 }
 
-// export function deletePost(post) {
+// export function getProductById(id) {
+//   let web3 = store.getState().web3.web3;
+//   EcommerceStore.setProvider(web3.currentProvider);
+
 //   return function(dispatch) {
-//     axios
-//       .delete(`${END_POINT}/products/${post.id}`)
-//       .then(function(response) {
-//         console.log(response);
-//         dispatch({ type: AT_PRODUCTS.DELETE, payload: post });
-//       })
-//       .catch(function(error) {
-//         console.log(error);
-//       });
+//     EcommerceStore.deployed().then(function(f) {
+//       f.getProduct
+//         .call(id)
+//         .then(function(product) {
+//           return product;
+//         })
+//         .then(function(product) {
+//           console.log(product);
+//           dispatch({ type: AT_PRODUCTS.READ, payload: product });
+//         });
+//     });
 //   };
 // }
 
-// export function createPost(post) {
+// export function getProductsByOwner() {
+//   var instance;
+//   let web3 = store.getState().web3.web3;
+//   EcommerceStore.setProvider(web3.currentProvider);
+
 //   return function(dispatch) {
-//     axios
-//       .post(`${END_POINT}/products/`, {
-//         title: post.title,
-//         content: post.content,
-//         author: post.author
+//     EcommerceStore.deployed()
+//       .then(function(f) {
+//         instance = f;
+//         return instance.productIndex.call();
 //       })
-//       .then(response => {
-//         dispatch({ type: AT_PRODUCTS.CREATE, payload: response.data });
-//       })
-//       .catch(function(error) {
-//         console.log(error);
+//       .then(function(productCount) {
+//         for (var i = 0; i < productCount; i++) {
+//           instance.getProduct
+//             .call(i)
+//             .then(function(product) {
+//               return product;
+//             })
+//             .then(function(product) {
+//               dispatch({ type: AT_PRODUCTS.READ_ALL, payload: product });
+//             });
+//         }
 //       });
 //   };
 // }
