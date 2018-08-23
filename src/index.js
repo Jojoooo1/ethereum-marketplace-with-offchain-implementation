@@ -20,6 +20,7 @@ import AboutUs from "./layouts/pages/AboutUs";
 import ContactUs from "./layouts/pages/ContactUs";
 import Sellers from "./layouts/marketplace/Sellers";
 import Admin from "./layouts/admin/Admin";
+import MyStore from "./layouts/admin/MyStore";
 
 // Redux Store
 import store from "./store";
@@ -27,7 +28,7 @@ import store from "./store";
 const history = syncHistoryWithStore(browserHistory, store);
 
 import { web3 } from "./utils/web3utils";
-import { updateWeb3Status, updateAccountAddress, updateAccountBalance } from "./actions/web3/actions";
+import { updateWeb3Status, updateAccountAddress, updateAccountBalance, isAdmin, getMyStore } from "./actions/index";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -45,6 +46,7 @@ ReactDOM.render(
         <Route path="contact-us" component={ContactUs} />
         <Route path="sellers" component={Sellers} />
         <Route path="admin" component={Admin} />
+        <Route path="/store/edit/:address" component={MyStore} />
       </Route>
     </Router>
   </Provider>,
@@ -55,21 +57,24 @@ ReactDOM.render(
 // IMPLEMENT TIMEOUT LOOKOUT ACCOUNT
 
 window.addEventListener("load", () => {
+  // 1. update Web Instance
   store.dispatch(updateWeb3Status(web3)).then(web3 => {
+    // get wallet address
     store.dispatch(updateAccountAddress(web3)).then(account => {
-      // console.log(account);
+      // get wallet balance
       store.dispatch(updateAccountBalance(web3, account)).then(balance => {
-        // console.log(balance);
+
         // UPDATE THE VALUE ON METAMASK ACCOUNT CHANGE
         web3.currentProvider.publicConfigStore.on("update", function(f) {
           store.dispatch(updateAccountAddress(web3)).then(account => {
-            // console.log(account);
-            store.dispatch(updateAccountBalance(web3, account)).then(balance => {
-              // console.log(balance);
-            });
+            store.dispatch(getMyStore(account));
+            store.dispatch(isAdmin(account));
+            store.dispatch(updateAccountBalance(web3, account));
           });
         });
       });
+      store.dispatch(getMyStore(account));
+      store.dispatch(isAdmin(account));
     });
   });
 });

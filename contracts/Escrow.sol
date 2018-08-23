@@ -5,7 +5,7 @@ contract Escrow {
   address public buyer;
   address public seller;
   address public arbiter;
-  uint public productId;
+  uint public orderId;
   uint public amount;
   mapping(address => bool) releaseAmount;
   mapping(address => bool) refundAmount;
@@ -14,14 +14,14 @@ contract Escrow {
   bool public fundsDisbursed;
   address public owner;
 
-  constructor(uint _productId, address _buyer, address _seller, address _arbiter) payable public {
+  constructor(uint _orderId, address _buyer, address _seller, address _arbiter) payable public {
+    orderId = _orderId;
     buyer = _buyer;
     seller = _seller;
     arbiter = _arbiter;
     fundsDisbursed = false;
     amount = msg.value;
     owner = msg.sender;
-    productId = _productId;
   }
 
   function escrowInfo()

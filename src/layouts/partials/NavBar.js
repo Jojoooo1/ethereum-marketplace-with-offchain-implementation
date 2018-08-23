@@ -44,23 +44,27 @@ class NavBar extends Component {
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item" />
               </ul>
-              <ul className="navbar-nav navbar-right" style={{ alignItems: 'center' }}>
-                {/* <li className="nav-item">
-                <a className="nav-link">
-                  <i className="fas fa-search" /> Search
-                </a>
-              </li>
-              */}
-                <li className="nav-item">
-                  <Link to={"/admin"} className="nav-link">
-                    <button className="btn btn-secondary"><i className="fa fa-power-off" aria-hidden="true"></i> Admin </button>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to={"/store"} className="nav-link">
-                    <button className="btn btn-secondary"><i className="fas fa-cog"></i> Manage Store </button>
-                  </Link>
-                </li>
+              <ul className="navbar-nav navbar-right" style={{ alignItems: "center" }}>
+                {this.props.account.isAdmin && (
+                  <li className="nav-item">
+                    <Link to={"/admin"} className="nav-link">
+                      <button className="btn btn-secondary">
+                        <i className="fa fa-power-off" aria-hidden="true" /> Admin
+                      </button>
+                    </Link>
+                  </li>
+                )}
+
+                {this.props.myStore && (
+                  <li className="nav-item">
+                    <Link to={`/store/edit/${this.props.myStore.address}`} className="nav-link">
+                      <button className="btn btn-secondary">
+                        <i className="fas fa-cog" /> Manage Store
+                      </button>
+                    </Link>
+                  </li>
+                )}
+
                 <li className="nav-item">
                   <Link to={"/cart"} className="nav-link">
                     <i className="fas fa-shopping-cart" /> Cart
@@ -68,18 +72,35 @@ class NavBar extends Component {
                 </li>
 
                 <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" style={{ fontSize: "1.2em" }} role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i className="fas fa-user-circle" />
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    style={{ fontSize: "1.2em" }}
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    {this.props.account.walletAddress ? (
+                      <i className="fas fa-user-circle" style={{ color: "forestgreen", 'fontSize': '30px'}} />
+                    ) : (
+                      <i className="fas fa-user-circle" style={{ color: "color: indianred", 'fontSize': '30px' }} />
+                    )}
                   </a>
                   <div className="dropdown-menu" aria-labelledby="navbarDropdown" style={{ maxWidth: "250px" }}>
                     <a className="dropdown-item" href="#" style={{ whiteSpace: "normal", wordWrap: "break-word" }}>
                       <div>Address: </div>
-                      <span style={{ fontSize: "0.8em", fontWeight: "bold" }}>{this.props.account.walletAddress ? this.props.account.walletAddress : "No wallet connected"}</span>
+                      <span style={{ fontSize: "0.8em", fontWeight: "bold" }}>
+                        {this.props.account.walletAddress ? this.props.account.walletAddress : "No wallet connected"}
+                      </span>
                     </a>
                     <div className="dropdown-divider" />
                     <a className="dropdown-item" href="#">
                       <div>Balance: </div>
-                      <span style={{ fontSize: "0.9em", fontWeight: "bold" }}>{this.props.account.walletBalance ? this.props.account.walletBalance : ""}</span>
+                      <span style={{ fontSize: "0.9em", fontWeight: "bold" }}>
+                        {this.props.account.walletBalance ? this.props.account.walletBalance : ""}
+                      </span>
                     </a>
                   </div>
                 </li>
@@ -95,7 +116,8 @@ class NavBar extends Component {
 function mapStateToProps(state) {
   return {
     web3: state.web3,
-    account: state.account
+    account: state.account,
+    myStore: state.myStore
   };
 }
 

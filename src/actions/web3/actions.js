@@ -1,9 +1,8 @@
+import axios from "axios";
+const END_POINT = "http://localhost:4005/api";
+
 import types from "./types";
 
-/**
- * Create an action to warn there is no web3 connection.
- * @param {boolean} payload
- */
 export function updateWeb3Status(payload) {
   return dispatch => {
     return new Promise(function(resolve, reject) {
@@ -44,6 +43,29 @@ export function updateAccountBalance(web3, address) {
     });
   };
 }
+
+export function isAdmin(address) {
+  return dispatch => {
+    return new Promise(function(resolve, reject) {
+      axios
+        .get(`${END_POINT}/admins/${address.toLowerCase()}`)
+        .then(function(response) {
+          console.log(response)
+          dispatch({ type: types.GET_ADMIN, payload: response.data });
+          resolve(response.data);
+        })
+        .catch(function(error) {
+          console.log(error);
+          reject(error);
+        });
+    });
+  };
+}
+
+
+
+
+
 
 // export function web3Connected(payload) {
 //   return {

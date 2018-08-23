@@ -32,6 +32,7 @@ class Shop extends Component {
     }
   }
   render() {
+    // for not getting infinite loop
     if (this.props.web3 && this.props.products.length === 0) {
       this.initSmartContract();
     }

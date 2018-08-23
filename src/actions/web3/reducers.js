@@ -19,7 +19,8 @@ export function web3Reducer(state = initialState, action) {
 
 const initialAccountState = {
   walletAddress: null,
-  walletBalance: null
+  walletBalance: null,
+  isAdmin: false
 };
 
 export function AccountReducer(state = initialAccountState, action) {
@@ -33,6 +34,11 @@ export function AccountReducer(state = initialAccountState, action) {
       return {
         ...state,
         walletBalance: action.payload
+      };
+          case types.GET_ADMIN:
+      return {
+        ...state,
+        isAdmin: action.payload
       };
     default:
       return state;

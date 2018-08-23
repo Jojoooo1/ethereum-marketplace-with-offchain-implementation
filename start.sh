@@ -37,14 +37,15 @@ truffle migrate --network ganache
 # start truffle console
 gnome-terminal -x sh -c "truffle console --network ganache"
 
-# seed the blockchain with data
-truffle exec seed.js --network ganache
-
 # drop db if exist
 mongo consensys_app --eval "db.dropDatabase()"
 
 # Start offchain server
 gnome-terminal -x sh -c "nodemon server.js --no-optional"
+#gnome-terminal -x sh -c "nodemon --inspect=0.0.0.0:9229 server.js"
+
+# seed the blockchain with data
+truffle exec seed.js --network ganache
 
 # start the web server
 npm run start

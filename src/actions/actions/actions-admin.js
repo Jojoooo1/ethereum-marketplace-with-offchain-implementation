@@ -29,45 +29,24 @@ export function addAdmin(address) {
 
   return function(dispatch) {
     return EcommerceStore.deployed().then(function(f) {
-      let txObject
-      let instance = f;
       f.addAdmin(address, { from: walletAddress, gas: 200000 }).then(function(tx) {
-        txObject = tx
-        instance.NewAdmin().watch(function(error, result) {
-          if (result.event === "NewAdmin") {
-            let newAddress = { address: result.args._address };
-            dispatch({ type: AT_ADMINS.CREATE, payload: newAddress });
-          }
-          // dispatch({ type: "TX_RESPONSE", payload: tx });
-        });
+        dispatch({ type: "TX_EVENT", payload: tx.logs[0].event });
       });
-      return txObject
     });
   };
 }
 
-// EcommerceStore.deployed().then(function(i) {
-//   i.addAdmin("0x057b57edb53277834fd8a80cd272debd3efe0f73").then(function(f) {
-//     console.log(f);
-//   });
-// });
+export function removeAdmin(address) {
+  let web3 = store.getState().web3.web3;
+  let walletAddress = store.getState().account.walletAddress;
+  EcommerceStore.setProvider(web3.currentProvider);
 
-// export function removeAdmin(address) {
-//   let web3 = store.getState().web3.web3;
-//   EcommerceStore.setProvider(web3.currentProvider);
+  return function(dispatch) {
+    return EcommerceStore.deployed().then(function(f) {
+      f.removeAdmin(address, { from: walletAddress, gas: 200000 }).then(function(tx) {
+        dispatch({ type: "TX_EVENT", payload: tx.logs[0].event });
+      });
+    });
+  };
+}
 
-//   return function(dispatch) {
-//     EcommerceStore.deployed().then(function(f) {
-//       f.removeAdmin
-//         .call(address)
-//         .then(function(log) {
-//           console.log(log)
-//           return log;
-//         })
-//         .then(function(admin) {
-//           console.log(admin);
-//           dispatch({ type: AT_ADMINS.DELETE, payload: admin });
-//         });
-//     });
-//   };
-// }

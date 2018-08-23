@@ -18,7 +18,7 @@ const AdminTable = props => {
               <th scope="row">{i}</th>
               <td className="font-weight-bold">{admin.address}</td>
               <td>
-                <button className="btn btn-danger" onClick={() => handleOnClick(admin, i)}>
+                <button className="btn btn-danger" onClick={() => handleOnClick(admin.address)}>
                   Remove
                 </button>
               </td>
@@ -28,8 +28,8 @@ const AdminTable = props => {
       </tbody>
     </table>
   );
-  function handleOnClick(admin, i) {
-    props.callback(admin, i);
+  function handleOnClick(address) {
+    props.callback(address);
   }
 };
 

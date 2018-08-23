@@ -21,19 +21,31 @@ export function getProductsByOwner() {
   };
 }
 
-
-export function getProductById(id) {
-  console.log("enter")
+export function getProductByStoreAddress(address) {
   return function(dispatch) {
     axios
-      .get(`${END_POINT}/products/${id}`)
+      .get(`${END_POINT}/stores-address/${address}/products/`)
       .then(function(response) {
-        console.log(response.data)
-        dispatch({ type: AT_PRODUCTS.GET, payload: response.data });
+        console.log(response.data);
+        dispatch({ type: AT_PRODUCTS.GET_BY_STORE, payload: response.data });
       })
       .catch(function(error) {
         console.log(error);
       });
+  };
+}
+
+export function removeProduct(productId) {
+  let web3 = store.getState().web3.web3;
+  let walletAddress = store.getState().account.walletAddress;
+  EcommerceStore.setProvider(web3.currentProvider);
+
+  return function(dispatch) {
+    return EcommerceStore.deployed().then(function(f) {
+      f.removeProduct(productId, { from: walletAddress, gas: 200000 }).then(function(tx) {
+        dispatch({ type: "TX_EVENT", payload: tx.logs[0].event });
+      });
+    });
   };
 }
 

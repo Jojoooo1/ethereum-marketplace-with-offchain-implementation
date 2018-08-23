@@ -288,3 +288,8 @@ p {
 .btn-circle {
   border-radius: 50%;
 }
+
+.badge-approval {
+  color: white;
+  font-size: 0.8em;
+}
