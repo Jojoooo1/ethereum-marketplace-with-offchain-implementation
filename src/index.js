@@ -24,6 +24,7 @@ import MyStore from "./layouts/admin/MyStore";
 
 // Redux Store
 import store from "./store";
+import types from "./actions/types";
 
 const history = syncHistoryWithStore(browserHistory, store);
 
@@ -53,28 +54,31 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-
 // IMPLEMENT TIMEOUT LOOKOUT ACCOUNT
 
 window.addEventListener("load", () => {
-  // 1. update Web Instance
   store.dispatch(updateWeb3Status(web3)).then(web3 => {
-    // get wallet address
     store.dispatch(updateAccountAddress(web3)).then(account => {
-      // get wallet balance
-      store.dispatch(updateAccountBalance(web3, account)).then(balance => {
-
-        // UPDATE THE VALUE ON METAMASK ACCOUNT CHANGE
-        web3.currentProvider.publicConfigStore.on("update", function(f) {
-          store.dispatch(updateAccountAddress(web3)).then(account => {
-            store.dispatch(getMyStore(account));
-            store.dispatch(isAdmin(account));
-            store.dispatch(updateAccountBalance(web3, account));
-          });
-        });
-      });
-      store.dispatch(getMyStore(account));
-      store.dispatch(isAdmin(account));
+      if (account) {
+        store.dispatch(updateAccountBalance(web3, account));
+        store.dispatch(getMyStore(account));
+        store.dispatch(isAdmin(account));
+      }
     });
+  });
+  console.log(types);
+  web3.currentProvider.publicConfigStore.on("update", function(f) {
+    if (f.selectedAddress) {
+      store.dispatch(updateAccountAddress(web3)).then(account => {
+        store.dispatch(updateAccountBalance(web3, account));
+        store.dispatch(getMyStore(account));
+        store.dispatch(isAdmin(account));
+      });
+    } else {
+      store.dispatch({ type: types.AT_WEB3.GET_WALLET_ADDRESS, payload: "" });
+      store.dispatch({ type: types.AT_WEB3.GET_WALLET_BALANCE, payload: null });
+      store.dispatch({ type: types.AT_STORES.GET_MY_STORE, payload: null });
+      store.dispatch({ type: types.AT_WEB3.GET_ADMIN, payload: false });
+    }
   });
 });

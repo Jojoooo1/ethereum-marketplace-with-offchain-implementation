@@ -18,16 +18,10 @@ export function updateWeb3Status(payload) {
 export function updateAccountAddress(web3) {
   return dispatch => {
     return new Promise(function(resolve, reject) {
-      web3.eth
-        .getAccounts()
-        .then(accounts => {
-          let currentAccount = accounts[0];
-          dispatch({ type: types.GET_WALLET_ADDRESS, payload: currentAccount });
-          return currentAccount;
-        })
-        .then(account => {
-          resolve(account);
-        });
+      web3.eth.getAccounts().then(accounts => {
+        dispatch({ type: types.GET_WALLET_ADDRESS, payload: accounts[0] });
+        resolve(accounts[0]);
+      });
     });
   };
 }
@@ -45,13 +39,14 @@ export function updateAccountBalance(web3, address) {
 }
 
 export function isAdmin(address) {
+  let admin;
   return dispatch => {
     return new Promise(function(resolve, reject) {
       axios
         .get(`${END_POINT}/admins/${address.toLowerCase()}`)
         .then(function(response) {
-          console.log(response)
-          dispatch({ type: types.GET_ADMIN, payload: response.data });
+          admin = response.data ? true : false;
+          dispatch({ type: types.GET_ADMIN, payload: admin });
           resolve(response.data);
         })
         .catch(function(error) {
@@ -61,11 +56,6 @@ export function isAdmin(address) {
     });
   };
 }
-
-
-
-
-
 
 // export function web3Connected(payload) {
 //   return {

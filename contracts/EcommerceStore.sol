@@ -222,7 +222,7 @@ contract EcommerceStore {
     emit ProductUpdated(_productId, _name, _category, _quantity, _imageLink, _descriptionLink, _price);
   }
 
-  function removeProductFromStore(uint _productId)
+  function removeProduct(uint _productId)
   public
   onlyProductOwner(_productId)
   productExist(_productId)

@@ -85,7 +85,7 @@ class NavBar extends Component {
                     {this.props.account.walletAddress ? (
                       <i className="fas fa-user-circle" style={{ color: "forestgreen", 'fontSize': '30px'}} />
                     ) : (
-                      <i className="fas fa-user-circle" style={{ color: "color: indianred", 'fontSize': '30px' }} />
+                      <i className="fas fa-user-circle" style={{ color: "indianred", 'fontSize': '30px' }} />
                     )}
                   </a>
                   <div className="dropdown-menu" aria-labelledby="navbarDropdown" style={{ maxWidth: "250px" }}>

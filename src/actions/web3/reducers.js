@@ -2,7 +2,6 @@ import types from "./types";
 
 const initialState = {
   web3: null
-  // connected: false
 };
 
 export function web3Reducer(state = initialState, action) {
@@ -18,8 +17,8 @@ export function web3Reducer(state = initialState, action) {
 }
 
 const initialAccountState = {
-  walletAddress: null,
-  walletBalance: null,
+  walletAddress: "",
+  walletBalance: 0,
   isAdmin: false
 };
 
@@ -35,7 +34,7 @@ export function AccountReducer(state = initialAccountState, action) {
         ...state,
         walletBalance: action.payload
       };
-          case types.GET_ADMIN:
+    case types.GET_ADMIN:
       return {
         ...state,
         isAdmin: action.payload
