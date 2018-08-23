@@ -34,7 +34,7 @@ export function AccountReducer(state = initialAccountState, action) {
         ...state,
         walletBalance: action.payload
       };
-    case types.GET_ADMIN:
+    case types.IS_ADMIN:
       return {
         ...state,
         isAdmin: action.payload

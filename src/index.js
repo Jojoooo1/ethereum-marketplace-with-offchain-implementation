@@ -66,7 +66,6 @@ window.addEventListener("load", () => {
       }
     });
   });
-  console.log(types);
   web3.currentProvider.publicConfigStore.on("update", function(f) {
     if (f.selectedAddress) {
       store.dispatch(updateAccountAddress(web3)).then(account => {
@@ -78,7 +77,7 @@ window.addEventListener("load", () => {
       store.dispatch({ type: types.AT_WEB3.GET_WALLET_ADDRESS, payload: "" });
       store.dispatch({ type: types.AT_WEB3.GET_WALLET_BALANCE, payload: null });
       store.dispatch({ type: types.AT_STORES.GET_MY_STORE, payload: null });
-      store.dispatch({ type: types.AT_WEB3.GET_ADMIN, payload: false });
+      store.dispatch({ type: types.AT_WEB3.IS_ADMIN, payload: false });
     }
   });
 });

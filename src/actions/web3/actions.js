@@ -46,7 +46,7 @@ export function isAdmin(address) {
         .get(`${END_POINT}/admins/${address.toLowerCase()}`)
         .then(function(response) {
           admin = response.data ? true : false;
-          dispatch({ type: types.GET_ADMIN, payload: admin });
+          dispatch({ type: types.IS_ADMIN, payload: admin });
           resolve(response.data);
         })
         .catch(function(error) {

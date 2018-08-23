@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { browserHistory } from "react-router";
+// import { browserHistory } from "react-router";
 
 import { getAdmins, removeAdmin, addAdmin, getStores, approveStore, removeStore } from "../../actions/index";
 
@@ -15,6 +15,10 @@ class Admin extends Component {
       addressAdmin: "",
       addressStore: ""
     };
+    this.addAdminHandler = this.addAdminHandler.bind(this);
+    this.addStoreHandler = this.addStoreHandler.bind(this);
+    this.handleChangeAdmin = this.handleChangeAdmin.bind(this);
+    this.handleChangeStore = this.handleChangeStore.bind(this);
   }
   initSmartContract() {
     this.props.getAdmins();
@@ -31,9 +35,6 @@ class Admin extends Component {
     this.approveStore(this.state.addressStore);
     this.inputElementStore.click();
   }
-  removeAdmin(adminAddress) {
-    this.props.removeAdmin(adminAddress);
-  }
 
   approveStore(storeAddress) {
     this.props.approveStore(storeAddress);
@@ -41,6 +42,10 @@ class Admin extends Component {
 
   removeStore(storeAddress) {
     this.props.removeStore(storeAddress);
+  }
+
+  removeAdmin(adminAddress) {
+    this.props.removeAdmin(adminAddress);
   }
 
   handleChangeAdmin(event) {
@@ -143,12 +148,12 @@ class Admin extends Component {
                 </button>
               </div>
               <div className="modal-body">
-                <form onSubmit={this.addAdminHandler.bind(this)} id="addAddmin">
+                <form onSubmit={this.addAdminHandler} id="addAddmin">
                   <div className="form-group">
                     <label htmlFor="addressAdmin">Wallet address</label>
                     <input
                       value={this.state.addressAdmin}
-                      onChange={this.handleChangeAdmin.bind(this)}
+                      onChange={this.handleChangeAdmin}
                       type="text"
                       className="form-control"
                       id="addressAdmin"
@@ -181,12 +186,12 @@ class Admin extends Component {
                 </button>
               </div>
               <div className="modal-body">
-                <form onSubmit={this.addStoreHandler.bind(this)} id="addStore">
+                <form onSubmit={this.addStoreHandler} id="addStore">
                   <div className="form-group">
                     <label htmlFor="addressStore">Store address</label>
                     <input
                       value={this.state.addressStore}
-                      onChange={this.handleChangeStore.bind(this)}
+                      onChange={this.handleChangeStore}
                       type="text"
                       className="form-control"
                       id="addressStore"

@@ -3,7 +3,6 @@ import Web3 from "web3";
 
 /* eslint-disable import/no-mutable-exports */
 let web3 = null;
-let connected = false;
 /* eslint-enable import/no-mutable-exports */
 
 // follow https://github.com/ethereum/wiki/wiki/JavaScript-API

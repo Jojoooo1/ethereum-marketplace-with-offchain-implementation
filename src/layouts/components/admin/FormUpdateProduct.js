@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
+import { updateStore } from "../../../actions/index";
 import { saveImageOnIpfs, saveTextBlolbOnIpfs } from "../../../utils/ipfsUtils";
 
 import ipfsAPI from "ipfs-api";
@@ -15,29 +17,34 @@ class FormUpdateStore extends Component {
     this.state = {
       name: "",
       category: "",
+      imageHash: "",
+      descriptionHash: "",
       description: "",
       storeLoaded: false,
       file: null,
       content: null
     };
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
     this.updateStore = this.updateStore.bind(this);
   }
 
   updateStore(e) {
     e.preventDefault();
 
-    saveImageOnIpfs(reader).then(imageHash => {
-      console.log(imageHash);
-      saveTextBlolbOnIpfs(this.state.description).then(descriptionHash => {
-        console.log(descriptionHash);
+    saveImageOnIpfs(reader).then(imgId => {
+      this.setState({ imageHash: imgId });
+      console.log(imgId);
+      saveTextBlolbOnIpfs(this.state.description).then(descId => {
+        console.log(descId);
+        this.setState({ descriptionHash: descId });
         let store = {
           name: this.state.name,
           category: this.state.category,
-          imageHash: imageHash,
-          descriptionHash: descriptionHash
+          imageHash: this.state.imageHash,
+          descriptionHash: this.state.descriptionHash
         };
-        this.props.callbackUpdateStore(store);
+        this.props.updateStore(store);
       });
     });
   }
@@ -61,13 +68,10 @@ class FormUpdateStore extends Component {
   render() {
     if (this.props.myStore && !this.state.storeLoaded) {
       this.setState({ storeLoaded: true });
-      if (this.props.myStore.descriptionLink.length > 0) {
-        ipfs
-          .cat(this.props.myStore.descriptionLink)
-          .then(file => {
-            this.setState({ description: file.toString() });
-          })
-          .catch(e => console.log(e));
+      if (this.props.myStore.descriptionLink) {
+        ipfs.cat(this.props.myStore.descriptionLink).then(file => {
+          this.setState({ description: file.toString() });
+        });
       }
       this.setState({
         name: this.props.myStore.name,
@@ -108,7 +112,7 @@ class FormUpdateStore extends Component {
             <div>
               current photo:
               <br />
-              <img width="200" src={ipfsUrl + this.props.myStore.imageLink} role="presentation" />
+              <img width="200" src={ipfsUrl + this.props.myStore.imageLink} />
               <br />
             </div>
           )}
@@ -138,7 +142,11 @@ function mapStateToProps(state) {
   };
 }
 
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators({ updateStore }, dispatch)
+});
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(FormUpdateStore);

@@ -201,7 +201,7 @@ contract EcommerceStore {
     emit StoreApproved(_address);
   }
 
-  function addProductToStore(string _name, string _category, uint _quantity, string _imageLink, string _descriptionLink, uint256 _price)
+  function addProduct(string _name, string _category, uint _quantity, string _imageLink, string _descriptionLink, uint256 _price)
   public
   onlyApprovedStores
   {

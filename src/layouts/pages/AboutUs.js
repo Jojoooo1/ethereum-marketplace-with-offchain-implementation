@@ -12,7 +12,7 @@ const AboutUs = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-6">
-              <img className="img-responsive" src={AboutUsImg} style={{ width: "100%" }}/>
+              <img className="img-responsive" src={AboutUsImg} style={{ width: "100%" }} role="presentation"/>
             </div>
             <div className="col-md-6">
               <h2 className="">About Our Shop</h2>

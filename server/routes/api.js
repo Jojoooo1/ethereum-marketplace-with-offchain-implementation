@@ -38,13 +38,13 @@ router.get("/products/:id", function(req, res) {
 });
 
 router.get("/stores/:id/products", function(req, res) {
-  ProductModel.find({ storeId: req.params.id }, function(err, products) {
+  ProductModel.find({ storeId: req.params.id }, null, { sort: "id" }, function(err, products) {
     res.send(products);
   });
 });
 
 router.get("/stores-address/:address/products", function(req, res) {
-  ProductModel.find({ storeAddress: req.params.address }, function(err, products) {
+  ProductModel.find({ storeAddress: req.params.address }, null, { sort: "id" }, function(err, products) {
     res.send(products);
   });
 });

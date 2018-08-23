@@ -1,7 +1,8 @@
 import React from "react";
-
+import store from "../../../store";
 const ProductTable = props => {
   const { products } = props;
+  const web3 = store.getState().web3;
   return (
     <table className="table table-hover">
       <thead>
@@ -10,9 +11,7 @@ const ProductTable = props => {
           <th scope="col">name</th>
           <th scope="col">category</th>
           <th scope="col">quantity</th>
-          <th scope="col">imageLink</th>
-          <th scope="col">descriptionLink</th>
-          <th scope="col">price</th>
+          <th scope="col">price (ETH)</th>
           <th scope="col">Delete</th>
         </tr>
       </thead>
@@ -24,14 +23,17 @@ const ProductTable = props => {
               <td>{product.name}</td>
               <td>{product.category}</td>
               <td>{product.quantity}</td>
-              <td>{product.imageLink}</td>
-              <td>{product.descriptionLink}</td>
-              <td>{product.price}</td>
+              <td>{web3.web3 ? web3.web3.utils.fromWei(product.price.toString(), "ether") : product.price}</td>
               <td>
                 <button className="btn btn-sm btn-danger m-1" onClick={() => handleOnClickRemoveProduct(product.id)}>
                   Remove
                 </button>
-                <button className="btn btn-sm btn-warning m-1" onClick={() => handleOnClickUpdateProduct(product)}>
+                <button
+                  className="btn btn-sm btn-warning m-1"
+                  data-toggle="modal"
+                  data-target="#modalUpdateProduct"
+                  onClick={e => handleOnClickUpdateProduct(e, product)}
+                >
                   update
                 </button>
               </td>
@@ -44,8 +46,8 @@ const ProductTable = props => {
   function handleOnClickRemoveProduct(productId) {
     props.callbackRemoveProduct(productId);
   }
-  function handleOnClickUpdateProduct(product) {
-    props.callbackUpdateProduct(product);
+  function handleOnClickUpdateProduct(e, product) {
+    props.callbackUpdateProduct(e, product);
   }
 };
 
