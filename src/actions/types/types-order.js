@@ -1,0 +1,6 @@
+export const AT_ORDERS = {
+  GET_ALL: "READ_ALL_ORDER",
+  GET: "READ_ORDER",
+  UPDATE: "CREATE_ORDER",
+  DELETE: "DELETE_ORDER"
+};

@@ -8,10 +8,29 @@ import contract from "truffle-contract";
 import ecommerce_store_artifacts from "../../../build/contracts/EcommerceStore.json";
 const EcommerceStore = contract(ecommerce_store_artifacts);
 
-export function getProductsByOwner() {
+export function getProductByStoreId(id) {
   return function(dispatch) {
     axios
-      .get(`${END_POINT}/products`)
+      .get(`${END_POINT}/stores/${id}/products`)
+      .then(function(response) {
+        dispatch({ type: AT_PRODUCTS.GET_ALL, payload: response.data });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+}
+
+export function getProducts(category) {
+  let url;
+  return function(dispatch) {
+    if (category) {
+      url = `/products?category=${category}`;
+    } else {
+      url = "/products";
+    }
+    axios
+      .get(`${END_POINT}${url}`)
       .then(function(response) {
         dispatch({ type: AT_PRODUCTS.GET_ALL, payload: response.data });
       })
@@ -44,7 +63,7 @@ export function newProduct(product) {
     return EcommerceStore.deployed().then(function(f) {
       f.addProduct(product.name, product.category, product.quantity, product.imageHash, product.descriptionHash, web3.utils.toWei(product.price), {
         from: walletAddress,
-        gas: 1000000
+        gas: 800000
       }).then(function(tx) {
         dispatch({ type: "TX_EVENT", payload: tx.logs[0].event });
       });
@@ -69,7 +88,7 @@ export function updateProduct(product) {
         web3.utils.toWei(product.price),
         {
           from: walletAddress,
-          gas: 6500000
+          gas: 500000
         }
       ).then(function(tx) {
         dispatch({ type: "TX_EVENT", payload: tx.logs[0].event });
@@ -85,17 +104,17 @@ export function removeProduct(productId) {
 
   return function(dispatch) {
     return EcommerceStore.deployed().then(function(f) {
-      f.removeProduct(productId, { from: walletAddress, gas: 1000000 }).then(function(tx) {
+      f.removeProduct(productId, { from: walletAddress, gas: 500000 }).then(function(tx) {
         dispatch({ type: "TX_EVENT", payload: tx.logs[0].event });
       });
     });
   };
 }
 
-export function getProductsById(id) {
+export function getProductById(id) {
   return function(dispatch) {
     axios
-      .get(`${END_POINT}/products/:id`)
+      .get(`${END_POINT}/products/${id}`)
       .then(function(response) {
         dispatch({ type: AT_PRODUCTS.GET, payload: response.data });
       })

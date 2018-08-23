@@ -11,7 +11,7 @@ const NavBar2 = () => {
     <div style={style} className="nav-2">
       <ul className="nav justify-content-center">
         <li className="nav-item">
-          <Link to={"/home"} className="nav-link">
+          <Link to={"/"} className="nav-link">
             Home
           </Link>
         </li>
@@ -21,7 +21,7 @@ const NavBar2 = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link to={"/sellers"} className="nav-link">
+          <Link to={"/stores"} className="nav-link">
             Marketplace
           </Link>
         </li>

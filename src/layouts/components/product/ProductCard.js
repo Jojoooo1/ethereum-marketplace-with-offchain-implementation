@@ -1,25 +1,35 @@
 import React from "react";
 import { Link } from "react-router";
 import store from "../../../store";
-import Product1 from "../../../img/product-1.jpg";
+const ipfsUrl = "http://localhost:8080/ipfs/";
+
+import defaultImage from "../../../img/default-img.png";
 
 const ProductCard = props => {
   const { product } = props;
   let web3 = store.getState().web3.web3;
+
+  function renderImage() {
+    if (product.imageLink) {
+      return <img className="img-responsive" src={ipfsUrl + product.imageLink} role="presentation" />;
+    } else {
+      return <img className="img-responsive" src={defaultImage} role="presentation" />;
+    }
+  }
+
   return (
     <div className="col-md-4">
       <div className="product-item">
         <div className="product-thumb">
-          <img className="img-responsive" src={Product1} alt="product-img" />
+          {renderImage()}
           <div className="preview-meta">
             <ul>
               <li>
-                <Link to={`products/${product.productId}`}>
+                <Link to={`/products/${product.id}`}>
                   <i className="fa fa-eye" />
                 </Link>
               </li>
               <li>
-                {/*<a href="" style={{ margin: "2px" }}>*/}
                 <a href="#">
                   <i className="fa fa-shopping-cart" />
                 </a>
@@ -31,7 +41,7 @@ const ProductCard = props => {
           <h4>
             <a href="product-single.html">{product.name}</a>
           </h4>
-          <p className="price">{web3.utils.fromWei(product.price.toString(), "ether")} eth</p>
+          <p className="price">{web3 ? web3.utils.fromWei(product.price.toString(), "ether") : product.price} eth</p>
         </div>
       </div>
     </div>

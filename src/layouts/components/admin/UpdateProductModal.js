@@ -21,7 +21,7 @@ class UpdateProductModal extends Component {
       price: 0,
       productLoaded: false
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleInputChanged = this.handleInputChanged.bind(this);
     this.updateProduct = this.updateProduct.bind(this);
   }
 
@@ -53,7 +53,7 @@ class UpdateProductModal extends Component {
     reader.readAsArrayBuffer(file);
   }
 
-  handleChange(event) {
+  handleInputChanged(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -105,7 +105,7 @@ class UpdateProductModal extends Component {
                   <input
                     name="name"
                     value={this.state.name}
-                    onChange={this.handleChange}
+                    onChange={this.handleInputChanged}
                     type="text"
                     className="form-control"
                     id="productName"
@@ -114,22 +114,28 @@ class UpdateProductModal extends Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="productCategory">Category</label>
-                  <input
+                  <select
                     name="category"
-                    value={this.state.category}
                     onChange={this.handleChange}
+                    value={this.state.category}
                     type="text"
                     className="form-control"
                     id="productCategory"
                     required
-                  />
+                  >
+                    <option>Art</option>
+                    <option>Books</option>
+                    <option>High-Tech</option>
+                    <option>Clothing</option>
+                    <option>Sport</option>
+                  </select>
                 </div>
                 <div className="form-group">
                   <label htmlFor="productQuantity">Quantity</label>
                   <input
                     name="quantity"
                     value={this.state.quantity}
-                    onChange={this.handleChange}
+                    onChange={this.handleInputChanged}
                     type="number"
                     className="form-control"
                     id="productQuantity"
@@ -140,7 +146,7 @@ class UpdateProductModal extends Component {
                   <input
                     name="price"
                     value={this.state.price}
-                    onChange={this.handleChange}
+                    onChange={this.handleInputChanged}
                     type="number"
                     className="form-control"
                     id="productPrice"
@@ -151,7 +157,7 @@ class UpdateProductModal extends Component {
                   <label htmlFor="productDescription">Description</label>
                   <textarea
                     name="description"
-                    onChange={this.handleChange}
+                    onChange={this.handleInputChanged}
                     value={this.state.description}
                     type="text"
                     className="form-control"

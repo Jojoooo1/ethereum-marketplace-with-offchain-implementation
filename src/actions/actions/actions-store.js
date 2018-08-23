@@ -24,6 +24,19 @@ export function getStores() {
   };
 }
 
+export function getApprovedStores() {
+  return function(dispatch) {
+    axios
+      .get(`${END_POINT}/stores-approved`)
+      .then(function(response) {
+        dispatch({ type: AT_STORES.GET_ALL, payload: response.data });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+}
+
 export function getStoreById(id) {
   return function(dispatch) {
     axios
@@ -61,7 +74,7 @@ export function approveStore(address) {
   return function(dispatch) {
     return EcommerceStore.deployed().then(function(f) {
       EcommerceStore.deployed().then(function(f) {
-        f.approveStore(address, { from: walletAddress, gas: 200000 }).then(function(tx) {
+        f.approveStore(address, { from: walletAddress, gas: 500000 }).then(function(tx) {
           dispatch({ type: AT_TX.TX_EVENT, payload: tx.logs[0].event });
         });
       });
@@ -79,7 +92,7 @@ export function updateStore(storeUpdated) {
     return EcommerceStore.deployed().then(function(f) {
       f.updateStore(storeUpdated.name, storeUpdated.category, storeUpdated.imageHash, storeUpdated.descriptionHash, {
         from: walletAddress,
-        gas: 200000
+        gas: 600000
       }).then(function(tx) {
         console.log(tx);
         dispatch({ type: AT_TX.TX_EVENT, payload: tx.logs[0].event });
@@ -95,7 +108,7 @@ export function removeStore(address) {
 
   return function(dispatch) {
     return EcommerceStore.deployed().then(function(f) {
-      f.removeStore(address, { from: walletAddress, gas: 200000 }).then(function(tx) {
+      f.removeStore(address, { from: walletAddress, gas: 500000 }).then(function(tx) {
         console.log(tx);
         dispatch({ type: AT_TX.TX_EVENT, payload: tx.logs[0].event });
       });

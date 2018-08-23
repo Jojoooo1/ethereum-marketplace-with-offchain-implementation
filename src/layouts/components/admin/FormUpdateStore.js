@@ -82,7 +82,7 @@ class FormUpdateStore extends Component {
         </div>
         <div className="form-group">
           <label htmlFor="storeCategory">Category</label>
-          <input
+          <select
             name="category"
             onChange={this.handleInputChange}
             value={this.state.category}
@@ -90,7 +90,13 @@ class FormUpdateStore extends Component {
             className="form-control"
             id="storeCategory"
             required
-          />
+          >
+            <option>Art</option>
+            <option>Books</option>
+            <option>High-Tech</option>
+            <option>Clothing</option>
+            <option>Sport</option>
+          </select>
         </div>
         <div className="form-group">
           <label htmlFor="storeDescription">Description</label>
@@ -122,7 +128,6 @@ class FormUpdateStore extends Component {
             aria-describedby="fileHelp"
           />
         </div>
-
         <button type="submit" className="btn btn-primary">
           Update
         </button>

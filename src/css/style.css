@@ -70,6 +70,7 @@ a:hover {
 }
 
 .product-item .product-thumb {
+  min-height: 300px;
   position: relative;
 }
 
@@ -125,6 +126,8 @@ a:hover {
 
 .product-item .product-thumb img {
   width: 100%;
+  position: absolute;
+  height: 100%;
   max-height: 320px;
   object-fit: cover;
 }
@@ -292,4 +295,9 @@ p {
 .badge-approval {
   color: white;
   font-size: 0.8em;
+}
+
+.product-show-image {
+  object-fit: cover;
+  height: 100%;
 }

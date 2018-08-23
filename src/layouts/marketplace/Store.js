@@ -5,36 +5,25 @@ import ProductCard from "../components/product/ProductCard";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getProducts } from "../../actions/index";
+import { getProductByStoreId, getStoreById } from "../../actions/index";
 
 class Shop extends Component {
-  constructor(props) {
-    super(props);
-  }
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   if (prevProps.web3 == null ) {
-  //     this.initSmartContract();
-  //   }
-  // }
   componentWillMount() {
-    this.props.getProducts();
-  }
-  renderProducts() {
-    // console.log(this.props.products);
-    if (this.props.products) {
-      console.log(this.props.products);
-      return this.props.products.map(function(product, i) {
-        return <ProductCard key={i} product={product} />;
-      });
-    }
+    this.props.getProductByStoreId(this.props.params.id);
+    this.props.getStoreById(this.props.params.id);
   }
   render() {
+    console.log(this.props.store);
     return (
       <div>
-        <NavBar3 title={"Shop"} breadcrumbs={["Shop"]} />
+        <NavBar3 title={this.props.store.name} breadcrumbs={[this.props.store.name]} />
         <section className="products section" style={{ padding: "40px 0" }}>
           <div className="container">
-            <div className="row">{this.renderProducts()}</div>
+            <div className="row">
+              {this.props.products.map(product => {
+                return <ProductCard key={product.id} product={product} />;
+              })}
+            </div>
           </div>
         </section>
       </div>
@@ -44,13 +33,14 @@ class Shop extends Component {
 
 function mapStateToProps(state) {
   return {
+    store: state.store,
     products: state.products,
     web3: state.web3.web3
   };
 }
 
 const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ getProducts }, dispatch)
+  ...bindActionCreators({ getProductByStoreId, getStoreById }, dispatch)
 });
 export default connect(
   mapStateToProps,

@@ -67,7 +67,7 @@ router.get("/stores", function(req, res) {
   });
 });
 
-router.get("/active-stores", function(req, res) {
+router.get("/stores-approved", function(req, res) {
   StoreModel.find({ approved: true }, function(err, stores) {
     res.send(stores);
   });
@@ -87,6 +87,18 @@ router.get("/admins/:address", function(req, res) {
 
 router.get("/orders/:buyer", function(req, res) {
   OrderModel.findOne({ buyer: req.params.buyer }, function(err, orders) {
+    res.send(orders);
+  });
+});
+
+router.get("/orders-buyer/:address", function(req, res) {
+  OrderModel.find({ buyer: req.params.address }, null, { sort: "id" }, function(err, orders) {
+    res.send(orders);
+  });
+});
+
+router.get("/orders-seller/:address", function(req, res) {
+  OrderModel.find({ seller: req.params.address }, null, { sort: "id" }, function(err, orders) {
     res.send(orders);
   });
 });

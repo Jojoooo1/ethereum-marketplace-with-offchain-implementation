@@ -13,7 +13,7 @@ const NavBar3 = props => {
 
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
-                  <Link to={"/home"}>Home</Link>
+                  <Link to={"/"}>Home</Link>
                 </li>
                 {breadcrumbs.map(breadcrumb => {
                   return (
