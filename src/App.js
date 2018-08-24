@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 // import { Link } from "react-router";
-import { HiddenOnlyAuth, VisibleOnlyAuth } from "./utils/wrappers.js";
+// import { HiddenOnlyAuth, VisibleOnlyAuth } from "./utils/wrappers.js";
 
 // UI Components
-import LoginButtonContainer from "./user/ui/loginbutton/LoginButtonContainer";
-import LogoutButtonContainer from "./user/ui/logoutbutton/LogoutButtonContainer";
+// import LoginButtonContainer from "./user/ui/loginbutton/LoginButtonContainer";
+// import LogoutButtonContainer from "./user/ui/logoutbutton/LogoutButtonContainer";
 
 //
 import NavBar1 from "./layouts/partials/NavBar";

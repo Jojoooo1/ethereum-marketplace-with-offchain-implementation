@@ -1,10 +1,20 @@
 import { AT_ORDERS } from "../actions/types/types-order";
 
-export default function(state = [], action) {
+export function reducerOrderBuyer(state = [], action) {
   switch (action.type) {
-    case AT_ORDERS.GET_ALL:
+    case AT_ORDERS.GET_BUYER_ORDERS:
       return action.payload;
     default:
       return state;
   }
 }
+
+export function reducerOrderSeller(state = [], action) {
+  switch (action.type) {
+    case AT_ORDERS.GET_SELLER_ORDERS:
+      return action.payload;
+    default:
+      return state;
+  }
+}
+

@@ -28,12 +28,7 @@ const OrderTable = props => {
       });
   }
 
-  // function renderOrder() {
-  //   if () {
-
-  //   }
-  // }
-
+  console.log(orders);
   return (
     <table className="table table-hover">
       <thead className="text-center">
@@ -50,7 +45,7 @@ const OrderTable = props => {
         {products.length > 0 &&
           web3.web3 &&
           orders.map((order, i) => {
-            console.log(order)
+            console.log(order);
             let priceEther = order.quantity * web3.web3.utils.fromWei(products[i].price.toString(), "ether");
             return (
               <tr key={i}>
@@ -75,9 +70,6 @@ const OrderTable = props => {
       </tbody>
     </table>
   );
-  function handleOnClickRemoveProduct(productId) {
-    props.callbackRemoveProduct(productId);
-  }
   function handleOnClickUpdateProduct(e, product) {
     props.callbackUpdateProduct(e, product);
   }

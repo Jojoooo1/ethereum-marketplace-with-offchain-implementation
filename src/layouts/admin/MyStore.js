@@ -141,7 +141,7 @@ function mapStateToProps(state) {
     myStore: state.myStore,
     products: state.products,
     txEvent: state.txEvent,
-    orders: state.orders
+    orders: state.sellerOrders
   };
 }
 

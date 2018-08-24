@@ -19,8 +19,9 @@ export function updateAccountAddress(web3) {
   return dispatch => {
     return new Promise(function(resolve, reject) {
       web3.eth.getAccounts().then(accounts => {
-        dispatch({ type: types.GET_WALLET_ADDRESS, payload: accounts[0] });
-        resolve(accounts[0]);
+        let address = accounts[0] ? accounts[0].toLowerCase() : accounts[0];
+        dispatch({ type: types.GET_WALLET_ADDRESS, payload: address });
+        resolve(address);
       });
     });
   };

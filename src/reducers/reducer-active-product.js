@@ -1,6 +1,6 @@
 import { AT_PRODUCTS } from "../actions/types/types-product";
 
-export default function(state = null, action) {
+export default function(state = {}, action) {
   if (action.type === AT_PRODUCTS.GET) {
     return action.payload;
   } else {

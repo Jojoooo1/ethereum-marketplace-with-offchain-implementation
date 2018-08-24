@@ -6,10 +6,14 @@ import ProductCard from "../components/product/ProductCard";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getProducts } from "../../actions/index";
+import BuyProductModal from "../components/product/BuyProductModal";
 
 class Shop extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      selectedProduct: {}
+    };
   }
   // componentDidUpdate(prevProps, prevState, snapshot) {
   //   if (prevProps.web3 == null ) {
@@ -19,16 +23,20 @@ class Shop extends Component {
   componentWillMount() {
     this.props.getProducts();
   }
+
+  renderModal(product) {
+    console.log(product);
+    this.setState({ selectedProduct: product });
+  }
   renderProducts() {
-    // console.log(this.props.products);
     if (this.props.products) {
-      console.log(this.props.products);
       return this.props.products.map(function(product, i) {
-        return <ProductCard key={i} product={product} />;
-      });
+        return <ProductCard key={i} product={product} callback={product => this.renderModal(product)} />;
+      }, this);
     }
   }
   render() {
+    console.log(this.props.products);
     return (
       <div>
         <NavBar3 title={"Shop"} breadcrumbs={["Shop"]} />
@@ -37,6 +45,7 @@ class Shop extends Component {
             <div className="row">{this.renderProducts()}</div>
           </div>
         </section>
+        <BuyProductModal product={this.state.selectedProduct} />
       </div>
     );
   }

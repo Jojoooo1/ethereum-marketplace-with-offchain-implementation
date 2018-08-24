@@ -65,11 +65,13 @@ class NavBar extends Component {
                   </li>
                 )}
 
-                <li className="nav-item">
-                  <Link to={"/cart"} className="nav-link">
-                    <i className="fas fa-shopping-cart" /> Orders
-                  </Link>
-                </li>
+                {this.props.orders.length > 0 && (
+                  <li className="nav-item">
+                    <Link to={"/my-orders"} className="nav-link">
+                      My Orders
+                    </Link>
+                  </li>
+                )}
 
                 <li className="nav-item dropdown">
                   <a
@@ -83,9 +85,9 @@ class NavBar extends Component {
                     aria-expanded="false"
                   >
                     {this.props.account.walletAddress ? (
-                      <i className="fas fa-user-circle" style={{ color: "forestgreen", 'fontSize': '30px'}} />
+                      <i className="fas fa-user-circle" style={{ color: "forestgreen", fontSize: "30px" }} />
                     ) : (
-                      <i className="fas fa-user-circle" style={{ color: "indianred", 'fontSize': '30px' }} />
+                      <i className="fas fa-user-circle" style={{ color: "indianred", fontSize: "30px" }} />
                     )}
                   </a>
                   <div className="dropdown-menu" aria-labelledby="navbarDropdown" style={{ maxWidth: "250px" }}>
@@ -117,7 +119,8 @@ function mapStateToProps(state) {
   return {
     web3: state.web3,
     account: state.account,
-    myStore: state.myStore
+    myStore: state.myStore,
+    orders: state.buyerOrders
   };
 }
 

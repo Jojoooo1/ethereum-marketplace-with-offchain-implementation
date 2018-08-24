@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router";
 
-import CarrouselProduct from "../components/utils/CarrouselProduct";
+// import CarrouselProduct from "../components/utils/CarrouselProduct";
 import ProductDescription from "../components/product/ProductDescription";
 import ProductReview from "../components/product/ProductReview";
 
@@ -20,20 +20,6 @@ class Product extends Component {
   componentWillMount() {
     this.props.getProductById(this.props.params.id);
     console.log(this.props.product);
-  }
-  renderImage() {
-    if (this.props.product && this.props.product.imageLink) {
-      return (
-        <img
-          className="product-show-image"
-          style={{ objectFit: "cover", height: "100%" }}
-          src={ipfsUrl + this.props.product.imageLink}
-          role="presentation"
-        />
-      );
-    } else {
-      return <img className="product-show-image" src={defaultImage} role="presentation" />;
-    }
   }
   render() {
     return (
@@ -55,12 +41,8 @@ class Product extends Component {
                 </ol>
               </div>
             </div>
-            <div className="row mt-20">
-              <div className="col-md-5">{this.renderImage()}</div>
-              <div className="col-md-7">{this.props.product && <ProductDescription product={this.props.product} />}</div>
-            </div>
+            {this.props.product.id && <ProductDescription product={this.props.product} />}
             <br />
-
             <div className="row">
               <div className="col-md-12">{this.props.product && <ProductReview product={this.props.product} />}</div>
             </div>

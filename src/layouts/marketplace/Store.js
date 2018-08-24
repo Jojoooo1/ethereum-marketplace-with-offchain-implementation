@@ -13,16 +13,16 @@ class Shop extends Component {
     this.props.getStoreById(this.props.params.id);
   }
   render() {
-    console.log(this.props.store);
     return (
       <div>
-        <NavBar3 title={this.props.store.name} breadcrumbs={[this.props.store.name]} />
+        {this.props.store.name && <NavBar3 title={this.props.store.name} breadcrumbs={[this.props.store.name]} />}
         <section className="products section" style={{ padding: "40px 0" }}>
           <div className="container">
             <div className="row">
-              {this.props.products.map(product => {
-                return <ProductCard key={product.id} product={product} />;
-              })}
+              {this.props.products.length > 0 &&
+                this.props.products.map(product => {
+                  return <ProductCard key={product.id} product={product} />;
+                })}
             </div>
           </div>
         </section>

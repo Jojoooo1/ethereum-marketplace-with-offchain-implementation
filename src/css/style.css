@@ -300,4 +300,5 @@ p {
 .product-show-image {
   object-fit: cover;
   height: 100%;
+  width: 100%;
 }

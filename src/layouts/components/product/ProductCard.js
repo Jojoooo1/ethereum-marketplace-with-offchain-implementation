@@ -30,8 +30,8 @@ const ProductCard = props => {
                 </Link>
               </li>
               <li>
-                <a href="#">
-                  <i className="fa fa-shopping-cart" />
+                <a href="javascript:void(0);" role="button">
+                  <i data-target="#modalBuyProduct" data-toggle="modal" onClick={() => handleOnClick(product)} className="fa fa-shopping-cart" />
                 </a>
               </li>
             </ul>
@@ -39,13 +39,17 @@ const ProductCard = props => {
         </div>
         <div className="product-content">
           <h4>
-            <a href="product-single.html">{product.name}</a>
+            <Link to={`/products/${product.id}`}>{product.name}</Link>
           </h4>
           <p className="price">{web3 ? web3.utils.fromWei(product.price.toString(), "ether") : product.price} eth</p>
         </div>
       </div>
     </div>
   );
+
+  function handleOnClick(product) {
+    props.callback(product);
+  }
 };
 
 export default ProductCard;

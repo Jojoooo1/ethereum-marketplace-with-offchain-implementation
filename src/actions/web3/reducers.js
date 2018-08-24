@@ -27,7 +27,7 @@ export function AccountReducer(state = initialAccountState, action) {
     case types.GET_WALLET_ADDRESS:
       return {
         ...state,
-        walletAddress: action.payload
+        walletAddress: action.payload ? action.payload.toLowerCase() : action.payload
       };
     case types.GET_WALLET_BALANCE:
       return {

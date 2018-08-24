@@ -62,13 +62,4 @@ EcommerceStore.deployed().then(function(f) {
       });
   });
 
-  EcommerceStore.deployed().then(function(f) {
-    f.newOrder(web3.eth.accounts[8], 1, 1, "test", { from: web3.eth.accounts[2], value: web3.toWei(2), gas: 4000000 })
-      .then(function(f) {
-        console.log(f);
-      })
-      .catch(function(e) {
-        console.log(e);
-      });
-  });
-};
+EcommerceStore.deployed().then(function(f) {f.newOrder(web3.eth.accounts[9], 6, 1, "test", { from: web3.eth.accounts[0], value: web3.toWei(2), gas: 4000000 }).then(function(f) {console.log(f); }).catch(function(e) {console.log(e);});});
