@@ -148,21 +148,3 @@ module.exports = function(callback) {
     });
   }, 3000);
 };
-
-// EcommerceStore.deployed().then(function(f) {
-//   f.escrowInfo(1)
-//     .then(function(f) {
-//       console.log(f);
-//     })
-//     .catch(function(e) {
-//       console.log(e);
-//     });
-// });
-
-// EcommerceStore.deployed().then(function(f) {
-//   f.releaseAmountToSeller(1, { from: web3.eth.accounts[2] }).then(function(f) {
-//     console.log(f);
-//   });
-// });
-
-// EcommerceStore.deployed().then(function(f) {f.newOrder(5, 1, "address n°3", { from: web3.eth.accounts[0], value: web3.toWei(2), gas: 4000000 }).then(function(f) {console.log(f);}).catch(function(e) {console.log(e);});});

@@ -1,10 +1,18 @@
 pragma solidity ^0.4.23;
 
+
+import "contracts/Ownable.sol";
+import "contracts/Mortal.sol";
+import "contracts/CircuitBreaker.sol";
+import 'contracts/SafeMath.sol';
+
 import "contracts/Escrow.sol";
 
-contract EcommerceStore {
+contract EcommerceStore is ownable, mortal, circuitBreaker {
 
-  enum OrderStatus{CREATED, PAYER}
+  using SafeMath for uint256;
+
+  enum OrderStatus{CREATED, PAYED}
 
   uint public storeIndex;
   uint public productIndex;
@@ -56,49 +64,49 @@ contract EcommerceStore {
   }
 
   modifier onlyAdmin() {
-    require (admins[msg.sender] == true);
+    require (admins[msg.sender] == true, "only admin");
     _;
   }
 
   // check if work
   modifier onlyStoreOwner() {
-    require (stores[msg.sender].id > 0);
+    require (stores[msg.sender].id > 0, "only store owner");
     _;
   }
 
   // check if work
   modifier onlyAdminOrStoreOwner() {
-    require (admins[msg.sender] == true || stores[msg.sender].id > 0);
+    require (admins[msg.sender] == true || stores[msg.sender].id > 0, "only admin or store owner");
     _;
   }
 
   modifier onlyProductOwner(uint _id) {
-    require (msg.sender == productIdInStore[_id]);
+    require (msg.sender == productIdInStore[_id], "only store owner");
     _;
   }
 
   modifier storeNotExist() {
-    require (stores[msg.sender].id == 0);
+    require (stores[msg.sender].id == 0, "store do not exist");
     _;
   }
 
   modifier onlyApprovedStores() {
-    require (approvedStores[msg.sender] == true);
+    require (approvedStores[msg.sender] == true, "store not approved");
     _;
   }
 
   modifier productExist(uint _id) {
-    require (productIdInStore[_id] != address(0));
+    require (productIdInStore[_id] != address(0x0), "product do not exist");
     _;
   }
 
   modifier productHasEnoughtQuantity(uint _productId, uint _orderQuantity) {
-    require (products[productIdInStore[_productId]][_productId].quantity >= _orderQuantity && _orderQuantity != 0);
+    require (products[productIdInStore[_productId]][_productId].quantity >= _orderQuantity && _orderQuantity != 0, "quantity is too low");
     _;
   }
 
   modifier OrderPriceIsEnought(uint _productId, uint _orderQuantity) {
-    require (msg.value >= (products[productIdInStore[_productId]][_productId].quantity * _orderQuantity));
+    require (msg.value >= SafeMath.mul(products[productIdInStore[_productId]][_productId].quantity, _orderQuantity), "price is too low");
     _;
   }
 
@@ -131,6 +139,7 @@ contract EcommerceStore {
 
   function addAdmin(address _address)
   public
+  stopInEmergency
   onlyAdmin
   {
     admins[_address] = true;
@@ -148,6 +157,7 @@ contract EcommerceStore {
 
   function addStore(string _name, string _category, string _imageLink, string _descriptionLink)
   public
+  stopInEmergency
   storeNotExist
   {
     Store memory store = Store(storeIndex, _name, _category, _imageLink, _descriptionLink);
@@ -198,6 +208,7 @@ contract EcommerceStore {
 
   function approveStore(address _address)
   public
+  stopInEmergency
   onlyAdmin
   {
     approvedStores[_address] = true;
@@ -206,6 +217,7 @@ contract EcommerceStore {
 
   function addProduct(string _name, string _category, uint _quantity, string _imageLink, string _descriptionLink, uint256 _price)
   public
+  stopInEmergency
   onlyApprovedStores
   {
     Product memory product = Product(productIndex, _name, _category, _quantity, _imageLink, _descriptionLink, _price);
@@ -218,7 +230,6 @@ contract EcommerceStore {
   function updateProduct(uint _productId, string _name, string _category, uint _quantity, string _imageLink, string _descriptionLink, uint256 _price)
   public
   onlyProductOwner(_productId)
-  productExist(_productId)
   {
     Product memory product = Product(_productId, _name, _category, _quantity, _imageLink, _descriptionLink, _price);
     products[msg.sender][_productId] = product;
@@ -228,7 +239,6 @@ contract EcommerceStore {
   function removeProduct(uint _productId)
   public
   onlyProductOwner(_productId)
-  productExist(_productId)
   {
     delete products[msg.sender][_productId];
     delete productIdInStore[productIndex];
@@ -249,6 +259,7 @@ contract EcommerceStore {
   function newOrder(uint _productId, uint _quantity, string _orderAddress)
   payable
   public
+  stopInEmergency
   productExist(_productId)
   productHasEnoughtQuantity(_productId, _quantity)
   OrderPriceIsEnought(_productId, _quantity)
@@ -273,13 +284,16 @@ contract EcommerceStore {
 
   function releaseAmountToSeller(uint _orderId)
   public
+  stopInEmergency
   {
     bool disbursed = Escrow(productEscrow[_orderId]).releaseAmountToSeller(msg.sender);
     emit FundReleaseToSeller(msg.sender, _orderId, disbursed);
   }
 
   function releaseAmountToBuyer(uint _orderId)
-  public {
+  public
+  stopInEmergency
+  {
     bool disbursed = Escrow(productEscrow[_orderId]).releaseAmountToBuyer(msg.sender);
     emit FundReleaseToBuyer(msg.sender, _orderId, disbursed);
   }
