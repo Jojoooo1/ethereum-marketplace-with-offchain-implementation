@@ -12,7 +12,7 @@ Front end has been build using React & redux. A Node.js Backend has been set to 
 
 1. Install MongoDB community server (verify mongo is working by tipping `mongo` in your terminal)
 2. Install IPFS
-   ⋅⋅⋅config: in your terminal: `ipfs init && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]' && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]" && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'`
+   then config your IPFS server by tipping in your terminal: `ipfs init && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]' && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]" && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'`
 3. Execute init script in project folder: `./start.sh`
 4. if navigator already started you need to close it and re connect to metamask. When connected, reload once the page and your ready to play. Cart icon that open a modal to buy the product sometime bug, you can either reload the page or go to the buy page (bootstrap problem probably)
 
