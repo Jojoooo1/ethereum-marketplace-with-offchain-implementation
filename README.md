@@ -23,4 +23,4 @@ Front end has been build using React & redux. A Node.js Backend has been set to 
 
 **Additional info**
 
-I had not previous knowledge of Node.js and React, I mostly improved along the line and unfortunately I run out of time to refactor my code escecially api.js
+I had not previous knowledge of Node.js and React, I mostly improved along the line and unfortunately I run out of time to refactor my code especially api.js
