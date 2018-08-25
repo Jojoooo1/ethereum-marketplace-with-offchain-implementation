@@ -10,32 +10,29 @@ const Footer = () => {
             <div className="col-md-12">
               <ul className="list-inline d-flex justify-content-center">
                 <li className="list-inline-item">
-                  <a href="#">
+                  <a href="https://www.linkedin.com/in/jonathan-chevalier-fr/">
                     <i className="fab fa-facebook" aria-hidden="true" />
                   </a>
                 </li>
                 <li className="list-inline-item">
-                  <a href="#">
+                  <a href="https://www.linkedin.com/in/jonathan-chevalier-fr/">
                     <i className="fab fa-instagram" />
                   </a>
                 </li>
                 <li className="list-inline-item">
-                  <a href="#">
+                  <a href="https://www.linkedin.com/in/jonathan-chevalier-fr/">
                     <i className="fab fa-twitter" />
                   </a>
                 </li>
                 <li className="list-inline-item">
-                  <a href="#">
+                  <a href="https://www.linkedin.com/in/jonathan-chevalier-fr/">
                     <i className="fab fa-pinterest" />
                   </a>
                 </li>
               </ul>
               <ul className="list-inline d-flex justify-content-center">
                 <li className="list-inline-item">
-                  <Link>CONTACT US</Link>
-                </li>
-                <li className="list-inline-item">
-                  <a href="#">SHIPPING</a>
+                  <Link to={"/contact-us"}>CONTACT US</Link>
                 </li>
                 <li className="list-inline-item">
                   <Link to={"/about-us"}>ABOUT US</Link>
