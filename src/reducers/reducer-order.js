@@ -18,3 +18,11 @@ export function reducerOrderSeller(state = [], action) {
   }
 }
 
+export function reducerOrderRefund(state = [], action) {
+  switch (action.type) {
+    case AT_ORDERS.GET_REFUNDING_ORDERS:
+      return action.payload;
+    default:
+      return state;
+  }
+}

@@ -28,13 +28,13 @@ module.exports = function(callback) {
 
   setTimeout(function() {
     EcommerceStore.deployed().then(function(f) {
-      f.approveStore(web3.eth.accounts[0], { from: web3.eth.accounts[0] }).then(function(f) {
+      f.approveStore(web3.eth.accounts[0], { from: web3.eth.accounts[0], gas: 400000 }).then(function(f) {
         console.log(f);
       });
     });
 
     EcommerceStore.deployed().then(function(f) {
-      f.approveStore(web3.eth.accounts[9], { from: web3.eth.accounts[0] }).then(function(f) {
+      f.approveStore(web3.eth.accounts[9], { from: web3.eth.accounts[0], gas: 400000 }).then(function(f) {
         console.log(f);
       });
     });
@@ -146,7 +146,7 @@ module.exports = function(callback) {
           console.log(e);
         });
     });
-  }, 2000);
+  }, 3000);
 };
 
 // EcommerceStore.deployed().then(function(f) {

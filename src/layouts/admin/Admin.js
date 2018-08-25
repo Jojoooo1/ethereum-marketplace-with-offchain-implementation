@@ -112,7 +112,7 @@ class Admin extends Component {
                     <div className="btn btn-primary btn-circle" data-toggle="modal" data-target="#modalAdmin" style={{ marginBottom: "15px" }}>
                       <i className="fas fa-plus" />
                     </div>
-                    <AdminTable admins={this.props.admins} callback={adminAddress => this.removeAdmin(adminAddress)} />;
+                    <AdminTable admins={this.props.admins} callback={adminAddress => this.removeAdmin(adminAddress)} />
                   </div>
                   <div className="tab-pane fade" id="v-pills-store" role="tabpanel" aria-labelledby="v-pills-store-tab">
                     <div className="btn btn-primary btn-circle" data-toggle="modal" data-target="#modalStore" style={{ marginBottom: "15px" }}>

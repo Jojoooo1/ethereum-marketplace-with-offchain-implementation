@@ -54,10 +54,8 @@ class Shop extends Component {
         <NavBar3 title={"Shop"} breadcrumbs={[{ url: "", name: "Shop" }]} />
         <section className="products section" style={{ padding: "40px 0" }}>
           <div className="container">
-            <div className="row">
-              {this.renderAlert()}
-              {this.renderProducts()}
-            </div>
+            {this.renderAlert()}
+            <div className="row">{this.renderProducts()}</div>
           </div>
         </section>
         <BuyProductModal product={this.state.selectedProduct} />

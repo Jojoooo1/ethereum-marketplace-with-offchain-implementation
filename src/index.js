@@ -20,6 +20,7 @@ import Store from "./layouts/marketplace/Store";
 import Stores from "./layouts/marketplace/Stores";
 import Admin from "./layouts/admin/Admin";
 import MyStore from "./layouts/admin/MyStore";
+import Arbiter from "./layouts/admin/Arbiter";
 
 // Redux Store
 import store from "./store";
@@ -28,7 +29,7 @@ import types from "./actions/types";
 const history = syncHistoryWithStore(browserHistory, store);
 
 import { web3 } from "./utils/web3utils";
-import { updateWeb3Status, updateAccountAddress, updateAccountBalance, isAdmin, getMyStore, getOrdersByBuyer } from "./actions/index";
+import { updateWeb3Status, updateAccountAddress, updateAccountBalance, isAdmin, getMyStore, getOrdersByBuyer, getArbiter } from "./actions/index";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -46,6 +47,7 @@ ReactDOM.render(
         <Route path="stores/:id" component={Store} />
         <Route path="admin" component={Admin} />
         <Route path="/store/edit/:address" component={MyStore} />
+        <Route path="/arbiter" component={Arbiter} />
       </Route>
     </Router>
   </Provider>,
@@ -62,6 +64,7 @@ window.addEventListener("load", () => {
         store.dispatch(getMyStore(account));
         store.dispatch(isAdmin(account));
         store.dispatch(getOrdersByBuyer(account));
+        store.dispatch(getArbiter(account));
         // store.dispatch(getOrdersBySeller(account));
       }
     });
@@ -73,6 +76,7 @@ window.addEventListener("load", () => {
         store.dispatch(getMyStore(account));
         store.dispatch(isAdmin(account));
         store.dispatch(getOrdersByBuyer(account));
+        store.dispatch(getArbiter(account));
         // store.dispatch(getOrdersBySeller(account));
       });
     } else {
@@ -81,6 +85,7 @@ window.addEventListener("load", () => {
       store.dispatch({ type: types.AT_STORES.GET_MY_STORE, payload: null });
       store.dispatch({ type: types.AT_WEB3.IS_ADMIN, payload: false });
       store.dispatch({ type: types.AT_ORDERS.GET_SELLER_ORDERS, payload: [] });
+      store.dispatch({ type: "GET_ARBITER", payload: false });
       // store.dispatch({ type: types.AT_ORDERS.GET_BUYER_ORDERS, payload: [] });
     }
   });

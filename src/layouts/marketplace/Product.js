@@ -42,8 +42,8 @@ class Product extends Component {
       <div>
         <section className="single-product">
           <div className="container">
+            {this.renderAlert()}
             <div className="row">
-              {this.renderAlert()}
               <div className="col-md-12">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">

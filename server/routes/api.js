@@ -115,6 +115,12 @@ router.get("/orders/:id", function(req, res) {
   });
 });
 
+router.get("/orders-refunding", function(req, res) {
+  OrderModel.find({ $or: [{ fundReleaseToBuyerFromBuyer: true }, { fundReleaseToBuyerFromSeller: true }] }, function(err, order) {
+    res.send(order);
+  });
+});
+
 function EventListner() {
   let productEvent;
   EcommerceStore.deployed().then(function(f) {

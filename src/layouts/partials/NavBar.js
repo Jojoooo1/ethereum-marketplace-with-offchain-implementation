@@ -45,6 +45,15 @@ class NavBar extends Component {
                 <li className="nav-item" />
               </ul>
               <ul className="navbar-nav navbar-right" style={{ alignItems: "center" }}>
+                {this.props.arbiter && (
+                  <li className="nav-item">
+                    <Link to={"/arbiter"} className="nav-link">
+                      <button className="btn btn-secondary">
+                        <i className="fa fa-power-off" aria-hidden="true" /> Arbiter
+                      </button>
+                    </Link>
+                  </li>
+                )}
                 {this.props.account.isAdmin && (
                   <li className="nav-item">
                     <Link to={"/admin"} className="nav-link">
@@ -120,7 +129,8 @@ function mapStateToProps(state) {
     web3: state.web3,
     account: state.account,
     myStore: state.myStore,
-    orders: state.buyerOrders
+    orders: state.buyerOrders,
+    arbiter: state.arbiter
   };
 }
 

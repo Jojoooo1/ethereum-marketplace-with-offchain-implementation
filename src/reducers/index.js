@@ -11,8 +11,9 @@ import myStoreReducer from "./reducer-my-store";
 import storeReducer from "./reducer-store";
 import adminReducer from "./reducer-admin";
 import txReducer from "./reducer-tx";
-import { reducerOrderBuyer, reducerOrderSeller } from "./reducer-order";
+import { reducerOrderBuyer, reducerOrderSeller, reducerOrderRefund } from "./reducer-order";
 import reducerActiveOrder from "./reducer-active-order";
+import reducerArbiter from "./reducer-arbiter";
 
 const reducer = combineReducers({
   routing: routerReducer,
@@ -28,7 +29,9 @@ const reducer = combineReducers({
   txEvent: txReducer,
   buyerOrders: reducerOrderBuyer,
   sellerOrders: reducerOrderSeller,
-  order: reducerActiveOrder
+  order: reducerActiveOrder,
+  arbiter: reducerArbiter,
+  refundOrder: reducerOrderRefund
 });
 
 export default reducer;

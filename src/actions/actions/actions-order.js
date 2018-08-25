@@ -79,3 +79,17 @@ export function updateEscrow(escrow) {
   };
 }
 
+export function getOrdersWantingRefund() {
+  return function(dispatch) {
+    axios
+      .get(`${END_POINT}/orders-refunding`)
+      .then(function(response) {
+        dispatch({ type: AT_ORDERS.GET_REFUNDING_ORDERS, payload: response.data });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+}
+
+
