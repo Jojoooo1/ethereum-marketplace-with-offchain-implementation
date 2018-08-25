@@ -109,7 +109,7 @@ module.exports = function(callback) {
     });
 
     EcommerceStore.deployed().then(function(f) {
-      f.newOrder(web3.eth.accounts[0], 1, 1, "test", { from: web3.eth.accounts[2], value: web3.toWei(2), gas: 4000000 })
+      f.newOrder(web3.eth.accounts[0], 1, 1, "address n°1", { from: web3.eth.accounts[2], value: web3.toWei(2), gas: 4000000 })
         .then(function(f) {
           console.log(f);
         })
@@ -119,7 +119,16 @@ module.exports = function(callback) {
     });
 
     EcommerceStore.deployed().then(function(f) {
-      f.newOrder(web3.eth.accounts[0], 1, 1, "test", { from: web3.eth.accounts[2], value: web3.toWei(2), gas: 4000000 })
+      f.newOrder(web3.eth.accounts[0], 1, 1, "address n°2", { from: web3.eth.accounts[2], value: web3.toWei(2), gas: 4000000 })
+        .then(function(f) {
+          console.log(f);
+        })
+        .catch(function(e) {
+          console.log(e);
+        });
+    });
+    EcommerceStore.deployed().then(function(f) {
+      f.newOrder(web3.eth.accounts[0], 1, 1, "address n°4", { from: web3.eth.accounts[2], value: web3.toWei(2), gas: 4000000 })
         .then(function(f) {
           console.log(f);
         })
@@ -129,7 +138,7 @@ module.exports = function(callback) {
     });
 
     EcommerceStore.deployed().then(function(f) {
-      f.newOrder(web3.eth.accounts[9], 6, 1, "test", { from: web3.eth.accounts[0], value: web3.toWei(2), gas: 4000000 })
+      f.newOrder(web3.eth.accounts[9], 6, 1, "address n°3", { from: web3.eth.accounts[0], value: web3.toWei(2), gas: 4000000 })
         .then(function(f) {
           console.log(f);
         })
@@ -139,3 +148,25 @@ module.exports = function(callback) {
     });
   }, 2000);
 };
+
+// EcommerceStore.deployed().then(function(f) {
+//   f.escrowInfo(1)
+//     .then(function(f) {
+//       console.log(f);
+//     })
+//     .catch(function(e) {
+//       console.log(e);
+//     });
+// });
+
+// EcommerceStore.deployed().then(function(f) {
+//   f.releaseAmountToSeller(1, { from: web3.eth.accounts[2] }).then(function(f) {
+//     console.log(f);
+//   });
+// });
+
+// EcommerceStore.deployed().then(function(f) {
+//   f.releaseAmountToSeller({ from: web3.eth.accounts[6] }).then(function(f) {
+//     console.log(f);
+//   });
+// });

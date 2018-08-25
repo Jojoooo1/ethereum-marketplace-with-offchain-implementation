@@ -2,9 +2,9 @@ import axios from "axios";
 const END_POINT = "http://localhost:4005/api";
 
 import { AT_ADMINS } from "../types/types-admin";
+import { AT_TX } from "../types/types-tx";
 import store from "../../store";
 
-// import getWeb3 from "./utils/getWeb3";
 import contract from "truffle-contract";
 import ecommerce_store_artifacts from "../../../build/contracts/EcommerceStore.json";
 const EcommerceStore = contract(ecommerce_store_artifacts);
@@ -30,7 +30,7 @@ export function addAdmin(address) {
   return function(dispatch) {
     return EcommerceStore.deployed().then(function(f) {
       f.addAdmin(address, { from: walletAddress, gas: 600000 }).then(function(tx) {
-        dispatch({ type: "TX_EVENT", payload: tx.logs[0].event });
+        dispatch({ type: AT_TX.TX_EVENT, payload: tx.logs[0].event });
       });
     });
   };
@@ -44,7 +44,7 @@ export function removeAdmin(address) {
   return function(dispatch) {
     return EcommerceStore.deployed().then(function(f) {
       f.removeAdmin(address, { from: walletAddress, gas: 600000 }).then(function(tx) {
-        dispatch({ type: "TX_EVENT", payload: tx.logs[0].event });
+        dispatch({ type: AT_TX.TX_EVENT, payload: tx.logs[0].event });
       });
     });
   };

@@ -15,7 +15,7 @@ class Shop extends Component {
   render() {
     return (
       <div>
-        {this.props.store.name && <NavBar3 title={this.props.store.name} breadcrumbs={[this.props.store.name]} />}
+        {this.props.store.name && <NavBar3 title={this.props.store.name} breadcrumbs={[{url: "/stores", name: "Stores"}, {url: "", name: this.props.store.name}]} />}
         <section className="products section" style={{ padding: "40px 0" }}>
           <div className="container">
             <div className="row">

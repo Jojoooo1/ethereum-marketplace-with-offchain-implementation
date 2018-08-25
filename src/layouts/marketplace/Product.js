@@ -9,24 +9,41 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getProductById } from "../../actions/index";
 
+import BuyProductModal from "../components/product/BuyProductModal";
 import defaultImage from "../../img/default-img.png";
-const ipfsUrl = "http://localhost:8080/ipfs/";
 
 class Product extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedProduct: {}
+    };
+  }
 
   componentWillMount() {
     this.props.getProductById(this.props.params.id);
-    console.log(this.props.product);
   }
+
+  renderAlert() {
+    if (this.props.txEvent === "NewOrder") {
+      return (
+        <div className="alert alert-success alert-dismissible fade show" role="alert">
+          Successefully send to the network, reload the page in few seconds
+          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      );
+    }
+  }
+
   render() {
     return (
       <div>
         <section className="single-product">
           <div className="container">
             <div className="row">
+              {this.renderAlert()}
               <div className="col-md-12">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
@@ -41,13 +58,14 @@ class Product extends Component {
                 </ol>
               </div>
             </div>
-            {this.props.product.id && <ProductDescription product={this.props.product} />}
+            {this.props.product.id && <ProductDescription product={this.props.product} productPage={true} />}
             <br />
             <div className="row">
               <div className="col-md-12">{this.props.product && <ProductReview product={this.props.product} />}</div>
             </div>
           </div>
         </section>
+        <BuyProductModal product={this.props.product} />
       </div>
     );
   }
@@ -56,7 +74,8 @@ class Product extends Component {
 function mapStateToProps(state) {
   return {
     product: state.product,
-    web3: state.web3.web3
+    web3: state.web3.web3,
+    txEvent: state.txEvent
   };
 }
 

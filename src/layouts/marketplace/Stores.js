@@ -14,7 +14,7 @@ class Stores extends Component {
   render() {
     return (
       <div>
-        <NavBar3 title={"Stores"} breadcrumbs={["Stores"]} />
+        <NavBar3 title={"Stores"} breadcrumbs={[{ url: "", name: "Stores" }]} />
         <section className="products section" style={{ padding: "40px 0" }}>
           <div className="container">
             <div className="row">

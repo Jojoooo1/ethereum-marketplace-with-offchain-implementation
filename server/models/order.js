@@ -13,7 +13,11 @@ const OrderSchema = new Schema({
     type: String,
     default: "CREATED"
   },
-  fundReleaseToBuyerFrombuyer: {
+  fundDisbursed: {
+    type: Boolean,
+    default: false
+  },
+  fundReleaseToBuyerFromBuyer: {
     type: Boolean,
     default: false
   },
@@ -25,7 +29,7 @@ const OrderSchema = new Schema({
     type: Boolean,
     default: false
   },
-  fundReleaseToSellerFrombuyer: {
+  fundReleaseToSellerFromBuyer: {
     type: Boolean,
     default: false
   },
@@ -33,7 +37,7 @@ const OrderSchema = new Schema({
     type: Boolean,
     default: false
   },
-  fundReleaseToSellerFromArbiterT: {
+  fundReleaseToSellerFromArbiter: {
     type: Boolean,
     default: false
   }

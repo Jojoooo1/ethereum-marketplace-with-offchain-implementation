@@ -20,7 +20,7 @@ class Admin extends Component {
     this.handleChangeAdmin = this.handleChangeAdmin.bind(this);
     this.handleChangeStore = this.handleChangeStore.bind(this);
   }
-  initSmartContract() {
+  componentWillMount() {
     this.props.getAdmins();
     this.props.getStores();
   }
@@ -74,143 +74,136 @@ class Admin extends Component {
   }
 
   render() {
-    // checking length for escaping loop
-    if (this.props.web3 && this.props.admins.length === 0) {
-      this.initSmartContract();
-    }
-
-    // if (!this.props.account.isAdmin) {
-    //   browserHistory.push("/");
-    // }
     return (
       <div>
-        <div className="container">
-          <div className="row">
-            <div className="col-3">
-              <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a
-                  className="nav-link active"
-                  id="v-pills-admins-tab"
-                  data-toggle="pill"
-                  href="#v-pills-admins"
-                  role="tab"
-                  aria-controls="v-pills-admins"
-                  aria-selected="true"
-                >
-                  Admins
-                </a>
-                <a
-                  className="nav-link"
-                  id="v-pills-store-tab"
-                  data-toggle="pill"
-                  href="#v-pills-store"
-                  role="tab"
-                  aria-controls="v-pills-store"
-                  aria-selected="false"
-                >
-                  Store
-                </a>
-              </div>
-            </div>
-            <div className="col-9">
-              {this.renderAlert()}
-              <div className="tab-content" id="v-pills-tabContent">
-                <div className="tab-pane fade show active" id="v-pills-admins" role="tabpanel" aria-labelledby="v-pills-admins-tab">
-                  <div className="btn btn-primary btn-circle" data-toggle="modal" data-target="#modalAdmin" style={{ marginBottom: "15px" }}>
-                    <i className="fas fa-plus" />
-                  </div>
-                  <AdminTable admins={this.props.admins} callback={adminAddress => this.removeAdmin(adminAddress)} />;
-                </div>
-                <div className="tab-pane fade" id="v-pills-store" role="tabpanel" aria-labelledby="v-pills-store-tab">
-                  <div className="btn btn-primary btn-circle" data-toggle="modal" data-target="#modalStore" style={{ marginBottom: "15px" }}>
-                    <i className="fas fa-plus" />
-                  </div>
-                  <StoreTable
-                    stores={this.props.stores}
-                    callbackApproveStore={storeAddress => this.approveStore(storeAddress)}
-                    callbackRemoveStore={storeAddress => this.removeStore(storeAddress)}
-                  />
+        {this.props.account.isAdmin && (
+          <div className="container">
+            <div className="row">
+              <div className="col-3">
+                <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                  <a
+                    className="nav-link active"
+                    id="v-pills-admins-tab"
+                    data-toggle="pill"
+                    href="#v-pills-admins"
+                    role="tab"
+                    aria-controls="v-pills-admins"
+                    aria-selected="true"
+                  >
+                    Admins
+                  </a>
+                  <a
+                    className="nav-link"
+                    id="v-pills-store-tab"
+                    data-toggle="pill"
+                    href="#v-pills-store"
+                    role="tab"
+                    aria-controls="v-pills-store"
+                    aria-selected="false"
+                  >
+                    Store
+                  </a>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="modal fade" id="modalAdmin" tabIndex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title font-weight-bold" id="modalLabel">
-                  New admin
-                </h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <form onSubmit={this.addAdminHandler} id="addAddmin">
-                  <div className="form-group">
-                    <label htmlFor="addressAdmin">Wallet address</label>
-                    <input
-                      value={this.state.addressAdmin}
-                      onChange={this.handleChangeAdmin}
-                      type="text"
-                      className="form-control"
-                      id="addressAdmin"
-                      placeholder="0x2966e3fc36c203efc6b04d......"
+              <div className="col-9">
+                {this.renderAlert()}
+                <div className="tab-content" id="v-pills-tabContent">
+                  <div className="tab-pane fade show active" id="v-pills-admins" role="tabpanel" aria-labelledby="v-pills-admins-tab">
+                    <div className="btn btn-primary btn-circle" data-toggle="modal" data-target="#modalAdmin" style={{ marginBottom: "15px" }}>
+                      <i className="fas fa-plus" />
+                    </div>
+                    <AdminTable admins={this.props.admins} callback={adminAddress => this.removeAdmin(adminAddress)} />;
+                  </div>
+                  <div className="tab-pane fade" id="v-pills-store" role="tabpanel" aria-labelledby="v-pills-store-tab">
+                    <div className="btn btn-primary btn-circle" data-toggle="modal" data-target="#modalStore" style={{ marginBottom: "15px" }}>
+                      <i className="fas fa-plus" />
+                    </div>
+                    <StoreTable
+                      stores={this.props.stores}
+                      callbackApproveStore={storeAddress => this.approveStore(storeAddress)}
+                      callbackRemoveStore={storeAddress => this.removeStore(storeAddress)}
                     />
                   </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <button type="button" ref={input => (this.inputElementAdmin = input)} className="btn btn-secondary" data-dismiss="modal">
-                  Close
-                </button>
-                <button type="submit" form="addAddmin" className="btn btn-primary">
-                  Add
-                </button>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="modal fade" id="modalStore" tabIndex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title font-weight-bold" id="modalLabel">
-                  New Store
-                </h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <form onSubmit={this.addStoreHandler} id="addStore">
-                  <div className="form-group">
-                    <label htmlFor="addressStore">Store address</label>
-                    <input
-                      value={this.state.addressStore}
-                      onChange={this.handleChangeStore}
-                      type="text"
-                      className="form-control"
-                      id="addressStore"
-                      placeholder="0x2966e3fc36c203efc6b04d......"
-                    />
+            <div className="modal fade" id="modalAdmin" tabIndex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+              <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title font-weight-bold" id="modalLabel">
+                      New admin
+                    </h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
                   </div>
-                </form>
+                  <div className="modal-body">
+                    <form onSubmit={this.addAdminHandler} id="addAddmin">
+                      <div className="form-group">
+                        <label htmlFor="addressAdmin">Wallet address</label>
+                        <input
+                          value={this.state.addressAdmin}
+                          onChange={this.handleChangeAdmin}
+                          type="text"
+                          className="form-control"
+                          id="addressAdmin"
+                          placeholder="0x2966e3fc36c203efc6b04d......"
+                        />
+                      </div>
+                    </form>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" ref={input => (this.inputElementAdmin = input)} className="btn btn-secondary" data-dismiss="modal">
+                      Close
+                    </button>
+                    <button type="submit" form="addAddmin" className="btn btn-primary">
+                      Add
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div className="modal-footer">
-                <button type="button" ref={input => (this.inputElementStore = input)} className="btn btn-secondary" data-dismiss="modal">
-                  Close
-                </button>
-                <button type="submit" form="addStore" className="btn btn-primary">
-                  Add
-                </button>
+            </div>
+
+            <div className="modal fade" id="modalStore" tabIndex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+              <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title font-weight-bold" id="modalLabel">
+                      New Store
+                    </h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div className="modal-body">
+                    <form onSubmit={this.addStoreHandler} id="addStore">
+                      <div className="form-group">
+                        <label htmlFor="addressStore">Store address</label>
+                        <input
+                          value={this.state.addressStore}
+                          onChange={this.handleChangeStore}
+                          type="text"
+                          className="form-control"
+                          id="addressStore"
+                          placeholder="0x2966e3fc36c203efc6b04d......"
+                        />
+                      </div>
+                    </form>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" ref={input => (this.inputElementStore = input)} className="btn btn-secondary" data-dismiss="modal">
+                      Close
+                    </button>
+                    <button type="submit" form="addStore" className="btn btn-primary">
+                      Add
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }

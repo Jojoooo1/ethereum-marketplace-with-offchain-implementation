@@ -3,6 +3,23 @@ import { Link } from "react-router";
 
 const NavBar3 = props => {
   const { title, breadcrumbs } = props;
+  function renderBreadCrump() {
+    return breadcrumbs.map((breadcrumb, i) => {
+      if (breadcrumb.url) {
+        return (
+          <li key={i} className="breadcrumb-item">
+            <Link to={breadcrumb.url}>{breadcrumb.name}</Link>
+          </li>
+        );
+      } else {
+        return (
+          <li key={i} className="breadcrumb-item" aria-current="page">
+            {breadcrumb.name}
+          </li>
+        );
+      }
+    });
+  }
   return (
     <div>
       <section className="page-header">
@@ -15,13 +32,7 @@ const NavBar3 = props => {
                 <li className="breadcrumb-item">
                   <Link to={"/"}>Home</Link>
                 </li>
-                {breadcrumbs.map(breadcrumb => {
-                  return (
-                    <li key={breadcrumb} className="breadcrumb-item" aria-current="page">
-                      {breadcrumb}
-                    </li>
-                  );
-                })}
+                {renderBreadCrump()}
               </ol>
             </div>
           </div>

@@ -2,6 +2,7 @@ import axios from "axios";
 const END_POINT = "http://localhost:4005/api";
 
 import { AT_PRODUCTS } from "../types/types-product";
+import { AT_TX } from "../types/types-tx";
 import store from "../../store";
 
 import contract from "truffle-contract";
@@ -65,7 +66,7 @@ export function newProduct(product) {
         from: walletAddress,
         gas: 800000
       }).then(function(tx) {
-        dispatch({ type: "TX_EVENT", payload: tx.logs[0].event });
+        dispatch({ type: AT_TX.TX_EVENT, payload: tx.logs[0].event });
       });
     });
   };
@@ -91,7 +92,7 @@ export function updateProduct(product) {
           gas: 500000
         }
       ).then(function(tx) {
-        dispatch({ type: "TX_EVENT", payload: tx.logs[0].event });
+        dispatch({ type: AT_TX.TX_EVENT, payload: tx.logs[0].event });
       });
     });
   };
@@ -105,7 +106,7 @@ export function removeProduct(productId) {
   return function(dispatch) {
     return EcommerceStore.deployed().then(function(f) {
       f.removeProduct(productId, { from: walletAddress, gas: 500000 }).then(function(tx) {
-        dispatch({ type: "TX_EVENT", payload: tx.logs[0].event });
+        dispatch({ type: AT_TX.TX_EVENT, payload: tx.logs[0].event });
       });
     });
   };

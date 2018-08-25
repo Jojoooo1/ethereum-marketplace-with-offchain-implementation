@@ -41,8 +41,8 @@ gnome-terminal -x sh -c "truffle console --network ganache"
 mongo consensys_app --eval "db.dropDatabase()"
 
 # Start offchain server
-gnome-terminal -x sh -c "nodemon server.js --no-optional"
-#gnome-terminal -x sh -c "nodemon --inspect=0.0.0.0:9229 server.js"
+# gnome-terminal -x sh -c "nodemon server.js --no-optional"
+gnome-terminal -x sh -c "nodemon --inspect=0.0.0.0:9229 server.js"
 
 # seed the blockchain with data
 truffle exec seed.js --network ganache

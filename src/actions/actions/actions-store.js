@@ -6,7 +6,6 @@ import { AT_TX } from "../types/types-tx";
 
 import store from "../../store";
 
-// import getWeb3 from "./utils/getWeb3";
 import contract from "truffle-contract";
 import ecommerce_store_artifacts from "../../../build/contracts/EcommerceStore.json";
 const EcommerceStore = contract(ecommerce_store_artifacts);

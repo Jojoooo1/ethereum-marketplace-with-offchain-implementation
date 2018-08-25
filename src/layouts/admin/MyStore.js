@@ -66,70 +66,72 @@ class MyStore extends Component {
 
     return (
       <div>
-        <div className="container">
-          <div className="row">
-            <div className="col-3">
-              <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a
-                  className="nav-link active"
-                  id="v-pills-mystore-tab"
-                  data-toggle="pill"
-                  href="#v-pills-mystore"
-                  role="tab"
-                  aria-controls="v-pills-mystore"
-                  aria-selected="true"
-                >
-                  My Store
-                </a>
-                <a
-                  className="nav-link"
-                  id="v-pills-myproducts-tab"
-                  data-toggle="pill"
-                  href="#v-pills-myproducts"
-                  role="tab"
-                  aria-controls="v-pills-myproducts"
-                  aria-selected="false"
-                >
-                  My products
-                </a>
-                <a
-                  className="nav-link"
-                  id="v-pills-myorders-tab"
-                  data-toggle="pill"
-                  href="#v-pills-myorders"
-                  role="tab"
-                  aria-controls="v-pills-myorders"
-                  aria-selected="false"
-                >
-                  My Orders
-                </a>
-              </div>
-            </div>
-            <div className="col-9">
-              {this.renderAlert()}
-              <div className="tab-content" id="v-pills-tabContent">
-                <div className="tab-pane fade show active" id="v-pills-mystore" role="tabpanel" aria-labelledby="v-pills-mystore-tab">
-                  <FormUpdateStore callbackUpdateStore={store => this.updateStore(store)} />
+        {this.props.myStore && (
+          <div className="container">
+            <div className="row">
+              <div className="col-3">
+                <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                  <a
+                    className="nav-link active"
+                    id="v-pills-mystore-tab"
+                    data-toggle="pill"
+                    href="#v-pills-mystore"
+                    role="tab"
+                    aria-controls="v-pills-mystore"
+                    aria-selected="true"
+                  >
+                    My Store
+                  </a>
+                  <a
+                    className="nav-link"
+                    id="v-pills-myproducts-tab"
+                    data-toggle="pill"
+                    href="#v-pills-myproducts"
+                    role="tab"
+                    aria-controls="v-pills-myproducts"
+                    aria-selected="false"
+                  >
+                    My products
+                  </a>
+                  <a
+                    className="nav-link"
+                    id="v-pills-myorders-tab"
+                    data-toggle="pill"
+                    href="#v-pills-myorders"
+                    role="tab"
+                    aria-controls="v-pills-myorders"
+                    aria-selected="false"
+                  >
+                    My Orders
+                  </a>
                 </div>
-                <div className="tab-pane fade" id="v-pills-myproducts" role="tabpanel" aria-labelledby="v-pills-myproducts-tab">
-                  <div className="btn btn-primary btn-circle" data-toggle="modal" data-target="#modalNewProduct" style={{ marginBottom: "15px" }}>
-                    <i className="fas fa-plus" />
+              </div>
+              <div className="col-9">
+                {this.renderAlert()}
+                <div className="tab-content" id="v-pills-tabContent">
+                  <div className="tab-pane fade show active" id="v-pills-mystore" role="tabpanel" aria-labelledby="v-pills-mystore-tab">
+                    <FormUpdateStore callbackUpdateStore={store => this.updateStore(store)} />
                   </div>
-                  <ProductTable
-                    products={this.props.products}
-                    callbackRemoveProduct={productId => this.removeProduct(productId)}
-                    callbackUpdateProduct={(e, product) => this.setSelectedProduct(e, product)}
-                  />
-                </div>
-                <div className="tab-pane fade" id="v-pills-myorders" role="tabpanel" aria-labelledby="v-pills-myorders-tab">
-                  <OrderTable orders={this.props.orders} />
+                  <div className="tab-pane fade" id="v-pills-myproducts" role="tabpanel" aria-labelledby="v-pills-myproducts-tab">
+                    <div className="btn btn-primary btn-circle" data-toggle="modal" data-target="#modalNewProduct" style={{ marginBottom: "15px" }}>
+                      <i className="fas fa-plus" />
+                    </div>
+                    <ProductTable
+                      products={this.props.products}
+                      callbackRemoveProduct={productId => this.removeProduct(productId)}
+                      callbackUpdateProduct={(e, product) => this.setSelectedProduct(e, product)}
+                    />
+                  </div>
+                  <div className="tab-pane fade" id="v-pills-myorders" role="tabpanel" aria-labelledby="v-pills-myorders-tab">
+                    <OrderTable orders={this.props.orders} />
+                  </div>
                 </div>
               </div>
             </div>
+            <AddProductModal callbackNewProduct={product => this.newProduct(product)} />
+            <UpdateProductModal product={this.state.selectedProduct} callbackUpdateProduct={product => this.updateProduct(product)} />
           </div>
-          <AddProductModal callbackNewProduct={product => this.newProduct(product)} />
-          <UpdateProductModal product={this.state.selectedProduct} callbackUpdateProduct={product => this.updateProduct(product)} />
-        </div>
+        )}
       </div>
     );
   }

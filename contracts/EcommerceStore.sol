@@ -4,7 +4,7 @@ import "contracts/Escrow.sol";
 
 contract EcommerceStore {
 
-  enum OrderStatus{Payed, Delivered}
+  enum OrderStatus{CREATED, PAYER}
 
   uint public storeIndex;
   uint public productIndex;
@@ -88,12 +88,12 @@ contract EcommerceStore {
   }
 
   modifier productExist(uint _id) {
-    require (productIdInStore[_id] != 0x0000000000000000000000000000000000000000);
+    require (productIdInStore[_id] != address(0));
     _;
   }
 
   modifier productHasEnoughtQuantity(address _storeAddress, uint _productId, uint _orderQuantity) {
-    require (products[_storeAddress][_productId].quantity >= _orderQuantity);
+    require (products[_storeAddress][_productId].quantity >= _orderQuantity && _orderQuantity != 0);
     _;
   }
 
@@ -115,7 +115,10 @@ contract EcommerceStore {
   event ProductUpdated(uint _id, string _name, string _category,  uint _quantity, string _imageLink, string _descriptionLink, uint256 _price);
   event ProductRemoved(uint _id);
 
-  event NewOrder(address _buyer,address _seller, uint _id, uint _productId, uint _quantity, string _orderAddress, OrderStatus _orderStatus);
+  event NewOrder(address _buyer,address _seller, uint _id, uint _productId, uint _quantity, string _orderAddress,address _arbiter);
+
+  event FundReleaseToSeller(address _caller, uint _orderId, bool _fundDisbursed);
+  event FundReleaseToBuyer(address _caller, uint _orderId, bool _fundDisbursed);
 
   constructor() public {
     admins[msg.sender] = true;
@@ -250,13 +253,13 @@ contract EcommerceStore {
   productHasEnoughtQuantity(_storeAddress, _productId, _quantity)
   OrderPriceIsEnought(_storeAddress, _productId, _quantity)
   {
-    Order memory order = Order(orderIndex, _productId, _quantity, _orderAddress, OrderStatus.Payed);
+    Order memory order = Order(orderIndex, _productId, _quantity, _orderAddress, OrderStatus.CREATED);
     orders[msg.sender][orderIndex] = order;
     orderIdForBuyer[orderIndex] = msg.sender;
     products[_storeAddress][_productId].quantity -= _quantity;
     Escrow escrow = (new Escrow).value(msg.value)(orderIndex, msg.sender, _storeAddress, arbiter);
     productEscrow[orderIndex] = escrow;
-    emit NewOrder(msg.sender, _storeAddress, orderIndex, _productId, _quantity, _orderAddress, OrderStatus.Payed);
+    emit NewOrder(msg.sender, _storeAddress, orderIndex, _productId, _quantity, _orderAddress, arbiter);
     orderIndex += 1;
   }
 
@@ -271,13 +274,14 @@ contract EcommerceStore {
   function releaseAmountToSeller(uint _orderId)
   public
   {
-    return Escrow(productEscrow[_orderId]).releaseAmountToSeller(msg.sender);
+    bool disbursed = Escrow(productEscrow[_orderId]).releaseAmountToSeller(msg.sender);
+    emit FundReleaseToSeller(msg.sender, _orderId, disbursed);
   }
 
   function releaseAmountToBuyer(uint _orderId)
   public {
-
-    return Escrow(productEscrow[_orderId]).releaseAmountToBuyer(msg.sender);
+    bool disbursed = Escrow(productEscrow[_orderId]).releaseAmountToBuyer(msg.sender);
+    emit FundReleaseToBuyer(msg.sender, _orderId, disbursed);
   }
 
 }

@@ -11,7 +11,7 @@ contract Escrow {
   mapping(address => bool) refundAmount;
   uint public releaseCount;
   uint public refundCount;
-  bool public fundsDisbursed;
+  bool public fundDisbursed;
   address public owner;
 
   constructor(uint _orderId, address _buyer, address _seller, address _arbiter) payable public {
@@ -19,7 +19,7 @@ contract Escrow {
     buyer = _buyer;
     seller = _seller;
     arbiter = _arbiter;
-    fundsDisbursed = false;
+    fundDisbursed = false;
     amount = msg.value;
     owner = msg.sender;
   }
@@ -29,36 +29,40 @@ contract Escrow {
   public
   returns (address, address, address, bool, uint, uint)
   {
-    return (buyer, seller, arbiter, fundsDisbursed, releaseCount, refundCount);
+    return (buyer, seller, arbiter, fundDisbursed, releaseCount, refundCount);
   }
 
   function releaseAmountToSeller(address caller)
   public
+  returns(bool)
   {
     require(owner == msg.sender);
-    require(fundsDisbursed == false);
+    require(fundDisbursed == false);
     if ((caller == buyer || caller == seller || caller == arbiter) && (releaseAmount[caller] != true)) {
       releaseAmount[caller] = true;
       releaseCount += 1;
     }
     if (releaseCount == 2) {
       seller.transfer(amount);
-      fundsDisbursed = true;
+      fundDisbursed = true;
     }
+    return(fundDisbursed);
   }
 
   function releaseAmountToBuyer(address caller)
   public
+  returns(bool)
   {
     require(owner == msg.sender);
-    require(fundsDisbursed == false);
+    require(fundDisbursed == false);
     if ((caller == buyer || caller == seller || caller == arbiter) && (refundAmount[caller] != true))  {
       refundAmount[caller] = true;
       refundCount += 1;
     }
     if (refundCount == 2) {
       buyer.transfer(amount);
-      fundsDisbursed = true;
+      fundDisbursed = true;
     }
+    return(fundDisbursed);
   }
 }

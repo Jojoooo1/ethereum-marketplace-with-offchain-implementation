@@ -19,7 +19,7 @@ class MyOrders extends Component {
   render() {
     return (
       <div>
-        <NavBar3 title={"My orders"} breadcrumbs={["My orders"]} />
+        <NavBar3 title={"My orders"} breadcrumbs={[{ url: "", name: "My orders" }]} />
         <div className="container">
           <div className="col-md-12">{this.props.orders && <OrderTable orders={this.props.orders} />}</div>
         </div>

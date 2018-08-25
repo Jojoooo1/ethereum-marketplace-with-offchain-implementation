@@ -10,7 +10,6 @@ import defaultImage from "../../../img/default-img.png";
 const ProductDescription = props => {
   let { product } = props;
   let web3 = store.getState().web3.web3;
-
   function renderDescription() {
     if (product.descriptionLink) {
       ipfs.cat(product.descriptionLink).then(file => {
@@ -31,14 +30,6 @@ const ProductDescription = props => {
     }
   }
 
-  function renderQuantitySelection(quantity) {
-    let options = [];
-    for (var i = 1; i <= quantity; i++) {
-      options.push(<option>{i}</option>);
-    }
-    return options;
-  }
-
   return (
     <div className="row mt-20">
       <div className="col-md-5">{renderImage()}</div>
@@ -54,19 +45,10 @@ const ProductDescription = props => {
 
           {renderDescription()}
 
-          <div className="product-quantity">
-            <form>
-              <div className="form-group row">
-                <label className="col-sm-2 col-form-label font-weight-bold">Quantity</label>
-                <div className="col-sm-10">
-                  <select className="form-control" id="select-quantity" style={{ width: "100px" }}>
-                    {product.quantity && renderQuantitySelection(product.quantity)}
-                  </select>
-                </div>
-              </div>
-            </form>
-          </div>
           <div className="product-category">
+            in stock: <span className="font-weight-bold mr-2">{product.quantity}</span>
+            <br />
+            <br />
             <ul className="list-inline d-flex">
               <li className="list-inline-item">
                 <span className="font-weight-bold mr-2">Categories:</span>
@@ -77,9 +59,17 @@ const ProductDescription = props => {
             </ul>
           </div>
           <div>
-            <a href="cart.html" className="btn btn-lg btn-outline-warning mt-5">
-              Buy
-            </a>
+            {props.productPage && (
+              <a
+                href="javascript:void(0);"
+                role="button"
+                data-target="#modalBuyProduct"
+                data-toggle="modal"
+                className="btn btn-lg btn-outline-warning mt-5"
+              >
+                Buy
+              </a>
+            )}
           </div>
         </div>
       </div>

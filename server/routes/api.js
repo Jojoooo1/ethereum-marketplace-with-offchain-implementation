@@ -109,6 +109,12 @@ router.get("/orders", function(req, res) {
   });
 });
 
+router.get("/orders/:id", function(req, res) {
+  OrderModel.find({ id: id }, function(err, order) {
+    res.send(order);
+  });
+});
+
 function EventListner() {
   let productEvent;
   EcommerceStore.deployed().then(function(f) {
@@ -158,6 +164,14 @@ function EventListner() {
         case "updateOrder":
           console.log(result.args);
           updateOrder(result.args);
+          break;
+        case "FundReleaseToSeller":
+          console.log(result.args);
+          updateRealeasedFundToSeller(result.args);
+          break;
+        case "FundReleaseToBuyer":
+          console.log(result.args);
+          updateRealeasedFundToBuyer(result.args);
           break;
 
         default:
@@ -232,7 +246,7 @@ function saveOrder(order) {
       arbiter: order._arbiter,
       productId: order._productId,
       quantity: order._quantity,
-      address: order._address
+      address: order._orderAddress
     });
 
     neworder.save(function(error) {
@@ -240,15 +254,25 @@ function saveOrder(order) {
         console.log(error);
       }
 
-      ProductModel.findOne({ id: order._id.toNumber() }, function(err, dbProduct) {
+      ProductModel.findOne({ id: order._productId.toNumber() }, function(err, dbProduct) {
         let updatedQty = dbProduct.quantity - order._quantity;
         console.log(updatedQty);
         ProductModel.findOneAndUpdate(
           { id: order._productId.toNumber() },
           {
             quantity: updatedQty
-          }
-        );
+          },
+          { new: true }
+        )
+          .then(data => {
+            if (data === null) {
+              throw new Error("Product Not Found");
+            }
+            console.log("Product updated", data);
+          })
+          .catch(error => {
+            console.log(error);
+          });
       });
     });
   });
@@ -264,7 +288,8 @@ function updateProduct(product) {
       imageLink: product._imageLink,
       descriptionLink: product._descriptionLink,
       price: product._price
-    }
+    },
+    { new: true }
   )
     .then(data => {
       if (data === null) {
@@ -286,7 +311,8 @@ function updateStore(store) {
       category: store._category,
       imageLink: store._imageLink,
       descriptionLink: store._descriptionLink
-    }
+    },
+    { new: true }
   )
     .then(data => {
       if (data === null) {
@@ -299,12 +325,12 @@ function updateStore(store) {
     });
 }
 function approveStore(store) {
-  StoreModel.update(
+  StoreModel.findOneAndUpdate(
     { address: store._address },
     {
       approved: true
     },
-    { upsert: true, setDefaultsOnInsert: true }
+    { new: true }
   )
     .then(data => {
       if (data === null) {
@@ -370,13 +396,14 @@ function updateOrder(order) {
       {
         status: "PAYED",
         [order.caller]: order.caller
-      }
+      },
+      { new: true }
     )
       .then(data => {
         if (data === null) {
-          throw new Error("Product Not Found");
+          throw new Error("Order Not Found");
         }
-        console.log("Product updated", data);
+        console.log("Order updated", data);
       })
       .catch(error => {
         console.log(error);
@@ -386,18 +413,91 @@ function updateOrder(order) {
       { id: order._id.toNumber() },
       {
         [order.caller]: order.caller
-      }
+      },
+      { new: true }
     )
       .then(data => {
         if (data === null) {
-          throw new Error("Product Not Found");
+          throw new Error("Order Not Found");
         }
-        console.log("Product updated", data);
+        console.log("Order updated", data);
       })
       .catch(error => {
         console.log(error);
       });
   }
+}
+
+function updateRealeasedFundToSeller(order) {
+  OrderModel.findOne({ id: order._orderId.toNumber() }, function(err, dbOrder) {
+    let callerType;
+    switch (order._caller) {
+      case dbOrder.seller:
+        callerType = "fundReleaseToSellerFromSeller";
+        break;
+      case dbOrder.buyer:
+        callerType = "fundReleaseToSellerFromBuyer";
+        break;
+      case dbOrder.arbiter:
+        callerType = "fundReleaseToSellerFromArbiter";
+        break;
+      default:
+        return;
+    }
+    OrderModel.findOneAndUpdate(
+      { id: order._orderId.toNumber() },
+      {
+        [callerType]: true,
+        fundDisbursed: order._fundDisbursed
+      },
+      { new: true }
+    )
+      .then(data => {
+        if (data === null) {
+          throw new Error("Order Not Found");
+        }
+        console.log("Order updated", data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  });
+}
+
+function updateRealeasedFundToBuyer(order) {
+  OrderModel.findOne({ id: order._orderId.toNumber() }, function(err, dbOrder) {
+    let callerType;
+    switch (order._caller) {
+      case dbOrder.seller:
+        callerType = "fundReleaseToBuyerFromSeller";
+        break;
+      case dbOrder.buyer:
+        callerType = "fundReleaseToBuyerFromBuyer";
+        break;
+      case dbOrder.arbiter:
+        callerType = "fundReleaseToBuyerFromArbiter";
+        break;
+      default:
+        return;
+    }
+    OrderModel.findOneAndUpdate(
+      { id: order._orderId.toNumber() },
+      {
+        [callerType]: true,
+        fundDisbursed: order._fundDisbursed
+      },
+      { new: true }
+    )
+      .then(data => {
+        if (data === null) {
+          throw new Error("Order Not Found");
+        }
+        console.log("Order updated", data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  });
 }
 
 module.exports = router;

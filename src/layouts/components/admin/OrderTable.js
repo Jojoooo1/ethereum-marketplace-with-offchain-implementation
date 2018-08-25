@@ -1,78 +1,127 @@
-import React from "react";
-import store from "../../../store";
-import axios from "axios";
-const END_POINT = "http://localhost:4005/api";
-let products = [];
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { Link } from "react-router";
 
-const OrderTable = props => {
-  const { orders } = props;
-  const web3 = store.getState().web3;
+import { updateEscrow } from "../../../actions/actions/actions-order";
 
-  if (orders.length > 0) {
-    orders.map((order, i) => {
-      getProductById(order.productId).then(product => {
-        products.push(product);
-        return;
-      });
-    });
+// used a class cause having error
+class OrderTable extends Component {
+  constructor(props) {
+    super(props);
+    this.updateEscrow = this.updateEscrow.bind(this);
+  }
+  updateEscrow(orderId, caller) {
+    let escrow = { orderId: orderId, caller: caller };
+    this.props.updateEscrow(escrow);
+  }
+  renderEscrow(order) {
+    let walletAddress = this.props.account.walletAddress;
+    if (order.fundDisbursed) {
+      return (
+        <td>
+          <span className="badge badge-success">COMPLETED</span>{" "}
+        </td>
+      );
+    } else if (walletAddress === order.buyer) {
+      return (
+        <td>
+          <div
+            className={`btn btn-sm btn-outline-success m-1 ${order.fundReleaseToSellerFromBuyer ? "disabled" : ""}`}
+            onClick={() => this.updateEscrow(order.id, "seller")}
+          >
+            Refund seller
+          </div>
+          <div
+            className={`btn btn-sm btn-outline-secondary m-1 ${order.fundReleaseToBuyerFromBuyer ? "disabled" : ""}`}
+            onClick={() => this.updateEscrow(order.id, "buyer")}
+          >
+            Refund buyer
+          </div>
+        </td>
+      );
+    } else {
+      return (
+        <td>
+          <div
+            className={`btn btn-sm btn-outline-success m-1 ${order.fundReleaseToSellerFromSeller ? "disabled" : ""}`}
+            onClick={() => this.updateEscrow(order.id, "seller")}
+          >
+            Refund seller
+          </div>
+          <div
+            className={`btn btn-sm btn-outline-secondary m-1 ${order.fundReleaseToBuyerFromSeller ? "disabled" : ""}`}
+            onClick={() => this.updateEscrow(order.id, "buyer")}
+          >
+            Refund buyer
+          </div>
+        </td>
+      );
+    }
+  }
+  renderAlert() {
+    if (this.props.txEvent === "FundReleaseToSeller" || this.props.txEvent === "FundReleaseToBuyer") {
+      return (
+        <div className="alert alert-success alert-dismissible fade show" role="alert">
+          Successefully send to the network, reload the page in few seconds
+          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      );
+    }
   }
 
-  function getProductById(id) {
-    return axios
-      .get(`${END_POINT}/products/${id}`)
-      .then(function(response) {
-        return response.data;
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+  render() {
+    return (
+      <div>
+        {this.renderAlert()}
+        <table className="table table-hover">
+          <thead className="text-center">
+            <tr>
+              <th scope="col">order n°</th>
+              <th scope="col">Product</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Status</th>
+              <th scope="col">Address</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="text-center">
+            {this.props.orders.length > 0 &&
+              this.props.orders.map((order, i) => {
+                return (
+                  <tr key={i}>
+                    <th scope="row">{order.id}</th>
+                    <td>
+                      <Link to={`/products/${order.productId}`}> {order.productId} </Link>
+                    </td>
+                    <td>{order.quantity}</td>
+                    <td>{order.status}</td>
+                    <td>{order.address}</td>
+                    {this.props.account.walletAddress && this.renderEscrow(order)}
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
+    );
   }
+}
 
-  console.log(orders);
-  return (
-    <table className="table table-hover">
-      <thead className="text-center">
-        <tr>
-          <th scope="col">order n°</th>
-          <th scope="col">Product</th>
-          <th scope="col">Quantity</th>
-          <th scope="col">Status</th>
-          <th scope="col">Price (ETH)</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody className="text-center">
-        {products.length > 0 &&
-          web3.web3 &&
-          orders.map((order, i) => {
-            console.log(order);
-            let priceEther = order.quantity * web3.web3.utils.fromWei(products[i].price.toString(), "ether");
-            return (
-              <tr key={i}>
-                <th scope="row">{order.id}</th>
-                <td>{products[i].name}</td>
-                <td>{order.quantity}</td>
-                <td>{order.status}</td>
-                <td>{priceEther}</td>
-                <td>
-                  <button
-                    className="btn btn-sm btn-warning m-1"
-                    data-toggle="modal"
-                    data-target="#modalUpdateProduct"
-                    onClick={e => handleOnClickUpdateProduct(e, order)}
-                  >
-                    update
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-      </tbody>
-    </table>
-  );
-  function handleOnClickUpdateProduct(e, product) {
-    props.callbackUpdateProduct(e, product);
-  }
-};
+function mapStateToProps(state) {
+  return {
+    account: state.account,
+    txEvent: state.txEvent
+  };
+}
 
-export default OrderTable;
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators({ updateEscrow }, dispatch)
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OrderTable);

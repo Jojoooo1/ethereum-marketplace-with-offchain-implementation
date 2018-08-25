@@ -35,14 +35,29 @@ class Shop extends Component {
       }, this);
     }
   }
+  renderAlert() {
+    if (this.props.txEvent === "NewOrder") {
+      return (
+        <div className="alert alert-success alert-dismissible fade show" role="alert">
+          Successefully send to the network, reload the page in few seconds
+          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      );
+    }
+  }
   render() {
     console.log(this.props.products);
     return (
       <div>
-        <NavBar3 title={"Shop"} breadcrumbs={["Shop"]} />
+        <NavBar3 title={"Shop"} breadcrumbs={[{ url: "", name: "Shop" }]} />
         <section className="products section" style={{ padding: "40px 0" }}>
           <div className="container">
-            <div className="row">{this.renderProducts()}</div>
+            <div className="row">
+              {this.renderAlert()}
+              {this.renderProducts()}
+            </div>
           </div>
         </section>
         <BuyProductModal product={this.state.selectedProduct} />
@@ -54,7 +69,8 @@ class Shop extends Component {
 function mapStateToProps(state) {
   return {
     products: state.products,
-    web3: state.web3.web3
+    web3: state.web3.web3,
+    txEvent: state.txEvent
   };
 }
 
