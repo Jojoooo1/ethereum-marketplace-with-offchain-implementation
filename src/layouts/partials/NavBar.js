@@ -77,6 +77,7 @@ class NavBar extends Component {
                 {this.props.orders.length > 0 && (
                   <li className="nav-item">
                     <Link to={"/my-orders"} className="nav-link">
+                      <i className="fas fa-bookmark mr-1" />
                       My Orders
                     </Link>
                   </li>

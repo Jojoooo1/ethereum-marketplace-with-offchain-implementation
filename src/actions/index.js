@@ -10,4 +10,12 @@ export {
 } from "./actions/actions-product";
 export { getAdmins, addAdmin, removeAdmin, getArbiter } from "./actions/actions-admin";
 export { getStores, getStoreById, getApprovedStores, addStore, updateStore, removeStore, approveStore, getMyStore } from "./actions/actions-store";
-export { getOrderById, getEscrowById, getOrdersBySeller, getOrdersByBuyer, newOrder, updateEscrow } from "./actions/actions-order";
+export {
+  getOrderById,
+  getEscrowById,
+  getOrdersBySeller,
+  getOrdersByBuyer,
+  newOrder,
+  updateEscrow,
+  getOrdersWantingRefund
+} from "./actions/actions-order";

@@ -28,15 +28,15 @@ class OrderTable extends Component {
         <td>
           <div
             className={`btn btn-sm btn-outline-success m-1 ${order.fundReleaseToSellerFromBuyer ? "disabled" : ""}`}
-            onClick={e => this.updateEscrow(e, order.id, "seller")}
+            onClick={e => this.updateEscrow(order.id, "seller")}
           >
-            Refund seller
+            Pay seller
           </div>
           <div
             className={`btn btn-sm btn-outline-secondary m-1 ${order.fundReleaseToBuyerFromBuyer ? "disabled" : ""}`}
-            onClick={e => this.updateEscrow(e, order.id, "buyer")}
+            onClick={e => this.updateEscrow(order.id, "buyer")}
           >
-            Refund buyer
+            Refund me
           </div>
         </td>
       );
@@ -45,13 +45,13 @@ class OrderTable extends Component {
         <td>
           <div
             className={`btn btn-sm btn-outline-success m-1 ${order.fundReleaseToSellerFromSeller ? "disabled" : ""}`}
-            onClick={e => this.updateEscrow(e, order.id, "seller")}
+            onClick={e => this.updateEscrow(order.id, "seller")}
           >
-            Refund seller
+            Get paid
           </div>
           <div
             className={`btn btn-sm btn-outline-secondary m-1 ${order.fundReleaseToBuyerFromSeller ? "disabled" : ""}`}
-            onClick={e => this.updateEscrow(e, order.id, "buyer")}
+            onClick={e => this.updateEscrow(order.id, "buyer")}
           >
             Refund buyer
           </div>

@@ -92,13 +92,13 @@ contract EcommerceStore {
     _;
   }
 
-  modifier productHasEnoughtQuantity(address _storeAddress, uint _productId, uint _orderQuantity) {
-    require (products[_storeAddress][_productId].quantity >= _orderQuantity && _orderQuantity != 0);
+  modifier productHasEnoughtQuantity(uint _productId, uint _orderQuantity) {
+    require (products[productIdInStore[_productId]][_productId].quantity >= _orderQuantity && _orderQuantity != 0);
     _;
   }
 
-  modifier OrderPriceIsEnought(address _storeAddress, uint _productId, uint _orderQuantity) {
-    require (msg.value >= (products[_storeAddress][_productId].quantity * _orderQuantity));
+  modifier OrderPriceIsEnought(uint _productId, uint _orderQuantity) {
+    require (msg.value >= (products[productIdInStore[_productId]][_productId].quantity * _orderQuantity));
     _;
   }
 
@@ -120,13 +120,13 @@ contract EcommerceStore {
   event FundReleaseToSeller(address _caller, uint _orderId, bool _fundDisbursed);
   event FundReleaseToBuyer(address _caller, uint _orderId, bool _fundDisbursed);
 
-  constructor() public {
+  constructor(address _arbiter) public {
     admins[msg.sender] = true;
     emit NewAdmin(msg.sender);
     productIndex = 1;
     storeIndex = 1;
     orderIndex = 1;
-    arbiter = msg.sender;
+    arbiter = _arbiter;
   }
 
   function addAdmin(address _address)
@@ -246,20 +246,20 @@ contract EcommerceStore {
     }
   }
   // payable
-  function newOrder(address _storeAddress, uint _productId, uint _quantity, string _orderAddress)
+  function newOrder(uint _productId, uint _quantity, string _orderAddress)
   payable
   public
   productExist(_productId)
-  productHasEnoughtQuantity(_storeAddress, _productId, _quantity)
-  OrderPriceIsEnought(_storeAddress, _productId, _quantity)
+  productHasEnoughtQuantity(_productId, _quantity)
+  OrderPriceIsEnought(_productId, _quantity)
   {
     Order memory order = Order(orderIndex, _productId, _quantity, _orderAddress, OrderStatus.CREATED);
     orders[msg.sender][orderIndex] = order;
     orderIdForBuyer[orderIndex] = msg.sender;
-    products[_storeAddress][_productId].quantity -= _quantity;
-    Escrow escrow = (new Escrow).value(msg.value)(orderIndex, msg.sender, _storeAddress, arbiter);
+    products[productIdInStore[_productId]][_productId].quantity -= _quantity;
+    Escrow escrow = (new Escrow).value(msg.value)(orderIndex, msg.sender, productIdInStore[_productId], arbiter);
     productEscrow[orderIndex] = escrow;
-    emit NewOrder(msg.sender, _storeAddress, orderIndex, _productId, _quantity, _orderAddress, arbiter);
+    emit NewOrder(msg.sender, productIdInStore[_productId], orderIndex, _productId, _quantity, _orderAddress, arbiter);
     orderIndex += 1;
   }
 
@@ -285,4 +285,5 @@ contract EcommerceStore {
   }
 
 }
+
 

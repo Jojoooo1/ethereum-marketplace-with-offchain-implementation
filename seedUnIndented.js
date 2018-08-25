@@ -96,7 +96,7 @@ module.exports = function(callback) {
   });
 
   EcommerceStore.deployed().then(function(f) {
-    f.newOrder(web3.eth.accounts[8], 1, 1, "test", { from: web3.eth.accounts[2], value: web3.toWei(2), gas: 4000000 })
+    f.newOrder(1, 1, "test", { from: web3.eth.accounts[2], value: web3.toWei(2), gas: 4000000 })
       .then(function(f) {
         console.log(f);
       })
@@ -105,18 +105,4 @@ module.exports = function(callback) {
       });
   });
 
-  EcommerceStore.deployed().then(function(f) {
-    f.newOrder(order.storeAddress, order.product.id, order.orderQuantity, order.orderAddress, {
-      from: walletAddress,
-      value: web3.utils.toWei((order.orderQuantity * order.product.price).toString()),
-      gas: 4000000
-    })
-      .then(function(tx) {
-        dispatch({ type: AT_TX.TX_EVENT, payload: tx.logs[0].event });
-        dispatch(getOrdersByBuyer(walletAddress));
-      })
-      .catch(function(e) {
-        console.log(e);
-      });
-  });
-};
+

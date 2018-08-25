@@ -43,7 +43,7 @@ export function newOrder(order) {
 
   return function(dispatch) {
     EcommerceStore.deployed().then(function(f) {
-      f.newOrder(order.product.storeAddress, order.product.id, order.orderQuantity, order.orderAddress, {
+      f.newOrder(order.product.id, order.orderQuantity, order.orderAddress, {
         from: walletAddress,
         value: order.orderQuantity * order.product.price,
         gas: 6000000
@@ -67,11 +67,11 @@ export function updateEscrow(escrow) {
   return function(dispatch) {
     return EcommerceStore.deployed().then(function(f) {
       if (escrow.caller === "buyer") {
-        f.releaseAmountToBuyer(escrow.orderId, { from: walletAddress, gas: 100000 }).then(function(tx) {
+        f.releaseAmountToBuyer(escrow.orderId, { from: walletAddress, gas: 300000 }).then(function(tx) {
           dispatch({ type: AT_TX.TX_EVENT, payload: tx.logs[0].event });
         });
       } else {
-        f.releaseAmountToSeller(escrow.orderId, { from: walletAddress, gas: 100000 }).then(function(tx) {
+        f.releaseAmountToSeller(escrow.orderId, { from: walletAddress, gas: 300000 }).then(function(tx) {
           dispatch({ type: AT_TX.TX_EVENT, payload: tx.logs[0].event });
         });
       }
@@ -91,5 +91,3 @@ export function getOrdersWantingRefund() {
       });
   };
 }
-
-

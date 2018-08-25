@@ -104,7 +104,7 @@ router.get("/orders-seller/:address", function(req, res) {
 });
 
 router.get("/orders", function(req, res) {
-  OrderModel.find({}, function(err, orders) {
+  OrderModel.find({}, null, { sort: "id" }, function(err, orders) {
     res.send(orders);
   });
 });
@@ -116,9 +116,14 @@ router.get("/orders/:id", function(req, res) {
 });
 
 router.get("/orders-refunding", function(req, res) {
-  OrderModel.find({ $or: [{ fundReleaseToBuyerFromBuyer: true }, { fundReleaseToBuyerFromSeller: true }] }, function(err, order) {
-    res.send(order);
-  });
+  OrderModel.find(
+    { fundDisbursed: false, $or: [{ fundReleaseToBuyerFromBuyer: true }, { fundReleaseToBuyerFromSeller: true }] },
+    null,
+    { sort: "id" },
+    function(err, order) {
+      res.send(order);
+    }
+  );
 });
 
 function EventListner() {
@@ -166,10 +171,6 @@ function EventListner() {
         case "NewOrder":
           console.log(result.args);
           saveOrder(result.args);
-          break;
-        case "updateOrder":
-          console.log(result.args);
-          updateOrder(result.args);
           break;
         case "FundReleaseToSeller":
           console.log(result.args);
@@ -395,45 +396,6 @@ function deleteAdmin(admin) {
   });
 }
 
-function updateOrder(order) {
-  if (order.disbursed == true) {
-    OrderModel.findOneAndUpdate(
-      { id: order._id.toNumber() },
-      {
-        status: "PAYED",
-        [order.caller]: order.caller
-      },
-      { new: true }
-    )
-      .then(data => {
-        if (data === null) {
-          throw new Error("Order Not Found");
-        }
-        console.log("Order updated", data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  } else {
-    OrderModel.findOneAndUpdate(
-      { id: order._id.toNumber() },
-      {
-        [order.caller]: order.caller
-      },
-      { new: true }
-    )
-      .then(data => {
-        if (data === null) {
-          throw new Error("Order Not Found");
-        }
-        console.log("Order updated", data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-}
-
 function updateRealeasedFundToSeller(order) {
   OrderModel.findOne({ id: order._orderId.toNumber() }, function(err, dbOrder) {
     let callerType;
@@ -450,23 +412,44 @@ function updateRealeasedFundToSeller(order) {
       default:
         return;
     }
-    OrderModel.findOneAndUpdate(
-      { id: order._orderId.toNumber() },
-      {
-        [callerType]: true,
-        fundDisbursed: order._fundDisbursed
-      },
-      { new: true }
-    )
-      .then(data => {
-        if (data === null) {
-          throw new Error("Order Not Found");
-        }
-        console.log("Order updated", data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (order._fundDisbursed) {
+      OrderModel.findOneAndUpdate(
+        { id: order._orderId.toNumber() },
+        {
+          [callerType]: true,
+          fundDisbursed: true,
+          status: "PAYED"
+        },
+        { new: true }
+      )
+        .then(data => {
+          if (data === null) {
+            throw new Error("Order Not Found");
+          }
+          console.log("Order updated", data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      OrderModel.findOneAndUpdate(
+        { id: order._orderId.toNumber() },
+        {
+          [callerType]: true,
+          fundDisbursed: false
+        },
+        { new: true }
+      )
+        .then(data => {
+          if (data === null) {
+            throw new Error("Order Not Found");
+          }
+          console.log("Order updated", data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   });
 }
 
@@ -486,23 +469,44 @@ function updateRealeasedFundToBuyer(order) {
       default:
         return;
     }
-    OrderModel.findOneAndUpdate(
-      { id: order._orderId.toNumber() },
-      {
-        [callerType]: true,
-        fundDisbursed: order._fundDisbursed
-      },
-      { new: true }
-    )
-      .then(data => {
-        if (data === null) {
-          throw new Error("Order Not Found");
-        }
-        console.log("Order updated", data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (order._fundDisbursed) {
+      OrderModel.findOneAndUpdate(
+        { id: order._orderId.toNumber() },
+        {
+          [callerType]: true,
+          fundDisbursed: true,
+          status: "PAYED"
+        },
+        { new: true }
+      )
+        .then(data => {
+          if (data === null) {
+            throw new Error("Order Not Found");
+          }
+          console.log("Order updated", data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      OrderModel.findOneAndUpdate(
+        { id: order._orderId.toNumber() },
+        {
+          [callerType]: true,
+          fundDisbursed: false
+        },
+        { new: true }
+      )
+        .then(data => {
+          if (data === null) {
+            throw new Error("Order Not Found");
+          }
+          console.log("Order updated", data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   });
 }
 

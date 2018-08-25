@@ -1,5 +1,5 @@
-var EcommerceStore = artifacts.require('./EcommerceStore.sol')
+var EcommerceStore = artifacts.require("./EcommerceStore.sol");
 
-module.exports = function (deployer) {
-  deployer.deploy(EcommerceStore)
-}
+module.exports = function(deployer) {
+  deployer.deploy(EcommerceStore, web3.eth.accounts[9]);
+};

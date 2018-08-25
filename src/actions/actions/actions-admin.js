@@ -50,15 +50,18 @@ export function removeAdmin(address) {
   };
 }
 
-export function getArbiter(address) {
+export function getArbiter(addressSelected) {
   let web3 = store.getState().web3.web3;
-  let walletAddress = store.getState().account.walletAddress;
   EcommerceStore.setProvider(web3.currentProvider);
 
   return function(dispatch) {
     EcommerceStore.deployed().then(function(f) {
-      f.arbiter.call().then(function(address) {
-        if (walletAddress == address) dispatch({ type: "GET_ARBITER", payload: true });
+      f.arbiter.call({ from: addressSelected }).then(function(address) {
+        if (addressSelected == address) {
+          dispatch({ type: "GET_ARBITER", payload: true });
+        } else {
+          dispatch({ type: "GET_ARBITER", payload: false });
+        }
       });
     });
   };
