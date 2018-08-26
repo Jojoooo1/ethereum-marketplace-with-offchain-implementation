@@ -9,7 +9,7 @@ export {
   removeProduct
 } from "./actions/actions-product";
 export { getAdmins, addAdmin, removeAdmin, getArbiter } from "./actions/actions-admin";
-export { getStores, getStoreById, getApprovedStores, addStore, updateStore, removeStore, approveStore, getMyStore } from "./actions/actions-store";
+export { getStores, getStoreById, getApprovedStores, addStore, updateStore,createStore, removeStore, approveStore, getMyStore } from "./actions/actions-store";
 export {
   getOrderById,
   getEscrowById,

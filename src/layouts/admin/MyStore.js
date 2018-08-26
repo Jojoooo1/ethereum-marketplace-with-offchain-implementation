@@ -59,6 +59,19 @@ class MyStore extends Component {
     }
   }
 
+  renderAlertNotApproved() {
+    if (this.props.myStore.approved == false) {
+      return (
+        <div className="alert alert-success alert-warning fade show" role="alert">
+          Your store is being reviewed, you will get an approval soon
+          <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      );
+    }
+  }
+
   render() {
     // if (!this.props.myStore) {
     //   browserHistory.push("/");
@@ -66,7 +79,7 @@ class MyStore extends Component {
 
     return (
       <div>
-        {this.props.myStore && (
+        {this.props.myStore.id && (
           <div className="container">
             <div className="row">
               <div className="col-3">
@@ -82,31 +95,36 @@ class MyStore extends Component {
                   >
                     My Store
                   </a>
-                  <a
-                    className="nav-link"
-                    id="v-pills-myproducts-tab"
-                    data-toggle="pill"
-                    href="#v-pills-myproducts"
-                    role="tab"
-                    aria-controls="v-pills-myproducts"
-                    aria-selected="false"
-                  >
-                    My products
-                  </a>
-                  <a
-                    className="nav-link"
-                    id="v-pills-myorders-tab"
-                    data-toggle="pill"
-                    href="#v-pills-myorders"
-                    role="tab"
-                    aria-controls="v-pills-myorders"
-                    aria-selected="false"
-                  >
-                    My Orders
-                  </a>
+                  {this.props.myStore.approved && (
+                    <a
+                      className="nav-link"
+                      id="v-pills-myproducts-tab"
+                      data-toggle="pill"
+                      href="#v-pills-myproducts"
+                      role="tab"
+                      aria-controls="v-pills-myproducts"
+                      aria-selected="false"
+                    >
+                      My products
+                    </a>
+                  )}
+                  {this.props.myStore.approved && (
+                    <a
+                      className="nav-link"
+                      id="v-pills-myorders-tab"
+                      data-toggle="pill"
+                      href="#v-pills-myorders"
+                      role="tab"
+                      aria-controls="v-pills-myorders"
+                      aria-selected="false"
+                    >
+                      My Orders
+                    </a>
+                  )}
                 </div>
               </div>
               <div className="col-9">
+                {this.renderAlertNotApproved()}
                 {this.renderAlert()}
                 <div className="tab-content" id="v-pills-tabContent">
                   <div className="tab-pane fade show active" id="v-pills-mystore" role="tabpanel" aria-labelledby="v-pills-mystore-tab">

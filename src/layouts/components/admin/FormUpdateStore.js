@@ -91,11 +91,11 @@ class FormUpdateStore extends Component {
             id="storeCategory"
             required
           >
-            <option>Art</option>
-            <option>Books</option>
-            <option>High-Tech</option>
-            <option>Clothing</option>
-            <option>Sport</option>
+            <option value="Art">Art</option>
+            <option value="Books">Books</option>
+            <option value="High-Tech">High-Tech</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Sport">Sport</option>
           </select>
         </div>
         <div className="form-group">

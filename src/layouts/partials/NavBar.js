@@ -21,6 +21,18 @@ class NavBar extends Component {
       return <LoginButtonContainer />;
     }
   }
+
+  renderButtonCreateStore() {
+    if (this.props.myStore.id == undefined) {
+      return (
+        <li className="nav-item">
+          <Link to={`/store/create/`} className="nav-link">
+            <button className="btn btn-outline-warning">Create store</button>
+          </Link>
+        </li>
+      );
+    }
+  }
   render() {
     return (
       <div className="container">
@@ -33,11 +45,11 @@ class NavBar extends Component {
                 </li>
               </ul>
             </div>
-            <a className="" href="#">
+            <Link className="" to={"/"}>
               <div>
                 <img src={Logo} alt="" style={{ height: "100px" }} />
               </div>
-            </a>
+            </Link>
             <button
               className="navbar-toggler"
               type="button"
@@ -73,7 +85,7 @@ class NavBar extends Component {
                   </li>
                 )}
 
-                {this.props.myStore && (
+                {this.props.myStore.id && (
                   <li className="nav-item">
                     <Link to={`/store/edit/${this.props.myStore.address}`} className="nav-link">
                       <button className="btn btn-secondary">
@@ -91,6 +103,8 @@ class NavBar extends Component {
                     </Link>
                   </li>
                 )}
+
+                {this.renderButtonCreateStore()}
 
                 <li className="nav-item dropdown">
                   <a

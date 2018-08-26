@@ -18,6 +18,7 @@ import Stores from "./layouts/marketplace/Stores";
 import Admin from "./layouts/admin/Admin";
 import MyStore from "./layouts/admin/MyStore";
 import Arbiter from "./layouts/admin/Arbiter";
+import CreateStore from "./layouts/marketplace/CreateStore";
 
 // Redux Store
 import store from "./store";
@@ -27,7 +28,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 import { web3 } from "./utils/web3utils";
 import { updateWeb3Status, updateAccountAddress, updateAccountBalance, isAdmin, getMyStore, getOrdersByBuyer, getArbiter } from "./actions/index";
-import { userLoggedIn } from "./user/ui/loginbutton/LoginButtonActions"
+import { userLoggedIn } from "./user/ui/loginbutton/LoginButtonActions";
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
@@ -42,6 +43,7 @@ ReactDOM.render(
         <Route path="stores/:id" component={Store} />
         <Route path="admin" component={Admin} />
         <Route path="/store/edit/:address" component={MyStore} />
+        <Route path="/store/create" component={CreateStore} />
         <Route path="/arbiter" component={Arbiter} />
       </Route>
     </Router>
@@ -82,7 +84,7 @@ window.addEventListener("load", () => {
     } else {
       store.dispatch({ type: types.AT_WEB3.GET_WALLET_ADDRESS, payload: "" });
       store.dispatch({ type: types.AT_WEB3.GET_WALLET_BALANCE, payload: null });
-      store.dispatch({ type: types.AT_STORES.GET_MY_STORE, payload: null });
+      store.dispatch({ type: types.AT_STORES.GET_MY_STORE, payload: {} });
       store.dispatch({ type: types.AT_WEB3.IS_ADMIN, payload: false });
       store.dispatch({ type: types.AT_ORDERS.GET_SELLER_ORDERS, payload: [] });
       store.dispatch({ type: "GET_ARBITER", payload: false });

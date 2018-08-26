@@ -55,7 +55,11 @@ export function getMyStore(address) {
       axios
         .get(`${END_POINT}/store/${address.toLowerCase()}`)
         .then(function(response) {
-          dispatch({ type: AT_STORES.GET_MY_STORE, payload: response.data });
+          let data = response.data;
+          if (data == "") {
+            data = {};
+          }
+          dispatch({ type: AT_STORES.GET_MY_STORE, payload: data });
           resolve(response.data);
         })
         .catch(function(error) {
@@ -90,6 +94,25 @@ export function updateStore(storeUpdated) {
   return function(dispatch) {
     return EcommerceStore.deployed().then(function(f) {
       f.updateStore(storeUpdated.name, storeUpdated.category, storeUpdated.imageHash, storeUpdated.descriptionHash, {
+        from: walletAddress,
+        gas: 600000
+      }).then(function(tx) {
+        console.log(tx);
+        dispatch({ type: AT_TX.TX_EVENT, payload: tx.logs[0].event });
+      });
+    });
+  };
+}
+
+export function createStore(storeCreated) {
+  let web3 = store.getState().web3.web3;
+  let walletAddress = store.getState().account.walletAddress;
+  EcommerceStore.setProvider(web3.currentProvider);
+  console.log(storeCreated);
+
+  return function(dispatch) {
+    return EcommerceStore.deployed().then(function(f) {
+      f.addStore(storeCreated.name, storeCreated.category, storeCreated.imageHash, storeCreated.descriptionHash, {
         from: walletAddress,
         gas: 600000
       }).then(function(tx) {
