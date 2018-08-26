@@ -16,7 +16,7 @@ Front end has been build using React & redux. A Node.js Backend has been set to 
 4. Install IPFS
    then config your IPFS server (allow file to be server from any site) by tipping in your terminal: `ipfs init && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]' && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]" && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'`
 5. Execute init script in project folder to start all the differents servers: `./start.sh`
-6. if navigator already started you need to close it and re connect to metamask. When connected, reload once the page and your ready to play. Cart icon that open a modal to buy product sometime bug, you can either try click multiple time to open, reload the page or go to the buy page (probably bootstrap modal problem)
+6. if navigator already started you need to close it and re connect to metamask. When connected, reload once the page and your ready to play.
 
 **Test**
 
@@ -25,4 +25,5 @@ Front end has been build using React & redux. A Node.js Backend has been set to 
 
 **Additional note**
 
-I had not very basicc previous knowledge of Node.js and React.js, I mostly improved along the line and unfortunately I run out of time to refactor my code especially to create an MVP pattern in the Node.js backend. If you don't receive the data anymore verify the node server is not down. If down restart by tipping `node server.js` in the directory server (if the process did not ended well try `killall node` and restart `./start.sh`). I could have added more test to really test all the scenarios but again time was missing. If you add a description of too short ipfs js library might threw an error.
+I had no previous experience of Node.js and React.js, I mostly improved along the line and unfortunately I run out of time to refactor my code especially to create an MVP pattern in the Node.js backend. If you don't receive the data anymore verify the node server is not down. If down restart by tipping `node server.js` in the directory server (if the process did not ended well try restarting the app `./start.sh`). I could have added more test to really test all the scenarios but again time was missing. If you add a very short description of product or store ipfs js library might threw an error when trying to render. Cart icon that open a modal to buy product sometime bug, you can either try click multiple time to open, reload the page or go to the buy page (probably bootstrap modal problem)
+
