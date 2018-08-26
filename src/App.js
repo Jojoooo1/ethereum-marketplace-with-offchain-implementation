@@ -12,10 +12,6 @@ import NavBar2 from "./layouts/partials/NavBar2";
 import Footer from "./layouts/partials/Footer";
 
 // Styles
-import "./css/oswald.css";
-import "./css/open-sans.css";
-import "./css/pure-min.css";
-import "./App.css";
 import "./css/style.css";
 
 class App extends Component {

@@ -40,7 +40,7 @@ module.exports = function(callback) {
     });
 
     EcommerceStore.deployed().then(function(f) {
-      f.addProduct("product 1", category[1], 3, "", "", web3.toWei(2), {
+      f.addProduct("My painting", category[1], 3, "", "", web3.toWei(2), {
         from: web3.eth.accounts[0],
         gas: 2000000
       }).then(function(f) {
@@ -49,7 +49,7 @@ module.exports = function(callback) {
     });
 
     EcommerceStore.deployed().then(function(f) {
-      f.addProduct("product 2", category[3], 5, "", "", web3.toWei(2), {
+      f.addProduct("TV 32cm", category[3], 5, "", "", web3.toWei(2), {
         from: web3.eth.accounts[0],
         gas: 2000000
       }).then(function(f) {
@@ -58,7 +58,7 @@ module.exports = function(callback) {
     });
 
     EcommerceStore.deployed().then(function(f) {
-      f.addProduct("product 3", category[4], 1, "", "", web3.toWei(2), {
+      f.addProduct("Nike air max 43", category[4], 1, "", "", web3.toWei(2), {
         from: web3.eth.accounts[0],
         gas: 2000000
       }).then(function(f) {
@@ -67,7 +67,7 @@ module.exports = function(callback) {
     });
 
     EcommerceStore.deployed().then(function(f) {
-      f.addProduct("product 4", category[2], 6, "", "", web3.toWei(2), {
+      f.addProduct("Sapiens, a brief history of human kind", category[2], 6, "", "", web3.toWei(2), {
         from: web3.eth.accounts[0],
         gas: 2000000
       }).then(function(f) {
@@ -76,7 +76,7 @@ module.exports = function(callback) {
     });
 
     EcommerceStore.deployed().then(function(f) {
-      f.addProduct("product 5", category[3], 7, "", "", web3.toWei(2), {
+      f.addProduct("Jeremy Rifkin's Third industrial revolution", category[2], 7, "", "", web3.toWei(2), {
         from: web3.eth.accounts[1],
         gas: 2000000
       }).then(function(f) {
@@ -84,7 +84,7 @@ module.exports = function(callback) {
       });
     });
     EcommerceStore.deployed().then(function(f) {
-      f.addProduct("product 6", category[2], 10, "", "", web3.toWei(2), {
+      f.addProduct("rebook classic 42", category[4], 10, "", "", web3.toWei(2), {
         from: web3.eth.accounts[1],
         gas: 2000000
       }).then(function(f) {
@@ -92,7 +92,7 @@ module.exports = function(callback) {
       });
     });
     EcommerceStore.deployed().then(function(f) {
-      f.addProduct("product 7", category[1], 2, "", "", web3.toWei(2), {
+      f.addProduct('Picasso copy 42"', category[0], 2, "", "", web3.toWei(2), {
         from: web3.eth.accounts[1],
         gas: 2000000
       }).then(function(f) {
@@ -100,7 +100,7 @@ module.exports = function(callback) {
       });
     });
     EcommerceStore.deployed().then(function(f) {
-      f.addProduct("product 8", category[1], 2, "", "", web3.toWei(2), {
+      f.addProduct("Iphone", category[2], 2, "", "", web3.toWei(2), {
         from: web3.eth.accounts[1],
         gas: 2000000
       }).then(function(f) {

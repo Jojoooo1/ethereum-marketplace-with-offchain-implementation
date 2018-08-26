@@ -7,9 +7,6 @@ import { UserIsAuthenticated } from "./utils/wrappers.js";
 
 // Layouts
 import App from "./App";
-import Dashboard from "./layouts/dashboard/Dashboard";
-import Profile from "./user/layouts/profile/Profile";
-
 import Home from "./layouts/marketplace/Home";
 import Shop from "./layouts/marketplace/Shop";
 import Product from "./layouts/marketplace/Product";
@@ -36,8 +33,6 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
-        <Route path="dashboard" component={UserIsAuthenticated(Dashboard)} />
-        <Route path="profile" component={UserIsAuthenticated(Profile)} />
         <Route path="shop" component={Shop} />
         <Route path="products/:id" component={Product} />
         <Route path="my-orders" component={MyOrders} />

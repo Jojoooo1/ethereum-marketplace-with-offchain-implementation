@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router";
 import { connect } from "react-redux";
 
+import LoginButtonContainer from "../../user/ui/loginbutton/LoginButtonContainer";
+import LogoutButtonContainer from "../../user/ui/logoutbutton/LogoutButtonContainer";
+
 const style = {
   paddingTop: "25px",
   paddingBottom: "25px",
@@ -11,7 +14,13 @@ const style = {
 import Logo from "../../img/logo.png";
 
 class NavBar extends Component {
-  renderDropdown() {}
+  renderUportButton() {
+    if (this.props.user) {
+      return <LogoutButtonContainer />;
+    } else {
+      return <LoginButtonContainer />;
+    }
+  }
   render() {
     return (
       <div className="container">
@@ -114,6 +123,10 @@ class NavBar extends Component {
                         {this.props.account.walletBalance ? this.props.account.walletBalance : ""}
                       </span>
                     </a>
+                    <div className="dropdown-divider" />
+                    <div className="dropdown-item" href="#">
+                      {this.renderUportButton()}
+                    </div>
                   </div>
                 </li>
               </ul>
@@ -131,7 +144,8 @@ function mapStateToProps(state) {
     account: state.account,
     myStore: state.myStore,
     orders: state.buyerOrders,
-    arbiter: state.arbiter
+    arbiter: state.arbiter,
+    user: state.user.data
   };
 }
 

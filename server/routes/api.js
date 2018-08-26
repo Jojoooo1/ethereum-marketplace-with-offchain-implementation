@@ -23,9 +23,11 @@ EventListner();
 router.get("/products", function(req, res) {
   var query = {};
   if (req.query.category !== undefined) {
-    query["category"] = { $eq: req.query.category };
+    query = { category: req.query.category, quantity: { $gte: 1 } };
+  } else {
+    query = { quantity: { $gte: 1 } };
   }
-  ProductModel.find(query["category"], null, { sort: "id" }, function(err, products) {
+  ProductModel.find(query, null, { sort: "id" }, function(err, products) {
     res.send(products);
   });
 });

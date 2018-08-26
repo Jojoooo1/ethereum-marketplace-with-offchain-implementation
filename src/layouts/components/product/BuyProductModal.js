@@ -73,6 +73,7 @@ class BuyProductModal extends Component {
             </div>
             <div className="modal-body">
               {this.props.product.id && <ProductDescription product={this.props.product} />}
+              <br />
               <form onSubmit={this.buyProduct} id="buyProduct">
                 <div className="form-group">
                   <label htmlFor="select-quantity">Quantity:</label>

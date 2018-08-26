@@ -2,9 +2,7 @@ import React from 'react'
 
 const LogoutButton = ({ onLogoutUserClick }) => {
   return(
-    <li className="pure-menu-item">
-      <a href="#" className="pure-menu-link" onClick={(event) => onLogoutUserClick(event)}>Logout</a>
-    </li>
+      <a href="#" className="btn btn-warning" style={{ width: "100%" }} onClick={(event) => onLogoutUserClick(event)}>Logout</a>
   )
 }
 

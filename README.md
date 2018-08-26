@@ -6,7 +6,7 @@ It is a Marketplace administered by the creator of the contract. This Admin can 
 
 **Technical overview**
 
-Front end has been build using React & redux. A Node.js Backend has been set to listen to blockchain event. When an event is caught the database update accordingly. The React application is mostly served by the backend in order to be able to have more complex request.
+Front end has been build using React & redux. A Node.js Backend has been set to listen to blockchain event. When an event is caught the database update accordingly. The React application is mostly served by the backend in order to be able to have more complex request. Uport Login has been integrated on a very simple manner only serve login purpose.
 
 **Setup**
 
