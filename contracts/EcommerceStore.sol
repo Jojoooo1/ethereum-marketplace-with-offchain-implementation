@@ -11,6 +11,7 @@ contract EcommerceStore is ownable, mortal, circuitBreaker {
 
   using SafeMath for uint256;
 
+  // Status pattern
   enum OrderStatus{CREATED, PAYED}
 
   // Store id, increase by one everytime a store is created

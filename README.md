@@ -16,7 +16,7 @@ Front end has been build using React & redux. A Node.js Backend has been set to 
 4. Install IPFS
    then config your IPFS server (allow file to be server from any site) by tipping in your terminal: `ipfs init && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]' && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]" && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'`
 5. Execute init script in project folder to start all the differents servers: `./start.sh`
-6. if navigator already started you need to close it and re connect to metamask. When connected, reload once the page and your ready to play. Cart icon that open a modal to buy the product sometime bug, you can either try click multiple time to open, reload the page or go to the buy page (probably bootstrap modal problem)
+6. if navigator already started you need to close it and re connect to metamask. When connected, reload once the page and your ready to play. Cart icon that open a modal to buy product sometime bug, you can either try click multiple time to open, reload the page or go to the buy page (probably bootstrap modal problem)
 
 **Test**
 
