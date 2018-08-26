@@ -64,7 +64,7 @@ class Shop extends Component {
                   <a
                     className="nav-link active"
                     data-toggle="pill"
-                    href="#v-pills-products"
+                    href="javascript:void(0);"
                     role="tab"
                     aria-controls="v-pills-products"
                     aria-selected="true"
@@ -77,7 +77,7 @@ class Shop extends Component {
                   <a
                     className="nav-link"
                     data-toggle="pill"
-                    href="#v-pills-products"
+                    href="javascript:void(0);"
                     role="tab"
                     aria-controls="v-pills-products"
                     onClick={e => this.getProduct(e)}
@@ -89,7 +89,7 @@ class Shop extends Component {
                   <a
                     className="nav-link"
                     data-toggle="pill"
-                    href="#v-pills-products"
+                    href="javascript:void(0);"
                     role="tab"
                     aria-controls="v-pills-products"
                     onClick={e => this.getProduct(e)}
@@ -101,7 +101,7 @@ class Shop extends Component {
                   <a
                     className="nav-link"
                     data-toggle="pill"
-                    href="#v-pills-products"
+                    href="javascript:void(0);"
                     role="tab"
                     aria-controls="v-pills-products"
                     onClick={e => this.getProduct(e)}
@@ -113,7 +113,7 @@ class Shop extends Component {
                   <a
                     className="nav-link"
                     data-toggle="pill"
-                    href="#v-pills-products"
+                    href="javascript:void(0);"
                     role="tab"
                     aria-controls="v-pills-products"
                     onClick={e => this.getProduct(e)}
@@ -125,7 +125,7 @@ class Shop extends Component {
                   <a
                     className="nav-link"
                     data-toggle="pill"
-                    href="#v-pills-products"
+                    href="javascript:void(0);"
                     role="tab"
                     aria-controls="v-pills-products"
                     onClick={e => this.getProduct(e)}

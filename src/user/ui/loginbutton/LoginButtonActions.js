@@ -2,7 +2,7 @@ import { uport } from "./../../../utils/connectors.js";
 import { browserHistory } from "react-router";
 
 export const USER_LOGGED_IN = "USER_LOGGED_IN";
-function userLoggedIn(user) {
+export function userLoggedIn(user) {
   return {
     type: USER_LOGGED_IN,
     payload: user
@@ -16,15 +16,8 @@ export function loginUser() {
     uport.requestCredentials().then(credentials => {
       dispatch(userLoggedIn(credentials));
       console.log(credentials);
-      // Used a manual redirect here as opposed to a wrapper.
-      // This way, once logged in a user can still access the home page.
-      var currentLocation = browserHistory.getCurrentLocation();
-
-      if ("redirect" in currentLocation.query) {
-        return browserHistory.push(decodeURIComponent(currentLocation.query.redirect));
-      }
-
-      return browserHistory.push("/");
+      let sessionCredentials = JSON.stringify(credentials);
+      sessionStorage.setItem("userData", sessionCredentials);
     });
   };
 }

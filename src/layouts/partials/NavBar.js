@@ -109,7 +109,7 @@ class NavBar extends Component {
                       <i className="fas fa-user-circle" style={{ color: "indianred", fontSize: "30px" }} />
                     )}
                   </a>
-                  <div className="dropdown-menu" aria-labelledby="navbarDropdown" style={{ maxWidth: "250px" }}>
+                  <div className="dropdown-menu" aria-labelledby="navbarDropdown" style={{ minWidth: "220px", maxWidth: "250px" }}>
                     <a className="dropdown-item" href="#" style={{ whiteSpace: "normal", wordWrap: "break-word" }}>
                       <div>Address: </div>
                       <span style={{ fontSize: "0.8em", fontWeight: "bold" }}>
@@ -124,7 +124,7 @@ class NavBar extends Component {
                       </span>
                     </a>
                     <div className="dropdown-divider" />
-                    <div className="dropdown-item" href="#">
+                    <div className="dropdown-item px-3" href="#">
                       {this.renderUportButton()}
                     </div>
                   </div>

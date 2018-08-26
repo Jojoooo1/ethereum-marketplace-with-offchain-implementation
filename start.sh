@@ -25,6 +25,12 @@ if [ "$?" -ne 0 ]; then
   exit 1
 fi
 
+#kill all node previous instance
+killall node
+
+# install packages
+npm install
+
 # start IPFS
 gnome-terminal -x sh -c "ipfs daemon"
 

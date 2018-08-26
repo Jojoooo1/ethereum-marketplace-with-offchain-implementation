@@ -27,7 +27,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 import { web3 } from "./utils/web3utils";
 import { updateWeb3Status, updateAccountAddress, updateAccountBalance, isAdmin, getMyStore, getOrdersByBuyer, getArbiter } from "./actions/index";
-
+import { userLoggedIn } from "./user/ui/loginbutton/LoginButtonActions"
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
@@ -52,6 +52,11 @@ ReactDOM.render(
 // IMPLEMENT TIMEOUT LOOKOUT ACCOUNT
 
 window.addEventListener("load", () => {
+  let uportCredentials = sessionStorage.getItem("userData");
+  if (uportCredentials) {
+    store.dispatch(userLoggedIn(JSON.parse(uportCredentials)));
+  }
+
   store.dispatch(updateWeb3Status(web3)).then(web3 => {
     store.dispatch(updateAccountAddress(web3)).then(account => {
       if (account) {

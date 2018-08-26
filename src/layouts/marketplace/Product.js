@@ -61,7 +61,7 @@ class Product extends Component {
             {this.props.product.id && <ProductDescription product={this.props.product} productPage={true} />}
             <br />
             <div className="row">
-              <div className="col-md-12">{this.props.product && <ProductReview product={this.props.product} />}</div>
+              <div className="col-md-12">{this.props.product.id && <ProductReview product={this.props.product} />}</div>
             </div>
           </div>
         </section>
