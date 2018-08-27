@@ -11,6 +11,11 @@ EcommerceStore.currentProvider.sendAsync = function() {
   return EcommerceStore.currentProvider.send.apply(EcommerceStore.currentProvider, arguments);
 };
 
+const productController = require("../controllers/product");
+const storeController = require("../controllers/store");
+const adminController = require("../controllers/admin");
+const orderController = require("../controllers/order");
+
 const express = require("express");
 const router = express.Router();
 var ProductModel = require("../models/product");
@@ -20,113 +25,24 @@ var OrderModel = require("../models/order");
 
 EventListner();
 
-router.get("/products", function(req, res) {
-  var query = {};
-  if (req.query.category !== undefined) {
-    query = { category: req.query.category, quantity: { $gte: 1 } };
-  } else {
-    query = { quantity: { $gte: 1 } };
-  }
-  ProductModel.find(query, null, { sort: "id" }, function(err, products) {
-    res.send(products);
-  });
-});
+router.get("/products", productController.getProducts);
+router.get("/products/:id", productController.getProductById);
+router.get("/stores/:id/products", productController.getProductsByStore);
+router.get("/stores-address/:address/products", productController.getProductsByStoreAddress);
 
-router.get("/products/:id", function(req, res) {
-  ProductModel.findOne({ id: req.params.id }, function(err, product) {
-    console.log(product);
-    res.send(product);
-  });
-});
+router.get("/stores", storeController.getStores);
+router.get("/stores/:id", storeController.getStoreById);
+router.get("/store/:address", storeController.getStoreByAddress);
+router.get("/stores-approved", storeController.getStoresApproved);
 
-router.get("/stores/:id/products", function(req, res) {
-  ProductModel.find({ storeId: req.params.id }, null, { sort: "id" }, function(err, products) {
-    res.send(products);
-  });
-});
+router.get("/admins", adminController.getAdmins);
+router.get("/admins/:address", adminController.getAdminByAddress);
 
-router.get("/stores-address/:address/products", function(req, res) {
-  ProductModel.find({ storeAddress: req.params.address }, null, { sort: "id" }, function(err, products) {
-    res.send(products);
-  });
-});
-
-router.get("/stores/:id", function(req, res) {
-  StoreModel.findOne({ id: req.params.id }, function(err, store) {
-    res.send(store);
-  });
-});
-
-router.get("/store/:address", function(req, res) {
-  StoreModel.findOne({ address: req.params.address }, function(err, store) {
-    res.send(store);
-  });
-});
-
-router.get("/stores", function(req, res) {
-  StoreModel.find({}, function(err, stores) {
-    res.send(stores);
-  });
-});
-
-router.get("/stores-approved", function(req, res) {
-  StoreModel.find({ approved: true }, function(err, stores) {
-    res.send(stores);
-  });
-});
-
-router.get("/admins", function(req, res) {
-  AdminModel.find({}, "address -_id", function(err, admins) {
-    res.send(admins);
-  });
-});
-
-router.get("/admins/:address", function(req, res) {
-  AdminModel.findOne({ address: req.params.address }, "address -_id", function(err, admin) {
-    res.send(admin);
-  });
-});
-
-router.get("/orders/:buyer", function(req, res) {
-  OrderModel.findOne({ buyer: req.params.buyer }, function(err, orders) {
-    res.send(orders);
-  });
-});
-
-router.get("/orders-buyer/:address", function(req, res) {
-  OrderModel.find({ buyer: req.params.address }, null, { sort: "id" }, function(err, orders) {
-    res.send(orders);
-  });
-});
-
-router.get("/orders-seller/:address", function(req, res) {
-  OrderModel.find({ seller: req.params.address }, null, { sort: "id" }, function(err, orders) {
-    res.send(orders);
-  });
-});
-
-router.get("/orders", function(req, res) {
-  OrderModel.find({}, null, { sort: "id" }, function(err, orders) {
-    res.send(orders);
-  });
-});
-
-router.get("/orders/:id", function(req, res) {
-  OrderModel.find({ id: id }, function(err, order) {
-    res.send(order);
-  });
-});
-
-router.get("/orders-refunding", function(req, res) {
-  OrderModel.find(
-    { fundDisbursed: false, $or: [{ fundReleaseToBuyerFromBuyer: true }, { fundReleaseToBuyerFromSeller: true }] },
-    null,
-    { sort: "id" },
-    function(err, order) {
-      res.send(order);
-    }
-  );
-});
+router.get("/orders/:id", orderController.getOrderById);
+router.get("/orders", orderController.getOrders);
+router.get("/orders-buyer/:address", orderController.getOrdersByBuyer);
+router.get("/orders-seller/:address", orderController.getOrdersByBSeller);
+router.get("/orders-refunding", orderController.getOrdersRefunding);
 
 function EventListner() {
   let productEvent;
@@ -216,6 +132,36 @@ function saveProduct(product) {
     });
   });
 }
+function updateProduct(product) {
+  ProductModel.findOneAndUpdate(
+    { id: product._id.toNumber() },
+    {
+      name: product._name,
+      category: product._category,
+      quantity: product._quantity.toNumber(),
+      imageLink: product._imageLink,
+      descriptionLink: product._descriptionLink,
+      price: product._price
+    },
+    { new: true }
+  )
+    .then(data => {
+      if (data === null) {
+        throw new Error("Product Not Found");
+      }
+      console.log("Product updated", data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+function removeProduct(product) {
+  ProductModel.deleteOne({ id: product._id.toNumber() }, function(err) {
+    if (err) {
+      console.log(err);
+    }
+  });
+}
 
 function saveStore(store) {
   StoreModel.findOne({ id: store._id.toNumber() }, function(err, dbStore) {
@@ -239,6 +185,46 @@ function saveStore(store) {
       }
     });
   });
+}
+function updateStore(store) {
+  StoreModel.findOneAndUpdate(
+    { id: store._id.toNumber() },
+    {
+      address: store._address,
+      name: store._name,
+      category: store._category,
+      imageLink: store._imageLink,
+      descriptionLink: store._descriptionLink
+    },
+    { new: true }
+  )
+    .then(data => {
+      if (data === null) {
+        throw new Error("Store Not Found");
+      }
+      console.log("store updated", data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+function approveStore(store) {
+  StoreModel.findOneAndUpdate(
+    { address: store._address },
+    {
+      approved: true
+    },
+    { new: true }
+  )
+    .then(data => {
+      if (data === null) {
+        throw new Error("Store Not Found");
+      }
+      console.log("store approved", data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
 }
 
 function saveOrder(order) {
@@ -286,80 +272,6 @@ function saveOrder(order) {
     });
   });
 }
-
-function updateProduct(product) {
-  ProductModel.findOneAndUpdate(
-    { id: product._id.toNumber() },
-    {
-      name: product._name,
-      category: product._category,
-      quantity: product._quantity.toNumber(),
-      imageLink: product._imageLink,
-      descriptionLink: product._descriptionLink,
-      price: product._price
-    },
-    { new: true }
-  )
-    .then(data => {
-      if (data === null) {
-        throw new Error("Product Not Found");
-      }
-      console.log("Product updated", data);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}
-
-function updateStore(store) {
-  StoreModel.findOneAndUpdate(
-    { id: store._id.toNumber() },
-    {
-      address: store._address,
-      name: store._name,
-      category: store._category,
-      imageLink: store._imageLink,
-      descriptionLink: store._descriptionLink
-    },
-    { new: true }
-  )
-    .then(data => {
-      if (data === null) {
-        throw new Error("Store Not Found");
-      }
-      console.log("store updated", data);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}
-function approveStore(store) {
-  StoreModel.findOneAndUpdate(
-    { address: store._address },
-    {
-      approved: true
-    },
-    { new: true }
-  )
-    .then(data => {
-      if (data === null) {
-        throw new Error("Store Not Found");
-      }
-      console.log("store approved", data);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}
-
-function removeProduct(product) {
-  ProductModel.deleteOne({ id: product._id.toNumber() }, function(err) {
-    if (err) {
-      console.log(err);
-    }
-  });
-}
-
 function removeStore(store) {
   StoreModel.deleteOne({ address: store._address }, function(err) {
     if (err) {
@@ -389,7 +301,6 @@ function saveAdmin(admin) {
     });
   });
 }
-
 function deleteAdmin(admin) {
   AdminModel.deleteOne({ address: admin._address }, function(err) {
     if (err) {
@@ -454,7 +365,6 @@ function updateRealeasedFundToSeller(order) {
     }
   });
 }
-
 function updateRealeasedFundToBuyer(order) {
   OrderModel.findOne({ id: order._orderId.toNumber() }, function(err, dbOrder) {
     let callerType;

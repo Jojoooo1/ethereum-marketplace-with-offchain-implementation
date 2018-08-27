@@ -103,6 +103,9 @@ class CreateStore extends Component {
                   id="storeCategory"
                   required
                 >
+                  <option value="" disabled>
+                    Select your category
+                  </option>
                   <option value="Art">Art</option>
                   <option value="Books">Books</option>
                   <option value="High-Tech">High-Tech</option>

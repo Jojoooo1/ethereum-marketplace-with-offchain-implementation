@@ -41,14 +41,3 @@ app.listen(PORT, function() {
   console.log("listening on port " + PORT);
 });
 
-process.on("unhandledRejection", (reason, promise) => {
-  console.log("Unhandled Rejection at:", reason.stack || reason);
-  // Recommended: send the information to sentry.io
-  // or whatever crash reporting service you use
-});
-
-app.on("uncaughtException", function(req, res, route, err) {
-  if (!res.headersSent) {
-    return res.send(500, { ok: false });
-  }
-});

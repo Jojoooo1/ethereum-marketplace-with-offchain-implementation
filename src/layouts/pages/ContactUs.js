@@ -11,7 +11,7 @@ class AboutUs extends Component {
           <div className="container">
             <div className="row">
               <div className="contact-form col-md-12">
-                <form id="contact-form" method="post" action="" role="form">
+                <div id="contact-form" role="form">
                   <div className="form-group">
                     <input type="text" placeholder="Your Name" className="form-control" name="name" id="name" />
                   </div>
@@ -29,9 +29,11 @@ class AboutUs extends Component {
                   </div>
 
                   <div id="cf-submit">
-                    <input type="submit" id="contact-submit" className="btn btn-lg btn-warning" value="Submit" />
+                    <button id="contact-submit" className="btn btn-lg btn-warning">
+                      Submit
+                    </button>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
