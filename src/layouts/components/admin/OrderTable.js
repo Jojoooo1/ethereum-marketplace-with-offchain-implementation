@@ -11,7 +11,7 @@ class OrderTable extends Component {
     super(props);
     this.updateEscrow = this.updateEscrow.bind(this);
   }
-  updateEscrow(orderId, caller) {
+  updateEscrow(e, orderId, caller) {
     let escrow = { orderId: orderId, caller: caller };
     this.props.updateEscrow(escrow);
   }
@@ -26,35 +26,39 @@ class OrderTable extends Component {
     } else if (walletAddress === order.buyer) {
       return (
         <td>
-          <div
-            className={`btn btn-sm btn-outline-success m-1 ${order.fundReleaseToSellerFromBuyer ? "disabled" : ""}`}
-            onClick={e => this.updateEscrow(order.id, "seller")}
+          <button
+            className={`btn btn-sm btn-outline-success m-1`}
+            onClick={e => this.updateEscrow(e, order.id, "seller")}
+            disabled={`${order.fundReleaseToSellerFromBuyer ? "disabled" : ""}`}
           >
             Pay seller
-          </div>
-          <div
-            className={`btn btn-sm btn-outline-secondary m-1 ${order.fundReleaseToBuyerFromBuyer ? "disabled" : ""}`}
-            onClick={e => this.updateEscrow(order.id, "buyer")}
+          </button>
+          <button
+            className={`btn btn-sm btn-outline-secondary m-1`}
+            onClick={e => this.updateEscrow(e, order.id, "buyer")}
+            disabled={`${order.fundReleaseToBuyerFromBuyer ? "disabled" : ""}`}
           >
             Refund me
-          </div>
+          </button>
         </td>
       );
     } else {
       return (
         <td>
-          <div
-            className={`btn btn-sm btn-outline-success m-1 ${order.fundReleaseToSellerFromSeller ? "disabled" : ""}`}
-            onClick={e => this.updateEscrow(order.id, "seller")}
+          <button
+            className={`btn btn-sm btn-outline-success m-1`}
+            onClick={e => this.updateEscrow(e, order.id, "seller")}
+            disabled={`${order.fundReleaseToSellerFromSeller ? "disabled" : ""}`}
           >
             Get paid
-          </div>
-          <div
-            className={`btn btn-sm btn-outline-secondary m-1 ${order.fundReleaseToBuyerFromSeller ? "disabled" : ""}`}
-            onClick={e => this.updateEscrow(order.id, "buyer")}
+          </button>
+          <button
+            className={`btn btn-sm btn-outline-secondary m-1`}
+            onClick={e => this.updateEscrow(e, order.id, "buyer")}
+            disabled={`${order.fundReleaseToBuyerFromSeller ? "disabled" : ""}`}
           >
             Refund buyer
-          </div>
+          </button>
         </td>
       );
     }
