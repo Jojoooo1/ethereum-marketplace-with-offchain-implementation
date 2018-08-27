@@ -1,4 +1,4 @@
-# H1 Marketplace created for consensys
+# Marketplace created for consensys
 
 **General description**
 
