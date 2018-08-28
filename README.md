@@ -18,6 +18,19 @@ Front end has been build using React & redux. A Node.js Backend has been set to 
 5. Execute init script in project folder to start all the differents servers: `./start.sh`
 6. if navigator already started you need to close it and re connect to metamask. When connected, reload once the page and your ready to play.
 
+**Seed & User Story**
+ 
+7. Account O, 1 are set to Admin
+8. Account 9 is set to Arbiter
+9. Account 0, 1 are approved store. Account 2 is not approved. 
+10. Account 4, 5 placed orders
+
+- Try approving store not approved. Try creating a store from account 3. Validate it from admin if wanna use it.
+- Try adding product from approved store
+- Try buying product from account 4,5,6 or others.
+- Try to release fund from My order in the buyer side and in store configuration from Store admin.
+- If wanna use the arbiter you need to create a problematic situation, for example user asking to be refund, or store asking to refund buyer.
+
 **Test**
 
 1. In your terminal: `ganache-cli`
