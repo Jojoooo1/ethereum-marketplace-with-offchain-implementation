@@ -24,6 +24,7 @@ Front end has been build using React & redux. A Node.js Backend has been set to 
 8. Account 9 is set to Arbiter
 9. Account 0, 1 are approved store. Account 2 is not approved. 
 10. Account 4, 5 placed orders
+11. All products and the stores has been added with default picture that you can modify
 
 - Try approving store not approved. Try creating a store from account 3. Validate it from admin if wanna use it.
 - Try adding product from approved store
