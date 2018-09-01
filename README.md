@@ -12,7 +12,7 @@ Front end has been build using React & redux. A Node.js Backend has been set to 
 
 1. Install ganache-cli
 2. Install truffle
-3. Install MongoDB community server (if first time install start the service `sudo service mongod start`, then verify mongo is working by tipping `mongo`)
+3. Install MongoDB community server (if first time install then start the service `sudo service mongod start` and verify mongo is working by tipping `mongo`)
 4. Install IPFS
    then config your IPFS server (allow file to be server from any site) by tipping in your terminal: `ipfs init && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]' && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]" && ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'`
 5. Execute init script in project folder to start all the differents servers: `./start.sh`
